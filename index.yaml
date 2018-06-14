@@ -3,11 +3,11 @@ entries:
   hello-svc:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2018-06-14T16:16:11.826430088+08:00
+    created: 2018-06-14T16:49:22.37002073+08:00
     description: A Helm chart for Kubernetes
-    digest: 25ebb4f47f8a275c53cf53c168ee9abbf031efa8533fa9d71459df9b94e35ccd
+    digest: 0f04aad2b87a406f7c881f6ffc5695c3e8b2e55ccb0b4806278f0dee01ac873c
     name: hello-svc
     urls:
     - hello-svc/hello-svc-0.1.0.tgz
     version: 0.1.0
-generated: 2018-06-14T16:16:11.825967367+08:00
+generated: 2018-06-14T16:49:22.369303574+08:00
