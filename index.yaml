@@ -1,19 +1,14 @@
 apiVersion: v1
 entries:
   fluent-bit:
-  - created: 2018-06-20T12:27:34.444540611+08:00
+  - created: 2018-06-22T14:46:56.36477704+08:00
     description: Fluent-bit chart for collecting journald, docker, and kernel logs
-    digest: 89c92806fe58febde8cfdee60cfa499bc76c09b30fb636681530de3fc4ded4d9
+    digest: 66471e8b5ec6e67e8b296aa2198f51f5fb277ccec3ca5980b7e6b77b927e06bd
     engine: gotpl
     home: https://github.com/samsung-cnct/chart-fluent-bit
     icon: https://github.com/fluent/fluent-bit/blob/master/fluentbit_logo.png
     keywords:
-    - logging
-    - journald
-    - docker
-    - kernel
-    - fluent
-    - kraken
+    - 日志组件
     maintainers:
     - email: samsung.cloudnative@gmail.com
       name: Samsung CNCT
@@ -26,11 +21,11 @@ entries:
   hello-svc:
   - apiVersion: v1
     appVersion: "1.0"
-    created: 2018-06-20T12:27:34.444799555+08:00
+    created: 2018-06-22T14:46:56.36502796+08:00
     description: A Helm chart for Kubernetes
     digest: 0f04aad2b87a406f7c881f6ffc5695c3e8b2e55ccb0b4806278f0dee01ac873c
     name: hello-svc
     urls:
     - hello-svc/hello-svc-0.1.0.tgz
     version: 0.1.0
-generated: 2018-06-20T12:27:34.443902655+08:00
+generated: 2018-06-22T14:46:56.36401769+08:00
