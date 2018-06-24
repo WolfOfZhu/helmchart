@@ -1,7 +1,26 @@
 apiVersion: v1
 entries:
+  elasticsearch-exporter:
+  - apiVersion: v1
+    appVersion: 1.0.2
+    created: 2018-06-24T14:55:55.311333388+08:00
+    description: Elasticsearch stats exporter for Prometheus
+    digest: d652f29c829cb9fce646eaa5c03067c35fa210474eb8c278dcadc660accdd584
+    home: https://github.com/justwatchcom/elasticsearch_exporter
+    icon: logo/logo-elasticsearch.png
+    keywords:
+    - 日志组件
+    maintainers:
+    - email: sven.mueller@commercetools.com
+      name: svenmueller
+    name: elasticsearch-exporter
+    sources:
+    - https://github.com/justwatchcom/elasticsearch_exporter
+    urls:
+    - elasticsearch/elasticsearch-exporter-0.1.4.tgz
+    version: 0.1.4
   fluent-bit:
-  - created: 2018-06-24T12:24:25.477300627+08:00
+  - created: 2018-06-24T14:55:55.312161893+08:00
     description: Fluent-bit chart for collecting journald, docker, and kernel logs
     digest: b1c56a09bf5f2eb3d7ebb224cefbfad675a0fd9f489b597f22123c184952c9d1
     engine: gotpl
@@ -18,14 +37,4 @@ entries:
     urls:
     - fluent-bit/fluent-bit-0.0.1.tgz
     version: 0.0.1
-  hello-svc:
-  - apiVersion: v1
-    appVersion: "1.0"
-    created: 2018-06-24T12:24:25.495192896+08:00
-    description: A Helm chart for Kubernetes
-    digest: 0f04aad2b87a406f7c881f6ffc5695c3e8b2e55ccb0b4806278f0dee01ac873c
-    name: hello-svc
-    urls:
-    - hello-svc/hello-svc-0.1.0.tgz
-    version: 0.1.0
-generated: 2018-06-24T12:24:25.475913393+08:00
+generated: 2018-06-24T14:55:55.310607491+08:00
