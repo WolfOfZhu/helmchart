@@ -3,7 +3,7 @@ entries:
   elasticsearch-exporter:
   - apiVersion: v1
     appVersion: 1.0.2
-    created: 2018-06-24T14:55:55.311333388+08:00
+    created: 2018-06-24T16:02:23.104374904+08:00
     description: Elasticsearch stats exporter for Prometheus
     digest: d652f29c829cb9fce646eaa5c03067c35fa210474eb8c278dcadc660accdd584
     home: https://github.com/justwatchcom/elasticsearch_exporter
@@ -20,21 +20,42 @@ entries:
     - elasticsearch/elasticsearch-exporter-0.1.4.tgz
     version: 0.1.4
   fluent-bit:
-  - created: 2018-06-24T14:55:55.312161893+08:00
-    description: Fluent-bit chart for collecting journald, docker, and kernel logs
-    digest: b1c56a09bf5f2eb3d7ebb224cefbfad675a0fd9f489b597f22123c184952c9d1
-    engine: gotpl
-    home: https://github.com/samsung-cnct/chart-fluent-bit
-    icon: logo/logo-fluent-bit.png
+  - appVersion: 0.13.0
+    created: 2018-06-24T16:02:23.105775198+08:00
+    description: Fast and Lightweight Log/Data Forwarder for Linux, BSD and OSX
+    digest: 33f5968c679c85493b535ff25db5482e97be6bdcb200021cbe9119cbdc37f344
+    home: http://fluentbit.io
+    icon: http://fluentbit.io/assets/img/logo1-default.png
     keywords:
     - 日志组件
     maintainers:
-    - email: samsung.cloudnative@gmail.com
-      name: Samsung CNCT
+    - email: Kevin.Fox@pnnl.gov
+      name: kfox1111
+    - email: eduardo@treasure-data.com
+      name: edsiper
     name: fluent-bit
     sources:
-    - https://github.com/samsung-cnct/chart-fluent-bit
+    - http://fluentbit.io
     urls:
-    - fluent-bit/fluent-bit-0.0.1.tgz
-    version: 0.0.1
-generated: 2018-06-24T14:55:55.310607491+08:00
+    - fluent-bit/fluent-bit-0.6.0.tgz
+    version: 0.6.0
+  kibana:
+  - appVersion: 6.0.0
+    created: 2018-06-24T16:02:23.107134204+08:00
+    description: Kibana is an open source data visualization plugin for Elasticsearch
+    digest: a06b7125a3d3f07233dacaf726d49e71a0f939ae899fea06744f1154ae488332
+    engine: gotpl
+    home: https://www.elastic.co/products/kibana
+    icon: https://raw.githubusercontent.com/elastic/kibana/master/src/ui/public/icons/kibana-color.svg
+    keywords:
+    - 日志组件
+    maintainers:
+    - email: casey@monax.io
+      name: compleatang
+    name: kibana
+    sources:
+    - https://github.com/elastic/kibana
+    urls:
+    - kibana/kibana-0.6.0.tgz
+    version: 0.6.0
+generated: 2018-06-24T16:02:23.103361402+08:00
