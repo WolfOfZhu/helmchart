@@ -3,7 +3,7 @@ entries:
   elasticsearch-exporter:
   - apiVersion: v1
     appVersion: 1.0.2
-    created: 2018-06-25T13:05:46.102021292+08:00
+    created: 2018-06-25T13:09:08.809800608+08:00
     description: Elasticsearch stats exporter for Prometheus
     digest: 6915ebbf4afce0edb23db8304b6338b428f3c1912a15bfff6577ad4a8790c74b
     home: https://github.com/justwatchcom/elasticsearch_exporter
@@ -22,7 +22,7 @@ entries:
   elasticsearch-official:
   - apiVersion: v1
     appVersion: 1.0.2
-    created: 2018-06-25T13:05:46.102386178+08:00
+    created: 2018-06-25T13:09:08.810371259+08:00
     description: Elasticsearch stats exporter for Prometheus
     digest: 67589d2b1f05694a4e5beb31bbdabc97f609329ebef7d3186c5a5ff2bd90e512
     keywords:
@@ -38,9 +38,9 @@ entries:
     version: 0.1.2
   fluent-bit:
   - appVersion: 0.13.0
-    created: 2018-06-25T13:05:46.103325842+08:00
+    created: 2018-06-25T13:09:08.811628358+08:00
     description: Fast and Lightweight Log/Data Forwarder for Linux, BSD and OSX
-    digest: 33f5968c679c85493b535ff25db5482e97be6bdcb200021cbe9119cbdc37f344
+    digest: 3d7dc5957b65970a76420213ee395631019a9fac3b0c431655327c836f449802
     home: http://fluentbit.io
     icon: http://fluentbit.io/assets/img/logo1-default.png
     keywords:
@@ -58,7 +58,7 @@ entries:
     version: 0.6.0
   kibana:
   - appVersion: 6.0.0
-    created: 2018-06-25T13:05:46.104208218+08:00
+    created: 2018-06-25T13:09:08.812917447+08:00
     description: Kibana is an open source data visualization plugin for Elasticsearch
     digest: ec87b283c1aa1301afa261632425a5f079c5480988fd723118f0c53ff4fcbc23
     engine: gotpl
@@ -77,7 +77,7 @@ entries:
     version: 0.6.0
   nginx-ingress:
   - appVersion: 0.11.0
-    created: 2018-06-25T13:05:46.104922713+08:00
+    created: 2018-06-25T13:09:08.813992789+08:00
     description: An nginx Ingress controller that uses ConfigMap to store the nginx
       configuration.
     digest: d1cb1789194ce12f957fad33083832976293d4682f0e33af11aa8813d485df3b
@@ -100,4 +100,4 @@ entries:
     urls:
     - nginx/nginx-ingress-0.12.0.tgz
     version: 0.12.0
-generated: 2018-06-25T13:05:46.101321003+08:00
+generated: 2018-06-25T13:09:08.808863234+08:00
