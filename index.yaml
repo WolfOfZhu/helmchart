@@ -3,7 +3,7 @@ entries:
   elasticsearch-exporter:
   - apiVersion: v1
     appVersion: 1.0.2
-    created: 2018-06-25T10:24:12.57165253+08:00
+    created: 2018-06-25T11:29:44.712854064+08:00
     description: Elasticsearch stats exporter for Prometheus
     digest: 6915ebbf4afce0edb23db8304b6338b428f3c1912a15bfff6577ad4a8790c74b
     home: https://github.com/justwatchcom/elasticsearch_exporter
@@ -19,9 +19,25 @@ entries:
     urls:
     - elasticsearch/elasticsearch-exporter-0.1.4.tgz
     version: 0.1.4
+  - apiVersion: v1
+    appVersion: 1.0.2
+    created: 2018-06-25T11:29:44.713206569+08:00
+    description: Elasticsearch stats exporter for Prometheus
+    digest: 82fa34d50709e4ff099d59d2614a81087f4f541939099f7eb45227b8414cb2cb
+    keywords:
+    - 日志组件
+    maintainers:
+    - email: sven.mueller@commercetools.com
+      name: svenmueller
+    name: elasticsearch-exporter
+    sources:
+    - https://github.com/justwatchcom/elasticsearch_exporter
+    urls:
+    - elasticsearch-exporter/elasticsearch-exporter-0.1.2.tgz
+    version: 0.1.2
   fluent-bit:
   - appVersion: 0.13.0
-    created: 2018-06-25T10:24:12.573099356+08:00
+    created: 2018-06-25T11:29:44.714134876+08:00
     description: Fast and Lightweight Log/Data Forwarder for Linux, BSD and OSX
     digest: 33f5968c679c85493b535ff25db5482e97be6bdcb200021cbe9119cbdc37f344
     home: http://fluentbit.io
@@ -41,7 +57,7 @@ entries:
     version: 0.6.0
   kibana:
   - appVersion: 6.0.0
-    created: 2018-06-25T10:24:12.574524582+08:00
+    created: 2018-06-25T11:29:44.715081914+08:00
     description: Kibana is an open source data visualization plugin for Elasticsearch
     digest: ec87b283c1aa1301afa261632425a5f079c5480988fd723118f0c53ff4fcbc23
     engine: gotpl
@@ -58,4 +74,4 @@ entries:
     urls:
     - kibana/kibana-0.6.0.tgz
     version: 0.6.0
-generated: 2018-06-25T10:24:12.570626117+08:00
+generated: 2018-06-25T11:29:44.712131853+08:00
