@@ -3,7 +3,7 @@ entries:
   elasticsearch-exporter:
   - apiVersion: v1
     appVersion: 1.0.2
-    created: 2018-06-25T12:13:29.567168036+08:00
+    created: 2018-06-25T12:46:07.21837192+08:00
     description: Elasticsearch stats exporter for Prometheus
     digest: 6915ebbf4afce0edb23db8304b6338b428f3c1912a15bfff6577ad4a8790c74b
     home: https://github.com/justwatchcom/elasticsearch_exporter
@@ -22,7 +22,7 @@ entries:
   elasticsearch-official:
   - apiVersion: v1
     appVersion: 1.0.2
-    created: 2018-06-25T12:13:29.56747707+08:00
+    created: 2018-06-25T12:46:07.218825449+08:00
     description: Elasticsearch stats exporter for Prometheus
     digest: 67589d2b1f05694a4e5beb31bbdabc97f609329ebef7d3186c5a5ff2bd90e512
     keywords:
@@ -38,7 +38,7 @@ entries:
     version: 0.1.2
   fluent-bit:
   - appVersion: 0.13.0
-    created: 2018-06-25T12:13:29.568273217+08:00
+    created: 2018-06-25T12:46:07.220077494+08:00
     description: Fast and Lightweight Log/Data Forwarder for Linux, BSD and OSX
     digest: 33f5968c679c85493b535ff25db5482e97be6bdcb200021cbe9119cbdc37f344
     home: http://fluentbit.io
@@ -58,7 +58,7 @@ entries:
     version: 0.6.0
   kibana:
   - appVersion: 6.0.0
-    created: 2018-06-25T12:13:29.569064694+08:00
+    created: 2018-06-25T12:46:07.221327908+08:00
     description: Kibana is an open source data visualization plugin for Elasticsearch
     digest: ec87b283c1aa1301afa261632425a5f079c5480988fd723118f0c53ff4fcbc23
     engine: gotpl
@@ -77,7 +77,7 @@ entries:
     version: 0.6.0
   nginx-ingress:
   - appVersion: 0.11.0
-    created: 2018-06-25T12:13:29.569762863+08:00
+    created: 2018-06-25T12:46:07.222413123+08:00
     description: An nginx Ingress controller that uses ConfigMap to store the nginx
       configuration.
     digest: d1cb1789194ce12f957fad33083832976293d4682f0e33af11aa8813d485df3b
@@ -100,4 +100,4 @@ entries:
     urls:
     - nginx/nginx-ingress-0.12.0.tgz
     version: 0.12.0
-generated: 2018-06-25T12:13:29.566520296+08:00
+generated: 2018-06-25T12:46:07.217439339+08:00
