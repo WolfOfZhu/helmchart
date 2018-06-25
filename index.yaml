@@ -3,7 +3,7 @@ entries:
   elasticsearch-exporter:
   - apiVersion: v1
     appVersion: 1.0.2
-    created: 2018-06-25T12:05:02.495519487+08:00
+    created: 2018-06-25T12:13:29.567168036+08:00
     description: Elasticsearch stats exporter for Prometheus
     digest: 6915ebbf4afce0edb23db8304b6338b428f3c1912a15bfff6577ad4a8790c74b
     home: https://github.com/justwatchcom/elasticsearch_exporter
@@ -22,7 +22,7 @@ entries:
   elasticsearch-official:
   - apiVersion: v1
     appVersion: 1.0.2
-    created: 2018-06-25T12:05:02.495916311+08:00
+    created: 2018-06-25T12:13:29.56747707+08:00
     description: Elasticsearch stats exporter for Prometheus
     digest: 67589d2b1f05694a4e5beb31bbdabc97f609329ebef7d3186c5a5ff2bd90e512
     keywords:
@@ -38,7 +38,7 @@ entries:
     version: 0.1.2
   fluent-bit:
   - appVersion: 0.13.0
-    created: 2018-06-25T12:05:02.496844186+08:00
+    created: 2018-06-25T12:13:29.568273217+08:00
     description: Fast and Lightweight Log/Data Forwarder for Linux, BSD and OSX
     digest: 33f5968c679c85493b535ff25db5482e97be6bdcb200021cbe9119cbdc37f344
     home: http://fluentbit.io
@@ -58,7 +58,7 @@ entries:
     version: 0.6.0
   kibana:
   - appVersion: 6.0.0
-    created: 2018-06-25T12:05:02.49776751+08:00
+    created: 2018-06-25T12:13:29.569064694+08:00
     description: Kibana is an open source data visualization plugin for Elasticsearch
     digest: ec87b283c1aa1301afa261632425a5f079c5480988fd723118f0c53ff4fcbc23
     engine: gotpl
@@ -75,4 +75,29 @@ entries:
     urls:
     - kibana/kibana-0.6.0.tgz
     version: 0.6.0
-generated: 2018-06-25T12:05:02.494795349+08:00
+  nginx-ingress:
+  - appVersion: 0.11.0
+    created: 2018-06-25T12:13:29.569762863+08:00
+    description: An nginx Ingress controller that uses ConfigMap to store the nginx
+      configuration.
+    digest: d1cb1789194ce12f957fad33083832976293d4682f0e33af11aa8813d485df3b
+    engine: gotpl
+    home: https://nginx.org/en/
+    icon: https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Nginx_logo.svg/500px-Nginx_logo.svg.png
+    keywords:
+    - ingress
+    - nginx
+    maintainers:
+    - email: jack.zampolin@gmail.com
+      name: jackzampolin
+    - email: mgoodness@gmail.com
+      name: mgoodness
+    - email: chance.zibolski@coreos.com
+      name: chancez
+    name: nginx-ingress
+    sources:
+    - https://github.com/kubernetes/ingress-nginx
+    urls:
+    - nginx/nginx-ingress-0.12.0.tgz
+    version: 0.12.0
+generated: 2018-06-25T12:13:29.566520296+08:00
