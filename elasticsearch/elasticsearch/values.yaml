@@ -4,8 +4,8 @@
 appVersion: "6.1.1"
 
 image:
-  repository: "docker.elastic.co/elasticsearch/elasticsearch-oss"
-  tag: "6.1.1"
+  repository: "docker.elastic.co/elasticsearch/elasticsearch"
+  tag: "6.1.4"
   pullPolicy: "IfNotPresent"
 
 cluster:
