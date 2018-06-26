@@ -1,9 +1,28 @@
 apiVersion: v1
 entries:
+  elasticsearch-and-kibana:
+  - apiVersion: v1
+    created: 2018-06-26T18:17:29.689286542+08:00
+    description: Elasticsearch is a distributed, RESTful search and analytics engine
+      capable of solving a growing number of use cases.
+    digest: 816cc146fffdeb9ea8c1ed5c5181c7ed321b7a6ba3b6c044c3313e395ddc83f2
+    engine: gotpl
+    home: https://www.elastic.co/products/elasticsearch
+    icon: https://static-www.elastic.co/assets/blteb1c97719574938d/logo-elastic-elasticsearch-lt.svg
+    maintainers:
+    - email: matthew.titmus@gmail.com
+      name: Matt Titmus
+    name: elasticsearch-and-kibana
+    sources:
+    - https://www.elastic.co/products/elasticsearch
+    - https://github.com/pires/kubernetes-elasticsearch-cluster
+    urls:
+    - fluent-bit-and-kibana/elasticsearch-and-kibana-0.2.2.tgz
+    version: 0.2.2
   elasticsearch-official:
   - apiVersion: v1
     appVersion: 1.0.2
-    created: 2018-06-26T16:13:28.907123651+08:00
+    created: 2018-06-26T18:17:29.616072876+08:00
     description: Elasticsearch stats exporter for Prometheus
     digest: 67589d2b1f05694a4e5beb31bbdabc97f609329ebef7d3186c5a5ff2bd90e512
     keywords:
@@ -19,7 +38,7 @@ entries:
     version: 0.1.2
   fluent-bit:
   - appVersion: 0.13.0
-    created: 2018-06-26T16:13:28.908538097+08:00
+    created: 2018-06-26T18:17:29.687967672+08:00
     description: Fast and Lightweight Log/Data Forwarder for Linux, BSD and OSX
     digest: 3d7dc5957b65970a76420213ee395631019a9fac3b0c431655327c836f449802
     home: http://fluentbit.io
@@ -39,7 +58,7 @@ entries:
     version: 0.6.0
   fluent-bit-test:
   - appVersion: 0.13.0
-    created: 2018-06-26T16:13:28.909295145+08:00
+    created: 2018-06-26T18:17:29.701916283+08:00
     description: Fast and Lightweight Log/Data Forwarder for Linux, BSD and OSX
     digest: 9be3e30f7784a6ed919d5c30f213c01c597d4c2cbf65d4c47163386b891922df
     home: http://fluentbit.io
@@ -59,7 +78,7 @@ entries:
     version: 0.6.0
   fluentd-elasticsearch:
   - appVersion: 2.0.4
-    created: 2018-06-26T16:13:28.906606319+08:00
+    created: 2018-06-26T18:17:29.60241613+08:00
     description: A Fluentd Helm chart for Kubernetes with Elasticsearch output
     digest: a789562a8607aaa18054ad65cb8797eca372c9b5470edd852a777fdcf4808460
     engine: gotpl
@@ -81,7 +100,7 @@ entries:
     version: 0.6.4
   kibana:
   - appVersion: 6.0.0
-    created: 2018-06-26T16:13:28.912243596+08:00
+    created: 2018-06-26T18:17:29.721208982+08:00
     description: Kibana is an open source data visualization plugin for Elasticsearch
     digest: ec87b283c1aa1301afa261632425a5f079c5480988fd723118f0c53ff4fcbc23
     engine: gotpl
@@ -100,7 +119,7 @@ entries:
     version: 0.6.0
   sumologic-fluentd:
   - appVersion: "1.11"
-    created: 2018-06-26T16:13:28.910882219+08:00
+    created: 2018-06-26T18:17:29.704016068+08:00
     description: Sumologic Log Collector
     digest: 671b332764df2b03657f40f5b6d9b3f31c54e9f469366955b79b96feb6d4b062
     home: https://github.com/SumoLogic/fluentd-kubernetes-sumologic
@@ -118,4 +137,4 @@ entries:
     urls:
     - fluentd/sumologic-fluentd-0.4.0.tgz
     version: 0.4.0
-generated: 2018-06-26T16:13:28.905411809+08:00
+generated: 2018-06-26T18:17:29.58566801+08:00
