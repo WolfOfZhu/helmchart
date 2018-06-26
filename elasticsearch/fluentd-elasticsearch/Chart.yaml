@@ -5,11 +5,7 @@ home: https://www.fluentd.org/
 description: A Fluentd Helm chart for Kubernetes with Elasticsearch output
 icon: https://raw.githubusercontent.com/fluent/fluentd-docs/master/public/logo/Fluentd_square.png
 keywords:
-- fluentd
-- elasticsearch
-- multiline
-- detect-exceptions
-- logging
+- 日志组件
 sources:
 - https://github.com/kubernetes/charts/incubator/fluentd-elasticsearch
 - https://github.com/fluent/fluentd-kubernetes-daemonset
