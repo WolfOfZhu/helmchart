@@ -2,7 +2,7 @@ apiVersion: v1
 entries:
   elasticsearch:
   - apiVersion: v1
-    created: 2018-07-09T09:53:38.60600113+08:00
+    created: 2018-07-09T10:29:04.544253449+08:00
     description: Elasticsearch is a distributed, RESTful search and analytics engine
       capable of solving a growing number of use cases.
     digest: 8d005f4bcca036fe5dca8f84411c7aeb888afb9fb7bb63353fa7ae06613222e7
@@ -20,7 +20,7 @@ entries:
     - elasticsearch/elasticsearch-0.2.2.tgz
     version: 0.2.2
   fluent-bit:
-  - created: 2018-07-09T09:53:38.648614839+08:00
+  - created: 2018-07-09T10:29:04.556271096+08:00
     description: Fluent-bit chart for collecting journald, docker, and kernel logs
     digest: 642d17290707b5d8e234ef13d6b45e3ff8ec503a32ec6571ae458d358347dd70
     engine: gotpl
@@ -39,7 +39,7 @@ entries:
     version: 0.0.1
   fluent-bit-test:
   - appVersion: 0.13.0
-    created: 2018-07-09T09:53:38.666776652+08:00
+    created: 2018-07-09T10:29:04.574446122+08:00
     description: Fast and Lightweight Log/Data Forwarder for Linux, BSD and OSX
     digest: 9be3e30f7784a6ed919d5c30f213c01c597d4c2cbf65d4c47163386b891922df
     home: http://fluentbit.io
@@ -59,7 +59,7 @@ entries:
     version: 0.6.0
   fluentd-elasticsearch:
   - appVersion: 2.0.4
-    created: 2018-07-09T09:53:38.76667866+08:00
+    created: 2018-07-09T10:29:04.591060118+08:00
     description: A Fluentd Helm chart for Kubernetes with Elasticsearch output
     digest: a789562a8607aaa18054ad65cb8797eca372c9b5470edd852a777fdcf4808460
     engine: gotpl
@@ -81,7 +81,7 @@ entries:
     version: 0.6.4
   kibana:
   - appVersion: 6.0.0
-    created: 2018-07-09T09:53:38.802985465+08:00
+    created: 2018-07-09T10:29:04.601897168+08:00
     description: Kibana is an open source data visualization plugin for Elasticsearch
     digest: ec87b283c1aa1301afa261632425a5f079c5480988fd723118f0c53ff4fcbc23
     engine: gotpl
@@ -100,7 +100,7 @@ entries:
     version: 0.6.0
   mysql:
   - appVersion: 5.7.14
-    created: 2018-07-09T09:53:38.821571798+08:00
+    created: 2018-07-09T10:29:04.620663638+08:00
     description: Fast, reliable, scalable, and easy to use open-source relational
       database system.
     digest: 68929442f63af470a89f0779dc9db50ffb98e811d2fa8a187d415d6dacfb6c7b
@@ -121,31 +121,30 @@ entries:
     urls:
     - mysql/mysql-0.8.2.tgz
     version: 0.8.2
+  mysql-test:
   - appVersion: 5.7.14
-    created: 2018-07-09T09:53:38.822471822+08:00
+    created: 2018-07-09T10:29:04.621446938+08:00
     description: Fast, reliable, scalable, and easy to use open-source relational
       database system.
-    digest: 68929442f63af470a89f0779dc9db50ffb98e811d2fa8a187d415d6dacfb6c7b
+    digest: a8cad1367453177fd1da1003137b604ece478c6d194d4dc7a523c17f76d6f0d9
     engine: gotpl
     home: https://www.mysql.com/
     icon: https://www.mysql.com/common/logos/logo-mysql-170x115.png
     keywords:
-    - mysql
-    - database
-    - sql
+    - 数据库
     maintainers:
     - email: viglesias@google.com
       name: viglesiasce
-    name: mysql
+    name: mysql-test
     sources:
     - https://github.com/kubernetes/charts
     - https://github.com/docker-library/mysql
     urls:
-    - mysql-test/mysql-0.8.2.tgz
+    - mysql-test/mysql-test-0.8.2.tgz
     version: 0.8.2
   nginx-ingress:
   - appVersion: 0.15.0
-    created: 2018-07-09T09:53:38.83972538+08:00
+    created: 2018-07-09T10:29:04.638801198+08:00
     description: An nginx Ingress controller that uses ConfigMap to store the nginx
       configuration.
     digest: c3a595c9b255bf3994acbe0045722c9add4ae8fd4bd39b2ae391815d40031f0e
@@ -170,7 +169,7 @@ entries:
     version: 0.22.0
   sumologic-fluentd:
   - appVersion: "1.11"
-    created: 2018-07-09T09:53:38.668105126+08:00
+    created: 2018-07-09T10:29:04.576143251+08:00
     description: Sumologic Log Collector
     digest: 671b332764df2b03657f40f5b6d9b3f31c54e9f469366955b79b96feb6d4b062
     home: https://github.com/SumoLogic/fluentd-kubernetes-sumologic
@@ -188,4 +187,4 @@ entries:
     urls:
     - fluentd/sumologic-fluentd-0.4.0.tgz
     version: 0.4.0
-generated: 2018-07-09T09:53:38.556010991+08:00
+generated: 2018-07-09T10:29:04.527419762+08:00
