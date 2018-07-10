@@ -2,7 +2,7 @@ apiVersion: v1
 entries:
   elasticsearch:
   - apiVersion: v1
-    created: 2018-07-10T16:34:32.909160181+08:00
+    created: 2018-07-10T17:38:21.496491306+08:00
     description: Elasticsearch is a distributed, RESTful search and analytics engine
       capable of solving a growing number of use cases.
     digest: 389e690b23c3022f8837f35b9718c4183e5c6f1807b47039d073cabdfe585f35
@@ -22,7 +22,7 @@ entries:
     - elasticsearch/elasticsearch-0.2.2.tgz
     version: 0.2.2
   fluent-bit:
-  - created: 2018-07-10T16:34:32.938666732+08:00
+  - created: 2018-07-10T17:38:21.526042229+08:00
     description: Fluent-bit chart for collecting journald, docker, and kernel logs
     digest: 775e53534b2d24210172df971fc01d04328f1a5394cbec1c886237357c96dfff
     engine: gotpl
@@ -41,7 +41,7 @@ entries:
     version: 0.0.1
   fluentd-elasticsearch:
   - appVersion: 2.0.4
-    created: 2018-07-10T16:34:32.968032627+08:00
+    created: 2018-07-10T17:38:21.555345002+08:00
     description: A Fluentd Helm chart for Kubernetes with Elasticsearch output
     digest: a789562a8607aaa18054ad65cb8797eca372c9b5470edd852a777fdcf4808460
     engine: gotpl
@@ -63,7 +63,7 @@ entries:
     version: 0.6.4
   kibana:
   - appVersion: 6.0.0
-    created: 2018-07-10T16:34:32.978636134+08:00
+    created: 2018-07-10T17:38:21.566217869+08:00
     description: Kibana is an open source data visualization plugin for Elasticsearch
     digest: ec87b283c1aa1301afa261632425a5f079c5480988fd723118f0c53ff4fcbc23
     engine: gotpl
@@ -82,7 +82,7 @@ entries:
     version: 0.6.0
   mysql:
   - appVersion: 5.7.14
-    created: 2018-07-10T16:34:32.979306111+08:00
+    created: 2018-07-10T17:38:21.589384698+08:00
     description: Fast, reliable, scalable, and easy to use open-source relational
       database system.
     digest: 1254e0973b1834935c0708a865060f3b811ca513900106b40a7540f1474f9da0
@@ -101,9 +101,27 @@ entries:
     urls:
     - mysql/mysql-0.6.0.tgz
     version: 0.6.0
+  mysql-ha:
+  - appVersion: 5.7.13
+    created: 2018-07-10T17:38:21.589857523+08:00
+    description: MySQL cluster with a single master and zero or more slave replicas
+    digest: 7fc5de70368a1d8595ea198ece57812d7d7b6ccaa221da2c655884b953d3f622
+    home: https://www.mysql.com/
+    icon: https://www.mysql.com/common/logos/logo-mysql-170x115.png
+    keywords:
+    - 数据库
+    maintainers:
+    - email: jason.poon@microsoft.com
+      name: Jason Poon
+    - email: jon.bitbucket@livewire-uk.co.uk
+      name: Jon Hoare
+    name: mysql-ha
+    urls:
+    - mysql-ha/mysql-ha-0.2.1.tgz
+    version: 0.2.1
   nginx-ingress:
   - appVersion: 0.15.0
-    created: 2018-07-10T16:34:32.998775612+08:00
+    created: 2018-07-10T17:38:21.602917534+08:00
     description: An nginx Ingress controller that uses ConfigMap to store the nginx
       configuration.
     digest: c3a595c9b255bf3994acbe0045722c9add4ae8fd4bd39b2ae391815d40031f0e
@@ -128,7 +146,7 @@ entries:
     version: 0.22.0
   sumologic-fluentd:
   - appVersion: "1.11"
-    created: 2018-07-10T16:34:32.940096818+08:00
+    created: 2018-07-10T17:38:21.527214745+08:00
     description: Sumologic Log Collector
     digest: 671b332764df2b03657f40f5b6d9b3f31c54e9f469366955b79b96feb6d4b062
     home: https://github.com/SumoLogic/fluentd-kubernetes-sumologic
@@ -146,4 +164,4 @@ entries:
     urls:
     - fluentd/sumologic-fluentd-0.4.0.tgz
     version: 0.4.0
-generated: 2018-07-10T16:34:32.895886866+08:00
+generated: 2018-07-10T17:38:21.472870464+08:00
