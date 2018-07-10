@@ -3,7 +3,7 @@ description: Elasticsearch is a distributed, RESTful search and analytics engine
   of solving a growing number of use cases.
 engine: gotpl
 home: https://www.elastic.co/products/elasticsearch
-icon: https://static-www.elastic.co/assets/blteb1c97719574938d/logo-elastic-elasticsearch-lt.svg
+icon: logo/elasticsearch-kibana-logo.jpg
 keywords:
 - 日志组件
 maintainers:
