@@ -2,7 +2,8 @@
 ## ref: https://hub.docker.com/r/library/mysql/tags/
 ##
 mysqlImage: mysql:5.7.13
-xtraBackupImage: gcr.io/google-samples/xtrabackup:1.0
+# xtraBackupImage: gcr.io/google-samples/xtrabackup:1.0
+xtraBackupImage: percona/percona-xtradb-cluster:5.7.19
 
 mysqlha:
   replicaCount: 3
