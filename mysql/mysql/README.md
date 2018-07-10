@@ -1,89 +1,87 @@
 # MySQL
 
-[MySQL](https://MySQL.org) is one of the most popular database servers in the world. Notable users include Wikipedia, Facebook and Google.
+[MySQL](https://MySQL.org)是世界上最流行的数据库服务器之一，值得注意的用户包括维基百科、Facebook和谷歌。
 
-## Introduction
+## 介绍
+这个安装包通过使用包管理器[Helm](https://helm.sh)在一个[集群](http://kubernetes.io)上部署一个deployment类型的单点MySQL。
 
-This chart bootstraps a single node MySQL deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
+## 先决条件
 
-## Prerequisites
+- Kubernetes1.6以上
+- 底层支持PV（持久卷）
 
-- Kubernetes 1.6+ with Beta APIs enabled
-- PV provisioner support in the underlying infrastructure
+## 安装chart
 
-## Installing the Chart
-
-To install the chart with the release name `my-release`:
+安装一个实例名称叫做`my-release`的实例:
 
 ```bash
 $ helm install --name my-release stable/mysql
 ```
 
-The command deploys MySQL on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
+这个命令将使用默认配置将MySQL部署到Kubernetes集群.本[配置](#configuration)部分节列出可以在安装期间配置的参数.
 
-By default a random password will be generated for the root user. If you'd like to set your own password change the mysqlRootPassword
-in the values.yaml.
+默认情况下，将为root用户生成一个随机密码,如果你想要设置成自己的密码请修改value.yaml文件中的mysqlRootPassword的值。
 
-You can retrieve your root password by running the following command. Make sure to replace [YOUR_RELEASE_NAME]:
+通过下面的命令你可以获得你的root密码，记得修改[YOUR_RELEASE_NAME]：
+``` bash
+printf $(printf '\%o' `kubectl get secret [YOUR_RELEASE_NAME]-mysql -o jsonpath="{.data.mysql-root-password[*]}"`)
+```
+> **小提示**: 使用`helm list`查看所有release
 
-    printf $(printf '\%o' `kubectl get secret [YOUR_RELEASE_NAME]-mysql -o jsonpath="{.data.mysql-root-password[*]}"`)
+## 卸载安装包
 
-> **Tip**: List all releases using `helm list`
-
-## Uninstalling the Chart
-
-To uninstall/delete the `my-release` deployment:
+卸载或者删除一个实例名称叫做`my-release`的deployment:
 
 ```bash
 $ helm delete my-release
 ```
 
-The command removes all the Kubernetes components associated with the chart and deletes the release.
+该命令将删除与chart关联的所有Kubernetes组件，并删除release。
 
-## Configuration
+## 配置
 
-The following table lists the configurable parameters of the MySQL chart and their default values.
+下表列出了MySQL chart的可配置参数及其默认值.
 
-| Parameter                            | Description                               | Default                                              |
-| ------------------------------------ | ----------------------------------------- | ---------------------------------------------------- |
-| `image`                              | `mysql` image repository.                 | `mysql`                                              |
-| `imageTag`                           | `mysql` image tag.                        | `5.7.14`                                              |
-| `imagePullPolicy`                    | Image pull policy                         | `IfNotPresent`                                       |
-| `mysqlRootPassword`                  | Password for the `root` user.             | Random 10 characters                                 |
-| `mysqlUser`                          | Username of new user to create.           | `nil`                                                |
-| `mysqlPassword`                      | Password for the new user.                | Random 10 characters                                 |
-| `mysqlDatabase`                      | Name for new database to create.          | `nil`                                                |
-| `livenessProbe.initialDelaySeconds`  | Delay before liveness probe is initiated  | 30                                                   |
-| `livenessProbe.periodSeconds`        | How often to perform the probe            | 10                                                   |
-| `livenessProbe.timeoutSeconds`       | When the probe times out                  | 5                                                    |
-| `livenessProbe.successThreshold`     | Minimum consecutive successes for the probe to be considered successful after having failed. | 1 |
-| `livenessProbe.failureThreshold`     | Minimum consecutive failures for the probe to be considered failed after having succeeded.   | 3 |
-| `readinessProbe.initialDelaySeconds` | Delay before readiness probe is initiated | 5                                                    |
-| `readinessProbe.periodSeconds`       | How often to perform the probe            | 10                                                   |
-| `readinessProbe.timeoutSeconds`      | When the probe times out                  | 1                                                    |
-| `readinessProbe.successThreshold`    | Minimum consecutive successes for the probe to be considered successful after having failed. | 1 |
-| `readinessProbe.failureThreshold`    | Minimum consecutive failures for the probe to be considered failed after having succeeded.   | 3 |
-| `persistence.enabled`                | Create a volume to store data             | true                                                 |
-| `persistence.size`                   | Size of persistent volume claim           | 8Gi RW                                               |
-| `nodeSelector`                       | Node labels for pod assignment            | {}                                                   |
-| `persistence.storageClass`           | Type of persistent volume claim           | nil  (uses alpha storage class annotation)           |
-| `persistence.accessMode`             | ReadWriteOnce or ReadOnly                 | ReadWriteOnce                                        |
-| `persistence.existingClaim`          | Name of existing persistent volume        | `nil`                                                |
-| `persistence.subPath`                | Subdirectory of the volume to mount       | `nil`                                                |
-| `resources`                          | CPU/Memory resource requests/limits       | Memory: `256Mi`, CPU: `100m`                         |
-| `configurationFiles`                 | List of mysql configuration files         | `nil`                                                |
-| `ssl.enabled`                        | Setup and use SSL for MySQL connections   | `false`                                              |
-| `ssl.secret`                         | Name of the secret containing the SSL certificates                             | mysql-ssl-certs |
-| `ssl.certificates[0].name`           | Name of the secret containing the SSL certificates                                       | `nil` |
-| `ssl.certificates[0].ca`             | CA certificate                            | `nil`                                                |
-| `ssl.certificates[0].cert`           | Server certificate (public key)           | `nil`                                                |
-| `ssl.certificates[0].key`            | Server key (private key)                  | `nil`                                                |
-| `imagePullSecrets`                   | Name of Secret resource containing private registry credentials | `nil`                          |
-| `initializationFiles`                | List of SQL files which are run after the container started        | `nil`                       |
+|                 参数                 |                  描述                  |            默认值            |
+| ------------------------------------ | -------------------------------------- | ---------------------------- |
+| `image`                              | `mysql`镜像仓库.                       | `mysql`                      |
+| `imageTag`                           | `mysql`镜像标签.                       | `5.7.14`                     |
+| `imagePullPolicy`                    | 镜像拉取策略                           | `IfNotPresent`               |
+| `mysqlRootPassword`                  | `root`用户的密码                       | 随机10个字符                 |
+| `mysqlUser`                          | 创建新用户的名称                       | 空                           |
+| `mysqlPassword`                      | 新用户密码                             | 随机10个字符                 |
+| `mysqlDatabase`                      | 新数据库的名称                         | 空                           |
+| `livenessProbe.initialDelaySeconds`  | 健康检查初始化延迟秒数                 | 30                           |
+| `livenessProbe.periodSeconds`        | 检查周期                               | 10                           |
+| `livenessProbe.timeoutSeconds`       | 超时时间                               | 5                            |
+| `livenessProbe.successThreshold`     | 在失败后被认为是成功的最小连续成功次数 | 1                            |
+| `livenessProbe.failureThreshold`     | 在成功后被认为是成功的最小连续失败次数 | 3                            |
+| `readinessProbe.initialDelaySeconds` | 读写检查初始化延迟秒数                 | 5                            |
+| `readinessProbe.periodSeconds`       | 检查周期                               | 10                           |
+| `readinessProbe.timeoutSeconds`      | 超时时间                               | 1                            |
+| `readinessProbe.successThreshold`    | 在失败后被认为是成功的最小连续成功次数 | 1                            |
+| `readinessProbe.failureThreshold`    | 在成功后被认为是成功的最小连续失败次数 | 3                            |
+| `persistence.enabled`                | 是否创建一个卷来存储数据               | true                         |
+| `persistence.size`                   | pvc容量大小                            | 8Gi RW                       |
+| `nodeSelector`                       | 用户pod声明的节点标签                  | {}                           |
+| `persistence.storageClass`           | pvc类型                                | 空  (使用alpha存储类注释)    |
+| `persistence.accessMode`             | ReadWriteOnce或者ReadOnly              | ReadWriteOnce                |
+| `persistence.existingClaim`          | 已有的持久卷名称                       | 空                           |
+| `persistence.subPath`                | 卷挂载的子路径                         | 空                           |
+| `resources`                          | CPU/内存 资源请求/极限                 | Memory: `256Mi`, CPU: `100m` |
+| `configurationFiles`                 | mysql配置文件列表                      | 空                           |
+| `ssl.enabled`                        | 为MySQL连接设置和使用SSL               | `false`                      |
+| `ssl.secret`                         | 包含SSL证书的secret名称                | mysql-ssl-certs              |
+| `ssl.certificates[0].name`           | 包含SSL证书的secret名称                | 空                           |
+| `ssl.certificates[0].ca`             | CA证书                                 | 空                           |
+| `ssl.certificates[0].cert`           | 服务器证书 (公钥)                     | 空                           |
+| `ssl.certificates[0].key`            | 服务器密钥 (私钥)                      | 空                           |
+| `imagePullSecrets`                   | 包含私有注册表凭证的secret资源的名称   | 空                           |
+| `initializationFiles`                | 在容器启动后运行的SQL文件列表          | 空                           |
 
-Some of the parameters above map to the env variables defined in the [MySQL DockerHub image](https://hub.docker.com/_/mysql/).
+将上面的一些参数映射到env变量请参考[MySQL DockerHub image](https://hub.docker.com/_/mysql/).
 
-Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
+通过`helm install `加`--set key=value[,key=value]`声明每个参数，打个比方,
 
 ```bash
 $ helm install --name my-release \
@@ -91,28 +89,27 @@ $ helm install --name my-release \
     stable/mysql
 ```
 
-The above command sets the MySQL `root` account password to `secretpassword`. Additionally it creates a standard database user named `my-user`, with the password `my-password`, who has access to a database named `my-database`.
+上面的命令将MySQL`root`用户的密码设置为 `secretpassword`。此外，它还为能访问到数据库名称叫做`my-database`的用户创建一个标准的数据库用户名称叫做`my-user`并且密码设置为`my-password`。
 
-Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
+或者在安装chart期间使用一个提供指定参数值的YAML文件，比如：
 
 ```bash
 $ helm install --name my-release -f values.yaml stable/mysql
 ```
 
-> **Tip**: You can use the default [values.yaml](values.yaml)
+> **小提示**: 你可以使用默认的[values.yaml](values.yaml)
 
-## Persistence
+## 持久化
 
-The [MySQL](https://hub.docker.com/_/mysql/) image stores the MySQL data and configurations at the `/var/lib/mysql` path of the container.
+[MySQL](https://hub.docker.com/_/mysql/)的数据和配置存储在容器的`/var/lib/mysql`路径上。
 
-By default a PersistentVolumeClaim is created and mounted into that directory. In order to disable this functionality
-you can change the values.yaml to disable persistence and use an emptyDir instead.
+默认情况下，会创建PVC并将其挂载到该目录中。如需禁用此功能，您可以更改values.yaml禁用持久性并使用emptyDir.
 
-> *"An emptyDir volume is first created when a Pod is assigned to a Node, and exists as long as that Pod is running on that node. When a Pod is removed from a node for any reason, the data in the emptyDir is deleted forever."*
+> *"当Pod被分配给节点时，首先创建emptyDir卷，并且只要该Pod在该节点上运行就存在，当出于某种原因从节点中删除Pod时，emptyDir中的数据将被永远删除。"*
 
-## Custom MySQL configuration files
+## 自定义MySQL配置文件
 
-The [MySQL](https://hub.docker.com/_/mysql/) image accepts custom configuration files at the path `/etc/mysql/conf.d`. If you want to use a customized MySQL configuration, you can create your alternative configuration files by passing the file contents on the `configurationFiles` attribute. Note that according to the MySQL documentation only files ending with `.cnf` are loaded.
+[MySQL](https://hub.docker.com/_/mysql/)镜像接受自定义配置文件并且存储在`/etc/mysql/conf.d`路径上。如果你想要使用自定义配置文件, 你可以通过在configurationFiles属性上传递文件内容来创建其他配置文件. 注意，根据MySQL文档，只加载以`.cnf`结尾的文件.
 
 ```yaml
 configurationFiles:
@@ -125,11 +122,10 @@ configurationFiles:
     [mysqld]
 ```
 
-## MySQL initialization files
+## MySQL初始化文件
 
-The [MySQL](https://hub.docker.com/_/mysql/) image accepts *.sh, *.sql and *.sql.gz files at the path `/docker-entrypoint-initdb.d`. 
-These files are being run exactly once for container initialization and ignored on following container restarts.
-If you want to use initialization scripts, you can create initialization files by passing the file contents on the `initializationFiles` attribute. 
+[MySQL](https://hub.docker.com/_/mysql/)镜像接受以*.sh、*.sql和*.sql.gz结尾的文件挂载到`/docker-entrypoint-initdb.d`. 
+这些文件在容器初始化时运行一次，在容器重新启动后被忽略。如果想使用初始化脚本，您可以通过将文件内容传递给`initializationFiles`属性来创建初始化文件。 
 
 
 ```yaml
@@ -141,15 +137,14 @@ initializationFiles:
 ```
 
 ## SSL
+该chart支持使用用户提供的TLS/SSL证书来配置MySQL的[加密连接](https://dev.mysql.com/doc/refman/5.7/en/encrypted-connections.html)。这是通过将所需的证书颁发机构文件、服务器公钥证书和服务器私钥存储为Kubernetes secret来实现的。此chart表的SSL选项支持以下用例:
 
-This chart supports configuring MySQL to use [encrypted connections](https://dev.mysql.com/doc/refman/5.7/en/encrypted-connections.html) with TLS/SSL certificates provided by the user. This is accomplished by storing the required Certificate Authority file, the server public key certificate, and the server private key as a Kubernetes secret. The SSL options for this chart support the following use cases:
+* 用helm管理证书secrets
+* 不用helm管理证书secrets
 
-* Manage certificate secrets with helm
-* Manage certificate secrets outside of helm
+## 用helm管理证书secrets
 
-## Manage certificate secrets with helm
-
-Include your certificate data in the `ssl.certificates` section. For example:
+用`ssl.certificates`来包含你的证书数据。比如：
 
 ```
 ssl:
@@ -171,19 +166,19 @@ ssl:
       -----END RSA PRIVATE KEY-----
 ```
 
-> **Note**: Make sure your certificate data has the correct formatting in the values file.
+> **注意**: 确保你的z证书数据在values文件中格式正确。
 
-## Manage certificate secrets outside of helm
+## 不用helm管理证书secrets
 
-1. Ensure the certificate secret exist before installation of this chart.
-2. Set the name of the certificate secret in `ssl.secret`.
-3. Make sure there are no entries underneath `ssl.certificates`.
+1. 在安装此chart之前，确保证书secret存在。
+2. 在`ssl.secret`中设置证书secret的名称。
+3. 确保`ssl.certificates`下面没有条目。
 
-To manually create the certificate secret from local files you can execute:
+你可以执行以下的命令来手动创建证书secret：
 ```
 kubectl create secret generic mysql-ssl-certs \
   --from-file=ca.pem=./ssl/certificate-authority.pem \
   --from-file=server-cert.pem=./ssl/server-public-key.pem \
   --from-file=server-key.pem=./ssl/server-private-key.pem
 ```
-> **Note**: `ca.pem`, `server-cert.pem`, and `server-key.pem` **must** be used as the key names in this generic secret.
+> **注意**: `ca.pem`、`server-cert.pem`和`server-key.pem` **必须**作为通用secret的key名称。

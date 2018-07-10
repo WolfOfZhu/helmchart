@@ -1,42 +1,42 @@
-## mysql image version
-## ref: https://hub.docker.com/r/library/mysql/tags/
+## mysql镜像版本
+## 参考: https://hub.docker.com/r/library/mysql/tags/
 ##
 image: "mysql"
 imageTag: "5.7.14"
 
-## Specify password for root user
+## root用户密码
 ##
-## Default: random 10 character string
+## 默认值: 随机10个字符串
 # mysqlRootPassword: testing
 
-## Create a database user
+## 创建一个数据库用户更
 ##
 # mysqlUser:
-## Default: random 10 character string
+## 默认值: 随机10个字符串
 # mysqlPassword:
 
-## Allow unauthenticated access, uncomment to enable
+## 允许未经身份验证的访问，启用uncomment
 ##
 # mysqlAllowEmptyPassword: true
 
-## Create a database
+## 创建一个数据库
 ##
 # mysqlDatabase:
 
-## Specify an imagePullPolicy (Required)
-## It's recommended to change this to 'Always' if the image tag is 'latest'
-## ref: http://kubernetes.io/docs/user-guide/images/#updating-images
+## 声明镜像拉取策略(必填项)
+## 如果镜像标签是'latest'，建议将其更改为'Always'
+## 参考: http://kubernetes.io/docs/user-guide/images/#updating-images
 ##
 imagePullPolicy: IfNotPresent
 
-# Optionally specify an array of imagePullSecrets.
-# Secrets must be manually created in the namespace.
-# ref: https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod
+# 非必填项，声明一串imagePullSecrets数组。
+# Secrets必须在namspace里人工创建。
+# 参考: https://kubernetes.io/docs/concepts/containers/images/#specifying-imagepullsecrets-on-a-pod
 # imagePullSecrets:
   # - name: myRegistryKeySecretName
 
-## Node selector
-## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+## 节点选择器
+## 参考: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
 nodeSelector: {}
 
 livenessProbe:
@@ -53,29 +53,29 @@ readinessProbe:
   successThreshold: 1
   failureThreshold: 3
 
-## Persist data to a persistent volume
+## 将数据持久化到一个持久卷中
 persistence:
   enabled: true
-  ## database data Persistent Volume Storage Class
-  ## If defined, storageClassName: <storageClass>
-  ## If set to "-", storageClassName: "", which disables dynamic provisioning
-  ## If undefined (the default) or set to null, no storageClassName spec is
-  ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
-  ##   GKE, AWS & OpenStack)
-  ##
+  ## 数据库库数据PV存储类
+  ## 如果定义了, storageClassName: <storageClass>
+  ## 如果设置为"-", storageClassName: ""将禁用动态配置
+  ## 如果未定义或者设置为空将不设置存储类名称，并且选择默认厂商。
+  ## (gp2 on AWS, standard on GKE, AWS & OpenStack)
   # storageClass: "-"
+  ## 选择已有的PVC
+  ## existingClaim: "-"
   accessMode: ReadWriteOnce
   size: 8Gi
 
-## Configure resource requests and limits
-## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+## 配置资源请求和极限值
+## 参考: http://kubernetes.io/docs/user-guide/compute-resources/
 ##
 resources:
   requests:
     memory: 256Mi
     cpu: 100m
 
-# Custom mysql configuration files used to override default mysql settings
+# 自定义mysql配置文件来覆盖mysql设置
 configurationFiles:
 #  mysql.cnf: |-
 #    [mysqld]
@@ -84,18 +84,19 @@ configurationFiles:
 #    ssl-cert=/ssl/server-cert.pem
 #    ssl-key=/ssl/server-key.pem
 
-# Custom mysql init SQL files used to initialize the database
+# 自定义mysql初始化配置文件来初始化数据库库
 initializationFiles:
 #  first-db.sql: |-
 #    CREATE DATABASE IF NOT EXISTS first DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
 #  second-db.sql: |-
 #    CREATE DATABASE IF NOT EXISTS second DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
 
-## Configure the service
-## ref: http://kubernetes.io/docs/user-guide/services/
+## 配置服务
+## 参考: http://kubernetes.io/docs/user-guide/services/
 service:
-  ## Specify a service type
-  ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services---service-types
+  ## 声明服务类型
+  ## 参考: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services---service-types
+  # type: NodePort
   type: ClusterIP
   port: 3306
   # nodePort: 32000
