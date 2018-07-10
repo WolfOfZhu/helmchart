@@ -2,13 +2,13 @@ apiVersion: v1
 entries:
   elasticsearch:
   - apiVersion: v1
-    created: 2018-07-10T10:18:31.004722317+08:00
+    created: 2018-07-10T10:23:04.922145797+08:00
     description: Elasticsearch is a distributed, RESTful search and analytics engine
       capable of solving a growing number of use cases.
-    digest: 0d80e18aa85c10a7770643cce9947274a5455ca902d433b1bfbdecba1744bb90
+    digest: 389e690b23c3022f8837f35b9718c4183e5c6f1807b47039d073cabdfe585f35
     engine: gotpl
     home: https://www.elastic.co/products/elasticsearch
-    icon: elasticsearch/elasticsearch/logo/elasticsearch-kibana-logo.jpg
+    icon: https://s24255.pcdn.co/wp-content/uploads/2015/08/elasticsearch-kibana-logo.jpg
     keywords:
     - 日志组件
     maintainers:
@@ -22,7 +22,7 @@ entries:
     - elasticsearch/elasticsearch-0.2.2.tgz
     version: 0.2.2
   fluent-bit:
-  - created: 2018-07-10T10:18:31.005156074+08:00
+  - created: 2018-07-10T10:23:04.922737738+08:00
     description: Fluent-bit chart for collecting journald, docker, and kernel logs
     digest: fcb20301d9b42c74b412d8579f636313d648c9bb8504a7aed84656fa73858212
     engine: gotpl
@@ -41,7 +41,7 @@ entries:
     version: 0.0.1
   fluentd-elasticsearch:
   - appVersion: 2.0.4
-    created: 2018-07-10T10:18:31.007811262+08:00
+    created: 2018-07-10T10:23:04.92502166+08:00
     description: A Fluentd Helm chart for Kubernetes with Elasticsearch output
     digest: a789562a8607aaa18054ad65cb8797eca372c9b5470edd852a777fdcf4808460
     engine: gotpl
@@ -63,7 +63,7 @@ entries:
     version: 0.6.4
   kibana:
   - appVersion: 6.0.0
-    created: 2018-07-10T10:18:31.008760839+08:00
+    created: 2018-07-10T10:23:04.926293756+08:00
     description: Kibana is an open source data visualization plugin for Elasticsearch
     digest: ec87b283c1aa1301afa261632425a5f079c5480988fd723118f0c53ff4fcbc23
     engine: gotpl
@@ -82,7 +82,7 @@ entries:
     version: 0.6.0
   mysql:
   - appVersion: 5.7.14
-    created: 2018-07-10T10:18:31.009347209+08:00
+    created: 2018-07-10T10:23:04.927119553+08:00
     description: Fast, reliable, scalable, and easy to use open-source relational
       database system.
     digest: 68929442f63af470a89f0779dc9db50ffb98e811d2fa8a187d415d6dacfb6c7b
@@ -105,7 +105,7 @@ entries:
     version: 0.8.2
   nginx-ingress:
   - appVersion: 0.15.0
-    created: 2018-07-10T10:18:31.011030358+08:00
+    created: 2018-07-10T10:23:04.928822405+08:00
     description: An nginx Ingress controller that uses ConfigMap to store the nginx
       configuration.
     digest: c3a595c9b255bf3994acbe0045722c9add4ae8fd4bd39b2ae391815d40031f0e
@@ -130,7 +130,7 @@ entries:
     version: 0.22.0
   sumologic-fluentd:
   - appVersion: "1.11"
-    created: 2018-07-10T10:18:31.006233089+08:00
+    created: 2018-07-10T10:23:04.924190212+08:00
     description: Sumologic Log Collector
     digest: 671b332764df2b03657f40f5b6d9b3f31c54e9f469366955b79b96feb6d4b062
     home: https://github.com/SumoLogic/fluentd-kubernetes-sumologic
@@ -148,4 +148,4 @@ entries:
     urls:
     - fluentd/sumologic-fluentd-0.4.0.tgz
     version: 0.4.0
-generated: 2018-07-10T10:18:31.002975338+08:00
+generated: 2018-07-10T10:23:04.91976242+08:00
