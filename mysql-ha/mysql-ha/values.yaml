@@ -3,7 +3,8 @@
 ##
 mysqlImage: mysql:5.7.13
 # xtraBackupImage: gcr.io/google-samples/xtrabackup:1.0
-xtraBackupImage: percona/percona-xtradb-cluster:5.7.19
+# xtraBackupImage: percona/percona-xtradb-cluster:5.7.19
+xtraBackupImage: anjia0532/google-samples.xtrabackup:1.0
 
 mysqlha:
   replicaCount: 3
