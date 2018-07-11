@@ -28,8 +28,10 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 spec:
+  type: {{ .Values.service.type }}
   ports:
   - name: {{ template "fullname" . }}
-    port: 3306
+    port: {{ .Values.service.port }}
+    targetPort: {{ template "fullname" . }}
   selector:
     app: {{ template "fullname" . }}

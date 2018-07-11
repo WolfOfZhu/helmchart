@@ -6,6 +6,13 @@ mysqlImage: mysql:5.7.13
 # xtraBackupImage: percona/percona-xtradb-cluster:5.7.19
 xtraBackupImage: anjia0532/google-samples.xtrabackup:1.0
 
+service:
+  ## 声明服务类型
+  ## 参考: https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services---service-types
+  # type: ClusterIP
+  type: NodePort
+  port: 3306
+
 mysqlha:
   replicaCount: 3
 
