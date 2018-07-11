@@ -1,0 +1,14 @@
+name: mysql-ha-new
+version: 1.1.2
+appVersion: 5.7.22-debian-9
+description: Chart to create a Highly available MySQL cluster
+keywords:
+- 数据库
+home: https://mysql.com
+icon: https://bitnami.com/assets/stacks/mysql/img/mysql-stack-220x234.png
+sources:
+- https://github.com/bitnami/bitnami-docker-mysql
+maintainers:
+- name: Bitnami
+  email: containers@bitnami.com
+engine: gotpl
