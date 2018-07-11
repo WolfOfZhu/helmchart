@@ -30,8 +30,8 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   ports:
-  - name: {{ template "fullname" . }}
+  - name: mysql
     port: {{ .Values.service.port }}
-    targetPort: {{ template "fullname" . }}
+    targetPort: mysql
   selector:
     app: {{ template "fullname" . }}
