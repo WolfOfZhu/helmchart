@@ -85,7 +85,7 @@ spec:
         {{- if .Values.master.livenessProbe.enabled }}
         livenessProbe:
           exec:
-            command: ["sh", "-c", "exec mysqladmin status -uroot -p$MYSQL_ROOT_PASSWORD"]
+            command: ["sh", "-c", "mysqladmin ping -u root -p${MYSQL_ROOT_PASSWORD}"]
           initialDelaySeconds: {{ .Values.master.livenessProbe.initialDelaySeconds }}
           periodSeconds: {{ .Values.master.livenessProbe.periodSeconds }}
           timeoutSeconds: {{ .Values.master.livenessProbe.timeoutSeconds }}
@@ -95,7 +95,7 @@ spec:
         {{- if .Values.master.readinessProbe.enabled }}
         readinessProbe:
           exec:
-            command: ["sh", "-c", "exec mysqladmin status -uroot -p$MYSQL_ROOT_PASSWORD"]
+            command: ["sh", "-c", "mysqladmin ping -u root -p${MYSQL_ROOT_PASSWORD}"]
           initialDelaySeconds: {{ .Values.master.readinessProbe.initialDelaySeconds }}
           periodSeconds: {{ .Values.master.readinessProbe.periodSeconds }}
           timeoutSeconds: {{ .Values.master.readinessProbe.timeoutSeconds }}
