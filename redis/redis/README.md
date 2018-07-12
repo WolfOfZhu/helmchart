@@ -1,153 +1,150 @@
 # Redis
 
-[Redis](http://redis.io/) is an advanced key-value cache and store. It is often referred to as a data structure server since keys can contain strings, hashes, lists, sets, sorted sets, bitmaps and hyperloglogs.
+[Redis](http://redis.io/) 是一个高级的键值缓存和存储。它通常被称为数据结构服务器，因为keys可以包含字符串、散列、列表、集合、排序集、位图和超重对数。
 
 ## TL;DR
 
 ```bash
-# Testing configuration
+# 测试配置
 $ helm install stable/redis
 ```
 
 ```bash
-# Production configuration
+# 生产配置
 $ helm install stable/redis --values values-production.yaml
 ```
 
-## Introduction
+## 简介
 
-This chart bootstraps a [Redis](https://github.com/bitnami/bitnami-docker-redis) deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
+这个chart包使用Helm包管理器(https://helm.sh)在一个Kubernetes集群(http://kubernetes.io)来引导一个Redis部署(https://github.com/bitnami/bitnami-docker-redis)。
 
-## Prerequisites
+## 先决条件
 
 - Kubernetes 1.8+
-- PV provisioner support in the underlying infrastructure
+- 底层基础设施中支持PV
 
-## Installing the Chart
+## 安装Chart
 
-To install the chart with the release name `my-release`:
+安装一个发布名称为`my-release`的chart包:
 
 ```bash
 $ helm install --name my-release stable/redis
 ```
 
-The command deploys Redis on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
+这个命令在Kubernetes集群中部署Redis缺省配置。 该配置部分列出了在安装期间可以配置的参数。
 
-> **Tip**: List all releases using `helm list`
+> **提示**: 使用`helm list`列出所有版本
 
-## Uninstalling the Chart
+## 卸载chart
 
-To uninstall/delete the `my-release` deployment:
+卸载名称为`my-release`的chart部署:
 
 ```bash
 $ helm delete my-release
 ```
 
-The command removes all the Kubernetes components associated with the chart and deletes the release.
+该命令删除与chart关联的所有Kubernetes组件并且删除发布。
 
-## Configuration
 
-The following table lists the configurable parameters of the Redis chart and their default values.
+## 配置
+下表列出了Redis chart的可配置参数及其默认值。
 
-| Parameter                                  | Description                                                                                                    | Default                              |
-|--------------------------------------------|----------------------------------------------------------------------------------------------------------------|--------------------------------------|
-| `image.registry`                           | Redis Image registry                                                                                           | `docker.io`                                          |
-| `image.repository`                         | Redis Image name                                                                                               | `bitnami/redis`                                      |
-| `image.tag`                                | Redis Image tag                                                                                                | `{VERSION}`                                          |
-| `image.pullPolicy`                         | Image pull policy                                                                                              | `Always`                                             |
-| `image.pullSecrets`                        | Specify docker-ragistry secret names as an array                                                               | `nil`                                                |
-| `cluster.enabled`                          | Use master-slave topology                                                                                      | `true`                                               |
-| `cluster.slaveCount`                       | Number of slaves                                                                                               | 1                                                    |
-| `existingSecret`                           | Name of existing secret object (for password authentication)                                                   | `nil`                                                |
-| `usePassword`                              | Use password                                                                                                   | `true`                                               |
-| `password`                                 | Redis password (ignored if existingSecret set)                                                                 | Randomly generated                                   |
-| `networkPolicy.enabled`                    | Enable NetworkPolicy                                                                                           | `false`                                              |
-| `networkPolicy.allowExternal`              | Don't require client label for connections                                                                     | `true`                                               |
-| `serviceAccount.create`                    | Specifies whether a ServiceAccount should be created                                                           | `false`                                              |
-| `serviceAccount.name`                      | The name of the ServiceAccount to create                                                                       | Generated using the fullname template                |
-| `rbac.create`                              | Specifies whether RBAC resources should be created                                                             | `false`                                              |
-| `rbac.role.rules`                          | Rules to create                                                                                                | `[]`                                                 |
-| `metrics.enabled`                          | Start a side-car prometheus exporter                                                                           | `false`                                              |
-| `metrics.image.registry`                   | Redis exporter image registry                                                                                  | `docker.io`                                          |
-| `metrics.image.repository`                 | Redis exporter image name                                                                                      | `bitnami/redis`                                      |
-| `metrics.image.tag`                        | Redis exporter image tag                                                                                       | `v0.19.1`                                            |
-| `metrics.image.pullPolicy`                 | Image pull policy                                                                                              | `IfNotPresent`                                       |
-| `metrics.image.pullSecrets`                | Specify docker-registry secret names as an array                                                               | `nil`                                                |
-| `metrics.podLabels`                        | Additional labels for Metrics exporter pod                                                                     | {}                                                   |
-| `metrics.podAnnotations`                   | Additional annotations for Metrics exporter pod                                                                | {}                                                   |
-| `master.service.type`                      | Kubernetes Service type (redis metrics)                                                                        | `LoadBalancer`                                       |
-| `metrics.service.annotations`              | Annotations for the services to monitor  (redis master and redis slave service)                                | {}                                                   |
-| `metrics.service.loadBalancerIP`           | loadBalancerIP if redis metrics service type is `LoadBalancer`                                                 | `nil`                                                |
-| `metrics.resources`                        | Exporter resource requests/limit                                                                               | Memory: `256Mi`, CPU: `100m`                         |
-| `persistence.existingClaim`                | Provide an existing PersistentVolumeClaim                                                                      | `nil`                                                |
-| `master.persistence.enabled`               | Use a PVC to persist data (master node)                                                                        | `true`                                               |
-| `master.persistence.path`                  | Path to mount the volume at, to use other images                                                               | `/bitnami`                                           |
-| `master.persistence.subPath`               | Subdirectory of the volume to mount at                                                                         | `""`                                                 |
-| `master.persistence.storageClass`          | Storage class of backing PVC                                                                                   | `generic`                                            |
-| `master.persistence.accessModes`           | Persistent Volume Access Modes                                                                                 | `[ReadWriteOnce]`                                    |
-| `master.persistence.size`                  | Size of data volume                                                                                            | `8Gi`                                                |
-| `master.statefulset.updateStrategy`        | Update strategy for StatefulSet                                                                                | onDelete                                             |
-| `master.statefulset.rollingUpdatePartition`| Partition update strategy                                                                                      | `nil`                                                |
-| `master.podLabels`                         | Additional labels for Redis master pod                                                                         | {}                                                   |
-| `master.podAnnotations`                    | Additional annotations for Redis master pod                                                                    | {}                                                   |
-| `master.port`                              | Redis master port                                                                                              | 6379                                                 |
-| `master.args`                              | Redis master command-line args                                                                                 | []                                                   |
-| `master.disableCommands`                   | Comma-separated list of Redis commands to disable (master)                                                     | `FLUSHDB,FLUSHALL`                                   |
-| `master.extraFlags`                        | Redis master additional command line flags                                                                     | []                                                   |
-| `master.nodeSelector`                      | Redis master Node labels for pod assignment                                                                    | {"beta.kubernetes.io/arch": "amd64"}                 |
-| `master.tolerations`                       | Toleration labels for Redis master pod assignment                                                              | []                                                   |
-| `master.affinity   `                       | Affinity settings for Redis master pod assignment                                                              | []                                                   |
-| `master.schedulerName`                     | Name of an alternate scheduler                                                                                 | `nil`                                                |
-| `master.service.type`                      | Kubernetes Service type (redis master)                                                                         | `ClusterIP`                                          |
-| `master.service.annotations`               | annotations for redis master service                                                                           | {}                                                   |
-| `master.service.loadBalancerIP`            | loadBalancerIP if redis master service type is `LoadBalancer`                                                  | `nil`                                                |
-| `master.securityContext.enabled`           | Enable security context (redis master pod)                                                                     | `true`                                               |
-| `master.securityContext.fsGroup`           | Group ID for the container (redis master pod)                                                                  | `1001`                                               |
-| `master.securityContext.runAsUser`         | User ID for the container (redis master pod)                                                                   | `1001`                                               |
-| `master.resources`                         | Redis master CPU/Memory resource requests/limits                                                               | Memory: `256Mi`, CPU: `100m`                         |
-| `master.livenessProbe.enabled`             | Turn on and off liveness probe (redis master pod)                                                              | `true`                                               |
-| `master.livenessProbe.initialDelaySeconds` | Delay before liveness probe is initiated (redis master pod)                                                    | `30`                                                 |
-| `master.livenessProbe.periodSeconds`       | How often to perform the probe (redis master pod)                                                              | `30`                                                 |
-| `master.livenessProbe.timeoutSeconds`      | When the probe times out (redis master pod)                                                                    | `5`                                                  |
-| `master.livenessProbe.successThreshold`    | Minimum consecutive successes for the probe to be considered successful after having failed (redis master pod) | `1`                                                  |
-| `master.livenessProbe.failureThreshold`    | Minimum consecutive failures for the probe to be considered failed after having succeeded.                     | `5`                                                  |
-| `master.readinessProbe.enabled`            | Turn on and off readiness probe (redis master pod)                                                             | `true`                                               |
-| `master.readinessProbe.initialDelaySeconds`| Delay before readiness probe is initiated (redis master pod)                                                   | `5`                                                  |
-| `master.readinessProbe.periodSeconds`      | How often to perform the probe (redis master pod)                                                              | `10`                                                 |
-| `master.readinessProbe.timeoutSeconds`     | When the probe times out (redis master pod)                                                                    | `1`                                                  |
-| `master.readinessProbe.successThreshold`   | Minimum consecutive successes for the probe to be considered successful after having failed (redis master pod) | `1`                                                  |
-| `master.readinessProbe.failureThreshold`   | Minimum consecutive failures for the probe to be considered failed after having succeeded.                     | `5`                                                  |
-| `slave.serviceType`                        | Kubernetes Service type (redis slave)                                                                          | `LoadBalancer`                                       |
-| `slave.service.annotations`                | annotations for redis slave service                                                                            | {}                                                   |
-| `slave.service.loadBalancerIP`             | LoadBalancerIP if Redis slave service type is `LoadBalancer`                                                   | `nil`                                                |
-| `slave.port`                               | Redis slave port                                                                                               | `master.port`                                        |
-| `slave.args`                               | Redis slave command-line args                                                                                  | `master.args`                                        |
-| `slave.disableCommands`                    | Comma-separated list of Redis commands to disable (slave)                                                      | `master.disableCommands`                             |
-| `slave.extraFlags`                         | Redis slave additional command line flags                                                                      | `master.extraFlags`                                  |
-| `slave.livenessProbe.enabled`              | Turn on and off liveness probe (redis slave pod)                                                               | `master.livenessProbe.enabled`                       |
-| `slave.livenessProbe.initialDelaySeconds`  | Delay before liveness probe is initiated (redis slave pod)                                                     | `master.livenessProbe.initialDelaySeconds`           |
-| `slave.livenessProbe.periodSeconds`        | How often to perform the probe (redis slave pod)                                                               | `master.livenessProbe.periodSeconds`                 |
-| `slave.livenessProbe.timeoutSeconds`       | When the probe times out (redis slave pod)                                                                     | `master.livenessProbe.timeoutSeconds`                |
-| `slave.livenessProbe.successThreshold`     | Minimum consecutive successes for the probe to be considered successful after having failed (redis slave pod)  | `master.livenessProbe.successThreshold`              |
-| `slave.livenessProbe.failureThreshold`     | Minimum consecutive failures for the probe to be considered failed after having succeeded.                     | `master.livenessProbe.failureThreshold`              |
-| `slave.readinessProbe.enabled`             | Turn on and off slave.readiness probe (redis slave pod)                                                        | `master.readinessProbe.enabled`                      |
-| `slave.readinessProbe.initialDelaySeconds` | Delay before slave.readiness probe is initiated (redis slave pod)                                              | `master.readinessProbe.initialDelaySeconds`          |
-| `slave.readinessProbe.periodSeconds`       | How often to perform the probe (redis slave pod)                                                               | `master.readinessProbe.periodSeconds`                |
-| `slave.readinessProbe.timeoutSeconds`      | When the probe times out (redis slave pod)                                                                     | `master.readinessProbe.timeoutSeconds`               |
-| `slave.readinessProbe.successThreshold`    | Minimum consecutive successes for the probe to be considered successful after having failed (redis slave pod)  | `master.readinessProbe.successThreshold`             |
-| `slave.readinessProbe.failureThreshold`    | Minimum consecutive failures for the probe to be considered failed after having succeeded. (redis slave pod)   | `master.readinessProbe.failureThreshold`             |
-| `slave.podLabels`                          | Additional labels for Redis slave pod                                                                          | `master.podLabels`                                   |
-| `slave.podAnnotations`                     | Additional annotations for Redis slave pod                                                                     | `master.podAnnotations`                              |
-| `slave.schedulerName`                      | Name of an alternate scheduler                                                                                 | `nil`                                                |
-| `slave.securityContext.enabled`            | Enable security context (redis slave pod)                                                                      | `master.securityContext.enabled`                     |
-| `slave.securityContext.fsGroup`            | Group ID for the container (redis slave pod)                                                                   | `master.securityContext.fsGroup`                     |
-| `slave.securityContext.runAsUser`          | User ID for the container (redis slave pod)                                                                    | `master.securityContext.runAsUser`                   |
-| `slave.resources`                          | Redis slave CPU/Memory resource requests/limits                                                                | `master.resources`                                   |
-| `slave.affinity`                          | Enable node/pod affinity for slaves                                                                | {}                                   |
+|                    参数                     |                                描述                                |                   默认值                    |
+| ------------------------------------------- | ------------------------------------------------------------------ | ------------------------------------------- |
+| `image.registry`                            | Redis仓库地址                                                      | `docker.io`                                 |
+| `image.repository`                          | Redis镜像名称                                                      | `bitnami/redis`                             |
+| `image.tag`                                 | Redis Image tag                                                    | `{VERSION}`                                 |
+| `image.pullPolicy`                          | Image镜像标签                                                      | `Always`                                    |
+| `image.pullSecrets`                         | 将docker-ragistry的secret名称指定为数组                            | 空                                       |
+| `cluster.enabled`                           | 使用主从拓扑                                                       | `true`                                      |
+| `cluster.slaveCount`                        | slaves数量                                                         | 1                                           |
+| `existingSecret`                            | 现有secret的名称 （为了提供密码验证）                              | 空                                       |
+| `usePassword`                               | 使用密码                                                           | `true`                                      |
+| `password`                                  | Redis密码 (如果存在secret集合则忽略）                              | Randomly generated                          |
+| `networkPolicy.enabled`                     | 启用网络策略                                                       | `false`                                     |
+| `networkPolicy.allowExternal`               | 连接不需要客户端标签                                               | `true`                                      |
+| `serviceAccount.create`                     | 指定是否应该创建ServiceAccount                                     | `false`                                     |
+| `serviceAccount.name`                       | 创建的ServiceAccount的名称                                         | Generated using the fullname template       |
+| `rbac.create`                               | 指定是否应该创建RBAC资源                                           | `false`                                     |
+| `rbac.role.rules`                           | 创建的规则                                                         | `[]`                                        |
+| `metrics.enabled`                           | 启动一个a side-car prometheus exporter                             | `false`                                     |
+| `metrics.image.registry`                    | Redis镜像仓库地址                                                  | `docker.io`                                 |
+| `metrics.image.repository`                  | Redis镜像名称                                                      | `bitnami/redis`                             |
+| `metrics.image.tag`                         | Redis镜像标签                                                      | `{VERSION}`                                 |
+| `metrics.image.pullPolicy`                  | 镜像拉取策略                                                       | `IfNotPresent`                              |
+| `metrics.image.pullSecrets`                 | 将docker-ragistry的secret名称指定为数组                            | 空                                       |
+| `metrics.podLabels`                         | Metrics exporter pod的附加标签                                     | {}                                          |
+| `metrics.podAnnotations`                    | for Metrics exporter pod的附加注解                                 | {}                                          |
+| `master.service.type`                       | Kubernetes服务类型(redis metrics)                                  | `LoadBalancer`                              |
+| `metrics.service.annotations`               | 要监视的服务的注解（redis主从服务)                                 | {}                                          |
+| `metrics.service.loadBalancerIP`            | loadBalancerIP（如果redis metrics的服务类型是`LoadBalancer`）      | 空                                       |
+| `metrics.resources`                         | 导出自愿请求量                                                     | Memory: `256Mi`, CPU: `100m`                |
+| `persistence.existingClaim`                 | 提供一个已有的持久卷                                               | 空                                       |
+| `master.persistence.enabled`                | 使用一个pvc来持久化数据（主节点）                                  | `true`                                      |
+| `master.persistence.path`                   | 为了使用其他镜像而设置的卷的挂载路径                               | `/bitnami`                                  |
+| `master.persistence.subPath`                | 卷挂载的子目录                                                     | `""`                                        |
+| `master.persistence.storageClass`           | 备份pvc用的存储类                                                  | `generic`                                   |
+| `master.persistence.accessModes`            | 持久卷访问模式                                                     | `[ReadWriteOnce]`                           |
+| `master.persistence.size`                   | 数据卷的大小                                                       | `8Gi`                                       |
+| `master.podLabels`                          | 主Redis的pod的附加标签                                             | {}                                          |
+| `master.podAnnotations`                     | 主Redis的pod的附加注释                                             | {}                                          |
+| `master.port`                               | 主Redis端口                                                        | 6379                                        |
+| `master.args`                               | 主Redis命令行                                                    3 | []                                          |
+| `master.disableCommands`                    | 禁用的redis命令（多个命令以逗号隔开）                              | `FLUSHDB,FLUSHALL`                          |
+| `master.extraFlags`                         | 主Redis附加命令行                                                  | []                                          |
+| `master.nodeSelector`                       | Redis主节点pod标签声明                                             | {"beta.kubernetes.io/arch": "amd64"}        |
+| `master.tolerations`                        | Redis主节点容忍标签                                                | []                                          |
+| `master.schedulerName`                      | 备用调度器名称                                                     | 空                                       |
+| `master.service.type`                       | Kubernetes服务类型（主redis）                                      | `ClusterIP`                                 |
+| `master.service.annotations`                | redis主服务的注释                                                  | {}                                          |
+| `master.service.loadBalancerIP`             | 如果redis主服务类型是`LoadBalancer`，则声明loadBalancerIP          | 空                                       |
+| `master.securityContext.enabled`            | 启用安全上下文（redis主pod）                                       | `true`                                      |
+| `master.securityContext.fsGroup`            | 容器的组ID（redis主pod）                                           | `1001`                                      |
+| `master.securityContext.runAsUser`          | 容器的用户IDredis主pod                                             | `1001`                                      |
+| `master.resources`                          | 主Redis请求/限制的CPU/内容资源                                     | Memory: `256Mi`, CPU: `100m`                |
+| `master.livenessProbe.enabled`              | 是否启用健康检查（redis主pod）                                     | `true`                                      |
+| `master.livenessProbe.initialDelaySeconds`  | 健康检查初始化延迟秒数（redis主pod）                               | `30`                                        |
+| `master.livenessProbe.periodSeconds`        | 检查频率（redis主pod）                                             | `30`                                        |
+| `master.livenessProbe.timeoutSeconds`       | 检查超时秒数（redis主pod）                                         | `5`                                         |
+| `master.livenessProbe.successThreshold`     | 失败后检查定义为成功标志的成功次数（redis主pod）                   | `1`                                         |
+| `master.livenessProbe.failureThreshold`     | 成功后被定义为失败标志的最小失败次数                               | `5`                                         |
+| `master.readinessProbe.enabled`             | 是否启用读写检查（redis主pod）                                     | `true`                                      |
+| `master.readinessProbe.initialDelaySeconds` | 读写检查初始化延迟秒数（redis主pod）                               | `5`                                         |
+| `master.readinessProbe.periodSeconds`       | 检查频率（redis主pod）                                             | `10`                                        |
+| `master.readinessProbe.timeoutSeconds`      | 检查超时秒数（redis主pod）                                         | `1`                                         |
+| `master.readinessProbe.successThreshold`    | 失败后检查定义为成功标志的成功次数（redis主pod）                   | `1`                                         |
+| `master.readinessProbe.failureThreshold`    | 成功后被定义为失败标志的最小失败次数                               | `5`                                         |
+| `slave.serviceType`                         | Kubernetes服务类型（从redis）                                      | `LoadBalancer`                              |
+| `slave.service.annotations`                 | redis从服务的注释                                                  | {}                                          |
+| `slave.service.loadBalancerIP`              | 如果redis从服务类型是`LoadBalancer`，则声明loadBalancerIP          | 空                                       |
+| `slave.port`                                | 从Redis端口                                                        | `master.port`                               |
+| `slave.args`                                | 从Redis命令行                                                      | `master.args`                               |
+| `slave.disableCommands`                     | 禁用的redis命令（多个命令以逗号隔开）                              | `master.disableCommands`                    |
+| `slave.extraFlags`                          | 主Redis附加命令行                                                  | `master.extraFlags`                         |
+| `slave.livenessProbe.enabled`               | 是否启用健康检查（redis从pod）                                     | `master.livenessProbe.enabled`              |
+| `slave.livenessProbe.initialDelaySeconds`   | 健康检查初始化延迟秒数（redis从pod）                               | `master.livenessProbe.initialDelaySeconds`  |
+| `slave.livenessProbe.periodSeconds`         | 检查频率（redis从pod）                                             | `master.livenessProbe.periodSeconds`        |
+| `slave.livenessProbe.timeoutSeconds`        | 检查超时秒数（redis从pod）                                         | `master.livenessProbe.timeoutSeconds`       |
+| `slave.livenessProbe.successThreshold`      | 失败后检查定义为成功标志的成功次数（redis主pod）                   | `master.livenessProbe.successThreshold`     |
+| `slave.livenessProbe.failureThreshold`      | 成功后被定义为失败标志的最小失败次数                               | `master.livenessProbe.failureThreshold`     |
+| `slave.readinessProbe.enabled`              | 是否启用读写检查（redis从pod）                                     | `master.readinessProbe.enabled`             |
+| `slave.readinessProbe.initialDelaySeconds`  | 读写检查初始化延迟秒数（redis从pod）                               | `master.readinessProbe.initialDelaySeconds` |
+| `slave.readinessProbe.periodSeconds`        | 检查频率（redis从pod）                                             | `master.readinessProbe.periodSeconds`       |
+| `slave.readinessProbe.timeoutSeconds`       | 检查超时秒数（redis从pod）                                         | `master.readinessProbe.timeoutSeconds`      |
+| `slave.readinessProbe.successThreshold`     | 失败后检查定义为成功标志的成功次数（redis主pod）                   | `master.readinessProbe.successThreshold`    |
+| `slave.readinessProbe.failureThreshold`     | 成功后被定义为失败标志的最小失败次数 (redis slave pod)             | `master.readinessProbe.failureThreshold`    |
+| `slave.podLabels`                           | 主Redis的pod的附加标签                                             | `master.podLabels`                          |
+| `slave.podAnnotations`                      | 主Redispod的附加注解                                               | `master.podAnnotations`                     |
+| `slave.schedulerName`                       | 备用调度器的名称                                     | 空                                       |
+| `slave.securityContext.enabled`             | 启用安全上下文(redis slave pod)                          | `master.securityContext.enabled`            |
+| `slave.securityContext.fsGroup`             | 容器的组ID(redis slave pod)                       | `master.securityContext.fsGroup`            |
+| `slave.securityContext.runAsUser`           | 容器的用户ID(redis slave pod)                        | `master.securityContext.runAsUser`          |
+| `slave.resources`                           | Redis slave的CPU/内存资源请求/极限                    | `master.resources`                          |
+| `slave.affinity`                            | 是否启用node/pod亲和性                                | {}                                          |
 
-The above parameters map to the env variables defined in [bitnami/redis](http://github.com/bitnami/bitnami-docker-redis). For more information please refer to the [bitnami/redis](http://github.com/bitnami/bitnami-docker-redis) image documentation.
+上述参数映射到在[bitnami/redis](http://github.com/bitnami/bitnami-docker-redis)中定义的env变量。更多信息请参阅[bitnami/redis](http://github.com/bitnami/bitnami-docker-redis)的镜像文档。
 
-Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
+通过`helm install `加`--set key=value[,key=value]`声明每个参数，打个比方:
 
 ```bash
 $ helm install --name my-release \
@@ -155,46 +152,42 @@ $ helm install --name my-release \
     stable/redis
 ```
 
-The above command sets the Redis server password to `secretpassword`.
+上面的命令把redis服务器的密码设置为`secretpassword`.
 
-Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
+此外也可以在安装chart包期间可以使用yaml文件中的参数值，打个比方：
 
 ```bash
 $ helm install --name my-release -f values.yaml stable/redis
 ```
 
-> **Tip**: You can use the default [values.yaml](values.yaml)
+> **提示**: 你可以使用默认的[values.yaml](values.yaml)
 
-> **Note for minikube users**: Current versions of minikube (v0.24.1 at the time of writing) provision `hostPath` persistent volumes that are only writable by root. Using chart defaults cause pod failure for the Redis pod as it attempts to write to the `/bitnami` directory. Consider installing Redis with `--set persistence.enabled=false`. See minikube issue [1990](https://github.com/kubernetes/minikube/issues/1990) for more information.
+> **minikube用户请注意**: minikube(版本v0.24.1)提供的持久卷的`hostPath`属性只能由root用户来定义。当Redis pod试图写入`bitnami`目录时，使用默认的chart会导致pod出错。请考虑在安装redis的时候加上`--set persistence.enabled=false`参数。更多信息请参阅minikube问题[1990](https://github.com/kubernetes/minikube/issues/1990)。
 
 ## NetworkPolicy
 
-To enable network policy for Redis, install
-[a networking plugin that implements the Kubernetes NetworkPolicy spec](https://kubernetes.io/docs/tasks/administer-cluster/declare-network-policy#before-you-begin),
-and set `networkPolicy.enabled` to `true`.
+如果要启用redis的网络策略请安装[实现Kubernetes网络策略规范的网络插件](https://kubernetes.io/docs/tasks/administer-cluster/declare-network-policy#before-you-begin),
+然后把`networkPolicy.enabled`设置为`true`.
 
-For Kubernetes v1.5 & v1.6, you must also turn on NetworkPolicy by setting
-the DefaultDeny namespace annotation. Note: this will enforce policy for _all_ pods in the namespace:
+对于Kubernetes v1.5和v1.6，你还必须通过设置DefaultDeny名称空间注释来打开NetworkPolicy。注意: 这将对命名空间中的所有pod执行策略:
 
     kubectl annotate namespace default "net.beta.kubernetes.io/network-policy={\"ingress\":{\"isolation\":\"DefaultDeny\"}}"
 
-With NetworkPolicy enabled, only pods with the generated client label will be
-able to connect to Redis. This label will be displayed in the output
-after a successful install.
+一旦NetworkPolicy启用, 只有带有生成的客户端标签的pods才能连接到Redis。安装成功后，该标签将显示在输出中。
 
-## Persistence
+## 持久化
 
-The [Bitnami Redis](https://github.com/bitnami/bitnami-docker-redis) image stores the Redis data and configurations at the `/bitnami` path of the container.
+[Bitnami Redis](https://github.com/bitnami/bitnami-docker-redis)镜像将Redis数据和配置存储在容器的`\bitnami`路径上.
 
-By default, the chart mounts a [Persistent Volume](http://kubernetes.io/docs/user-guide/persistent-volumes/) at this location. The volume is created using dynamic volume provisioning. If a Persistent Volume Claim already exists, specify it during installation.
+默认情况下，chart在此位置挂载一个[持久卷](http://kubernetes.io/docs/user-guide/persistent-volumes/)然后使用动态卷配置创建卷。如果一个PVC已经存在，请在安装期间指定它。
 
-By default, the chart persists both data and configuration. If you wish to persist only the data directory set `persistence.path` to `/bitnami/redis/data` and `persistence.subPath` to `redis/data`.
+默认情况下，chart会同时保存数据和配置. 如果你希望目录只保存数据请设置`persistence.path`到 `/bitnami/redis/data`和`persistence.subPath`到`redis/data`。
 
-### Existing PersistentVolumeClaim
+### 已有的PVC
 
-1. Create the PersistentVolume
-1. Create the PersistentVolumeClaim
-1. Install the chart
+1. 创建持久卷
+1. 创建PVC
+1. 安装chart包
 
 ```bash
 $ helm install --set persistence.existingClaim=PVC_NAME stable/redis
@@ -202,4 +195,4 @@ $ helm install --set persistence.existingClaim=PVC_NAME stable/redis
 
 ## Metrics
 
-The chart optionally can start a metrics exporter for [prometheus](https://prometheus.io). The metrics endpoint (port 9121) is exposed in the service. Metrics can be scraped from within the cluster using something similar as the described in the [example Prometheus scrape configuration](https://github.com/prometheus/prometheus/blob/master/documentation/examples/prometheus-kubernetes.yml). If metrics are to be scraped from outside the cluster, the Kubernetes API proxy can be utilized to access the endpoint.
+该chart可选地启动一个metrics导出[prometheus](https://prometheus.io)。metrics endpoint (port 9121)暴露在该服务中。可以使用[Prometheus获取配置](https://github.com/prometheus/prometheus/blob/master/documentation/examples/prometheus-kubernetes.yml)中描述的内容从集群内部获取metrics，如果metrics可以从集群外部获取, 可以使用Kubernetes API代理访问endpoint。

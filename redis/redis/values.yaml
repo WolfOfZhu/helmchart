@@ -1,24 +1,24 @@
-## Bitnami Redis image version
+## Redis镜像版本
 ## ref: https://hub.docker.com/r/bitnami/redis/tags/
 ##
 image:
   registry: docker.io
-  repository: bitnami/redis
+  repository: gzocs/redis
   tag: 4.0.10
-  ## Specify a imagePullPolicy
-  ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
-  ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+  ## 声明一个镜像拉取策略
+  ## 如果镜像标签是'latest'默认是'Always',否则被设置为'IfNotPresent'
+  ## 参考: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
   ##
   pullPolicy: Always
-  ## Optionally specify an array of imagePullSecrets.
-  ## Secrets must be manually created in the namespace.
-  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+  ## 可选项，声明一个imagePullSecrets的数组
+  ## secrets必须在命名空间里面人工创建
+  ## 参考: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
   ##
   # pullSecrets:
   #   - myRegistrKeySecretName
 
 
-## Cluster settings
+## 集群设置
 cluster:
   enabled: true
   slaveCount: 1
@@ -38,45 +38,43 @@ metrics:
     repository: oliver006/redis_exporter
     tag: v0.19.1
     pullPolicy: IfNotPresent
-    ## Optionally specify an array of imagePullSecrets.
-    ## Secrets must be manually created in the namespace.
-    ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+    ## 可选项，声明一个imagePullSecrets的数组
+    ## secrets必须在命名空间里面人工创建
+    ## 参考: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
     ##
     # pullSecrets:
     #   - myRegistrKeySecretName
 
-  ## Metrics exporter labels and tolerations for pod assignment
+  ## Pod声明相关的Metrics exporter的标签和默认
   # nodeSelector: {"beta.kubernetes.io/arch": "amd64"}
   # tolerations: []
 
-  ## Metrics exporter pod Annotation and Labels
+  ## Metrics exporter的标签和默认
   # podLabels: {}
 
 networkPolicy:
-  ## Enable creation of NetworkPolicy resources.
+  ## 是否启用创建NetworkPolicy资源
   ##
   enabled: false
 
-  ## The Policy model to apply. When set to false, only pods with the correct
-  ## client label will have network access to the port Redis is listening
-  ## on. When true, Redis will accept connections from any source
-  ## (with the correct destination port).
+  ## 应用的策略模型。当设置为false只有带有正确客户端标签的pods才能够访问Redis正在监听的端口。
+  ## 当设置为true时Redis将接受来自任何来源的连接（前提是端口号正确）。
   ##
   # allowExternal: true
 
 serviceAccount:
-  # Specifies whether a ServiceAccount should be created
+  # 指定是否应该创建ServiceAccount
   create: false
-  # The name of the ServiceAccount to use.
-  # If not set and create is true, a name is generated using the fullname template
+  # ServiceAccount的名称
+  # 如果未设置并create项为true，则使用fullname模板生成的名称
   name:
 
 rbac:
-  # Specifies whether RBAC resources should be created
+  # 指定是否应该创建RBAC资源
   create: false
 
   role:
-    ## Rules to create. It follows the role specification
+    ## 创建规则，请按照下面规则填写
     # rules:
     #  - apiGroups:
     #    - extensions
@@ -88,69 +86,70 @@ rbac:
     #      - gce.unprivileged
     rules: []
 
-## Redis password (both master and slave)
-## Defaults to a random 10-character alphanumeric string if not set and usePassword is true
-## ref: https://github.com/bitnami/bitnami-docker-redis#setting-the-server-password-on-first-run
+## Redis密码(master和slave均采用)
+## 如果没有设置，则默认为随机的10字符字母数字字符串，usePassword为true
+## 参考: https://github.com/bitnami/bitnami-docker-redis#setting-the-server-password-on-first-run
 ##
 usePassword: true
 password:
-## Use existing secret (ignores previous password)
+## 使用现有的secret(这将忽略上面的密码设置)
 # existingSecret:
 
 ## Persist data to a persistent volume
-persistence: {}
-  ## A manually managed Persistent Volume and Claim
-  ## Requires persistence.enabled: true
-  ## If defined, PVC must be created manually before volume will be bound
+persistence: 
+  ## 需要一个手动管理的PVC
+  ## 需要将enabled项设置为true
+  enabled: false
+  ## 如果定义为true则PVC必须人工创建
   # existingClaim:
 
 ##
-## Redis Master parameters
+## Redis Master参数
 ##
 master:
-  ## Use password authentication
+  ## 使用密码身份验证
   port: 6379
-  ## Redis command arguments
+  ## Redis命令行参数
   ##
-  ## Can be used to specify command line arguments, for example:
+  ## 可以用来指定命令行参数，例如:
   ##
   ## args:
   ##  - "redis-server"
   ##  - "--maxmemory-policy volatile-ttl"
   args: []
-  ## Redis additional command line flags
+  ## Redis额外的命令行标志
   ##
-  ## Can be used to specify command line flags, for example:
+  ## 可以用来指定命令行标志，例如:
   ##
   ## redisExtraFlags:
   ##  - "--maxmemory-policy volatile-ttl"
   ##  - "--repl-backlog-size 1024mb"
   extraFlags: []
-  ## Comma-separated list of Redis commands to disable
+  ## 要禁用的redis命令，用逗号隔开
   ##
-  ## Can be used to disable Redis commands for security reasons.
-  ## ref: https://github.com/bitnami/bitnami-docker-redis#disabling-redis-commands
+  ## 出于安全考虑所以需要禁用redis命令
+  ## 参考: https://github.com/bitnami/bitnami-docker-redis#disabling-redis-commands
   ##
   disableCommands: "FLUSHDB,FLUSHALL"
-  ## Enable persistence using Persistent Volume Claims
+  ## 使用PVC启用持久化
   ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
   ##
-  ## Redis Master additional pod labels
-  ## ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+  ## Redis Master额外的pod标签
+  ## 参考: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
   podLabels: {}
-  ## Redis Master resource requests and limits
-  ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+  ## Redis Master资源请求和极限
+  ## 参考: http://kubernetes.io/docs/user-guide/compute-resources/
   # resources:
   #   requests:
   #     memory: 256Mi
   #     cpu: 100m
-  ## Use an alternate scheduler, e.g. "stork".
+  ## 调度策略，非必填项，例如"stork"
   ## ref: https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/
   ##
   # schedulerName:
 
 
-  ## Redis Master Liveness Probe
+  ## Redis Master健康检查
   livenessProbe:
     enabled: true
     initialDelaySeconds: 30
@@ -159,7 +158,7 @@ master:
     successThreshold: 1
     failureThreshold: 5
 
-  ## Redis Master Readiness Probe
+  ## Redis Master读写检查
   readinessProbe:
     enabled: true
     initialDelaySeconds: 5
@@ -167,32 +166,31 @@ master:
     timeoutSeconds: 1
     successThreshold: 1
     failureThreshold: 5
-  ## Redis Master Node labels and tolerations for pod assignment
-  ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
-  ## ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#taints-and-tolerations-beta-feature
+  ## Pod声明相关的Redis Master节点的标签和极限
+  ## 参考: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
+  ## 参考: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#taints-and-tolerations-beta-feature
   # nodeSelector: {"beta.kubernetes.io/arch": "amd64"}
   # tolerations: []
-  ## Redis Master pod/node affinity/anti-affinity
+  ## Redis Master pod/节点的affinity/anti-affinity
   affinity: {}
-  ## Redis Master pod annotations
+  ## Redis Master pod注释
   podAnnotations: {}
-  ## Redis Master Service properties
+  ## Redis Master服务属性
   service:
-    ##  Redis Master Service type
+    ##  Redis Master服务类型
     type: ClusterIP
 
-    ## Specify the nodePort value for the LoadBalancer and NodePort service types.
-    ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport
+    ## 为LoadBalancer和nodePort服务类型指定nodePort值
+    ## 参考: https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport
     ##
     # nodePort:
 
-    ## Provide any additional annotations which may be required. This can be used to
-    ## set the LoadBalancer service type to internal only.
-    ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer
+    ## 提供任何可能需要的附加注释，用于将LoadBalancer服务类型设置为内部
+    ## 参考: https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer
     ##
     annotations: {}
     loadBalancerIP:
-  ## Redis Master Pod Security Context
+  ## Redis Master Pod securityContext
   securityContext:
     enabled: true
     fsGroup: 1001
@@ -200,68 +198,65 @@ master:
   persistence:
     enabled: true
 
-    ## The path the volume will be mounted at, useful when using different
-    ## Redis images.
-    path: /bitnami/redis/data
+    ## 卷挂载的路径，在使用不同的Redis映像时很有用。
+    path: /gzocs/redis/data
 
-    ## The subdirectory of the volume to mount to, useful in dev environments and one PV for multiple services.
+    ## 该卷的子目录。在开发环境中很有用，一个持久卷用于多个服务
     subPath: ""
 
-    ## redis data Persistent Volume Storage Class
-    ## If defined, storageClassName: <storageClass>
-    ## If set to "-", storageClassName: "", which disables dynamic provisioning
-    ## If undefined (the default) or set to null, no storageClassName spec is
-    ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
-    ##   GKE, AWS & OpenStack)
-    ##
+    ## redis数据持久卷存储类
+    
+    ## 如果定义了, storageClassName: <storageClass>
+    ## 如果设置为"-", storageClassName: ""将禁用动态配置
+    ## 如果未定义或者设置为空将不设置存储类名称，并且选择默认厂商。
+    ## (gp2 on AWS, standard on GKE, AWS & OpenStack)
     # storageClass: "-"
     accessModes:
     - ReadWriteOnce
     size: 8Gi
 
-  ## Update strategy, can be set to RollingUpdate or onDelete by default.
+  ## 更新策略。可以设置为RollingUpdate或者使用默认的onDelete
   ## https://kubernetes.io/docs/tutorials/stateful-application/basic-stateful-set/#updating-statefulsets
   statefulset:
     updateStrategy: OnDelete
-    ## Partition update strategy
+    ## 分区更新策略
     ## https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#partitions
     # rollingUpdatePartition:
 
 
 ##
-## Redis Slave properties
-## Note: serviceType and service are mandatory parameters
-## The rest of the parameters, if undefined, will inherit those declared in Redis Master
+## Redis Slave属性
+## 注意: serviceType和ervice是必填项
+## 至于其他的参数，如果未定义将使用默认值
 ##
 slave:
-  ## Slave Service properties
+  ## Slave服务属性
   service:
-    ##  Redis Slave Service type
+    ##  Redis Slave服务类型
     type: ClusterIP
-    ## Specify the nodePort value for the LoadBalancer and NodePort service types.
+    ## 为LoadBalancer和nodePort服务类型指定nodePort值
     ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport
     ##
     # nodePort:
 
-    ## Provide any additional annotations which may be required. This can be used to
-    ## set the LoadBalancer service type to internal only.
-    ## ref: https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer
+    ## 提供任何可能需要的附加注释，用于将LoadBalancer服务类型设置为内部
+    ## 参考: https://kubernetes.io/docs/concepts/services-networking/service/#internal-load-balancer
     ##
     annotations: {}
     loadBalancerIP:
 
-  ## Redis port
+  ## Redis端口号
   # port: 6379
-  ## Redis command arguments
+  ## Redis命令参数
   # args: []
-  ## Redis extra flags
+  ## Redis 额外标志
   # extraFlags: []
-  ## Comma-separated list of Redis commands to disable
+  ## 要禁用的redis命令，用逗号隔开
   # disableCommands: ""
 
   affinity: {}
 
-  ## Redis slave Liveness Probe
+  ## Redis slave健康检查
   # livenessProbe:
   #   enabled: true
   #   initialDelaySeconds: 30
@@ -270,7 +265,7 @@ slave:
   #   successThreshold: 1
   #   failureThreshold: 5
 
-  ## Redis slave Readiness Probe
+  ## Redis slave读写检查
   # readinessProbe:
   #   enabled: true
   #   initialDelaySeconds: 5
@@ -279,22 +274,22 @@ slave:
   #   successThreshold: 1
   #   failureThreshold: 5
 
-  ## Redis slave Resource
+  ## Redis slave请求资源
   # resources:
   #   requests:
   #     memory: 256Mi
   #     cpu: 100m
 
-  ## Redis slave labels and tolerations for pod assignment
+  ## Pod声明关联的Redis slave标签和默认
   # nodeSelector: {"beta.kubernetes.io/arch": "amd64"}
   # tolerations: []
 
-  ## Use an alternate scheduler, e.g. "stork".
-  ## ref: https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/
+  ## 调度策略，非必填项，例如"stork"
+  ## 参考: https://kubernetes.io/docs/tasks/administer-cluster/configure-multiple-schedulers/
   ##
   # schedulerName:
 
-  ## Redis slave pod Annotation and Labels
+  ## Redis slave pod注释和标签
   # podLabels: {}
   ## annotations for redis pods
   # podAnnotations: {}
