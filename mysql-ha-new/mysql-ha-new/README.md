@@ -1,6 +1,6 @@
 # MySQL
 
-[MySQL](https://mysql.com) is a fast, reliable, scalable, and easy to use open-source relational database system. MySQL Server is intended for mission-critical, heavy-load production systems as well as for embedding into mass-deployed software.
+[MySQL](https://mysql.com)是一个快速、可靠、可伸缩和易于使用的开放源码关系数据库系统. MySQL Server is intended for mission-critical, heavy-load production systems as well as for embedding into mass-deployed software.
 
 ## TL;DR
 

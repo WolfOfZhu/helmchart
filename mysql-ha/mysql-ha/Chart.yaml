@@ -1,7 +1,7 @@
 name: mysql-ha
 version: 0.2.1
 appVersion: 5.7.13
-description: MySQL cluster with a single master and zero or more slave replicas
+description: 具有单个master，零个或者多个slave实例的MySQL集群
 keywords:
   - 数据库
 home: https://www.mysql.com/

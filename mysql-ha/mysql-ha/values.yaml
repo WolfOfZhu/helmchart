@@ -1,9 +1,8 @@
-## mysql image version
+## mysql镜像版本
 ## ref: https://hub.docker.com/r/library/mysql/tags/
 ##
 mysqlImage: mysql:5.7.13
-# xtraBackupImage: gcr.io/google-samples/xtrabackup:1.0
-# xtraBackupImage: percona/percona-xtradb-cluster:5.7.19
+# xtraBackupImage: gcr.io/google-samples/xtrabackup:1.0（需翻墙）
 xtraBackupImage: anjia0532/google-samples.xtrabackup:1.0
 
 service:
@@ -16,38 +15,37 @@ service:
 mysqlha:
   replicaCount: 3
 
-  ## Password for MySQL root user
+  ## MySQLroot用户密码
   ##
-  # mysqlRootPassword: ## Default: random 10 character string
+  # mysqlRootPassword: ## 默认: 随机十个字符串
 
-  ## Username/password for MySQL replication user
+  ## MySQL主从复制用户名和密码
   ##
   mysqlReplicationUser: repl
   # mysqlReplicationPassword:
 
-  ## Create a database user
+  ## 创建一个普通用户
   ##
   # mysqlUser:
-  # mysqlPassword: ## Default: random 10 character string
+  # mysqlPassword: ## 默认:随机十个字符串
 
 
-  ## Allow unauthenticated access, uncomment to enable
+  ## 是否允许匿名访问
   ##
   # mysqlAllowEmptyPassword: true
 
-  ## Create database with name and grant all permissions to user on startup, if needed
+  ## 创建一个数据库，并在启动时授予用户所有权限，如果有需要
   # mysqlDatabase:
 
-## Enable persistence using Persistent Volume Claims
+## 使用持久卷来持久化
 ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
 ##
 persistence:
   enabled: true
-  ## If defined, storageClassName: <storageClass>
-  ## If set to "-", storageClassName: "", which disables dynamic provisioning
-  ## If undefined (the default) or set to null, no storageClassName spec is
-  ##   set, choosing the default provisioner.  (gp2 on AWS, azure-disk on
-  ##   Azure, standard on GKE, AWS & OpenStack)
+  ## 如果定义了存储类名称
+  ## 如果设置为"-"或者""将禁用动态配置
+  ## 如果未定义或者设置为空将使用默认配置(gp2 on AWS, azure-disk on
+  ## Azure, standard on GKE, AWS & OpenStack)
   ##
   # storageClass: "-"
   accessModes:

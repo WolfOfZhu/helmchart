@@ -40,7 +40,7 @@ $ helm delete my-release
 
 ## 配置
 
-下表列出了MySQL chart的可配置参数及其默认值.
+下表列出了MySQL chart的可配置参数及其默认值。
 
 |                 参数                 |                  描述                  |            默认值            |
 | ------------------------------------ | -------------------------------------- | ---------------------------- |
@@ -81,7 +81,7 @@ $ helm delete my-release
 
 将上面的一些参数映射到env变量请参考[MySQL DockerHub image](https://hub.docker.com/_/mysql/).
 
-通过`helm install `加`--set key=value[,key=value]`声明每个参数，打个比方,
+通过`helm install `加`--set key=value[,key=value]`声明每个参数，打个比方:
 
 ```bash
 $ helm install --name my-release \

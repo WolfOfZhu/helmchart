@@ -1,63 +1,63 @@
-# MySQL - Single Master, Multiple Slaves
+# MySQL - 单个Master, 多个Slaves
 
-[MySQL](https://MySQL.org) is one of the most popular database servers in the world. Notable users include Wikipedia, Facebook and Google.
+[MySQL](https://MySQL.org)是世界上最流行的数据库服务器之一，值得注意的用户包括维基百科、Facebook和谷歌。
 
-## Introduction
+## 介绍
 
-This chart bootstraps a single master and multiple slave MySQL deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager. Largely inspired by this [tutorial](https://kubernetes.io/docs/tutorials/stateful-application/run-replicated-stateful-application/), further work was made to 'production-ize' the example.
+这个chart包可在一个[Kubernetes](http://kubernetes.io)集群上通过使用包管理器发布一个master mysql和多个slave MySQL部署。很大程度上受这个[教程](https://kubernetes.io/docs/tutorials/stateful-application/run-replicated-stateful-application/)启发, 进一步的工作是“生产化”这个例子。
 
-## Prerequisites
+## 先决条件
 
-- Kubernetes 1.6+
-- PV provisioner support in the underlying infrastructure
+- Kubernetes1.6以上
+- 底层支持PV
 
-## Installing the Chart
+## 安装Chart包
 
-To install the chart with the release name `my-release`:
+安装一个release名称叫做`my-release`的chart包:
 
 ```bash
 $ helm install --name my-release incubator/mysqlha
 ```
 
-The command deploys MySQL cluster on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
+这个命令将使用默认配置将MySQL部署到Kubernetes集群.本[配置](#configuration)部分节列出可以在安装期间配置的参数。
 
-### Uninstall
+### 卸载
 
-To uninstall/delete the `my-release` deployment:
+卸载或者删除一个实例名称叫做`my-release`的deployment:
 
 ```bash
 $ helm delete my-release
 ```
 
-## Configuration
+## 配置
 
-The following table lists the configurable parameters of the MySQL chart and their default values.
+下表列出了MySQL chart的可配置参数及其默认值。
 
 | Parameter                  | Description                         | Default                                |
 | -----------------------    | ----------------------------------- | -------------------------------------- |
-| `mysqlImage`               | `mysql` image and tag.              | `mysql:5.7.13`                         |
-| `xtraBackupImage`          | `xtrabackup` image and tag.         | `gcr.io/google-samples/xtrabackup:1.0` |
-| `replicaCount`             | Number of MySQL replicas            | 3                                      |
-| `mysqlRootPassword`        | Password for the `root` user.       | Randomly generated                     |
-| `mysqlUser`                | Username of new user to create.     | `nil`                                  |
-| `mysqlPassword`            | Password for the new user.          | Randomly generated                     |
-| `mysqlReplicationUser`     | Username for replication user       | `repl`                                 |
-| `mysqlReplicationPassword` | Password for replication user.      | Randomly generated                     |
-| `mysqlDatabase`            | Name of the new Database to create  | `nil`                                  | 
-| `persistence.enabled`      | Create a volume to store data       | true                                   | 
-| `persistence.size`         | Size of persistent volume claim     | 10Gi                                   |
-| `persistence.storageClass` | Type of persistent volume claim     | `nil`                                  |
-| `persistence.accessModes`  | Persistent volume access modes      | `[ReadWriteOnce]`                      |
-| `persistence.annotations`  | Persistent volume annotations       | `{}`                                   |
-| `resources`                | CPU/Memory resource requests/limits | Memory: `128Mi`, CPU: `100m`           |
+| `mysqlImage`               | `mysql`镜像和标签              | `mysql:5.7.13`                         |
+| `xtraBackupImage`          | `xtrabackup`镜像和标签         | `gcr.io/google-samples/xtrabackup:1.0` |
+| `replicaCount`             | MySQL实例数            | 3                                      |
+| `mysqlRootPassword`        | `root`用户密码       | 随机生成                     |
+| `mysqlUser`                | 要创建的新用户的名称     | 空                                  |
+| `mysqlPassword`            | 新用户的密码          | 随机生成                     |
+| `mysqlReplicationUser`     | 主从复制用户名称       | `repl`                                 |
+| `mysqlReplicationPassword` | 主从复制用户密码      | 随机生成                     |
+| `mysqlDatabase`            | 要创建的新数据库的名称  | 空                                  | 
+| `persistence.enabled`      | 创建一个卷来存储数据       | true                                   | 
+| `persistence.size`         | 持久卷大小     | 10Gi                                   |
+| `persistence.storageClass` | 持久卷类型     | 空                                  |
+| `persistence.accessModes`  | 持久卷访问模式      | `[ReadWriteOnce]`                      |
+| `persistence.annotations`  | 持久卷注释       | `{}`                                   |
+| `resources`                | 请求/极限的CPU/内存资源大小 | Memory: `128Mi`, CPU: `100m`           |
 
-Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
+通过`helm install `加`--set key=value[,key=value]`声明每个参数，打个比方:
 
-## Persistence
+## 持久化
 
-The [MySQL](https://hub.docker.com/_/mysql/) image stores the MySQL data and configurations at the `/var/lib/mysql` path of the container.
+[MySQL](https://hub.docker.com/_/mysql/)的数据和配置存储在容器的`/var/lib/mysql`路径上。
 
-By default persistence is enabled, and a PersistentVolumeClaim is created and mounted in that directory. As a result, a persistent volume will need to be defined:
+默认持久化功能是打开的，持久卷将会被创建并且被挂载到对应目录，所以需要声明一个PV：
 
 ```
 # https://kubernetes.io/docs/user-guide/persistent-volumes/#azure-disk
@@ -71,4 +71,4 @@ parameters:
   location: westus
 ```
 
-In order to disable this functionality you can change the values.yaml to disable persistence and use an emptyDir instead.
+如果想要禁用该项功能你可以修改values.yaml来禁用持久化然后取之代之用emptyDir。
