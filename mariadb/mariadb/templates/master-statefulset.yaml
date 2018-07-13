@@ -153,8 +153,8 @@ spec:
 {{- if .Values.master.persistence.enabled }}
   {{- if .Values.master.persistence.existingClaim }}
         - name: "mariadb-data"
-          persistentVolumeCXlaim:
-            claimName: {{ .Values.master.persistence.existingClaim }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.master.persistence.existingClaim | quote }}
   {{- else }}
   volumeClaimTemplates:
     - metadata:
