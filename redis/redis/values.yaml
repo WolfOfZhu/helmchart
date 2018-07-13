@@ -199,7 +199,7 @@ master:
     enabled: true
 
     ## 卷挂载的路径，在使用不同的Redis映像时很有用。
-    path: /gzocs/redis/data
+    path: /bitnami/redis/data
 
     ## 该卷的子目录。在开发环境中很有用，一个持久卷用于多个服务
     subPath: ""
