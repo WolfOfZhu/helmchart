@@ -86,6 +86,7 @@ master:
     ##
     # storageClass: "-"
     ## Persistent Volume Claim annotations
+    ## existingClaim: "-"
     ##
     annotations:
     ## Persistent Volume Access Mode
