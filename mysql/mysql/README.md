@@ -18,7 +18,7 @@
 $ helm install --name my-release stable/mysql
 ```
 
-这个命令将使用默认配置将MySQL部署到Kubernetes集群.本[配置](#configuration)部分节列出可以在安装期间配置的参数.
+这个命令将使用默认配置将MySQL部署到Kubernetes集群.本[配置](#configuration)部分节列出可以在安装期间配置的参数。
 
 默认情况下，将为root用户生成一个随机密码,如果你想要设置成自己的密码请修改value.yaml文件中的mysqlRootPassword的值。
 
@@ -28,7 +28,7 @@ printf $(printf '\%o' `kubectl get secret [YOUR_RELEASE_NAME]-mysql -o jsonpath=
 ```
 > **小提示**: 使用`helm list`查看所有release
 
-## 卸载安装包
+## 卸载chart
 
 卸载或者删除一个实例名称叫做`my-release`的deployment:
 

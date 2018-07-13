@@ -1,118 +1,118 @@
 # MariaDB
 
-[MariaDB](https://mariadb.org) is one of the most popular database servers in the world. It’s made by the original developers of MySQL and guaranteed to stay open source. Notable users include Wikipedia, Facebook and Google.
+[MariaDB](https://mariadb.org)是世界上最流行的数据库之一，它是由MySQL的原开发人员制作的，并且保证保持开源，值得注意的用户包括维基百科、Facebook和谷歌。
 
-MariaDB is developed as open source software and as a relational database it provides an SQL interface for accessing data. The latest versions of MariaDB also include GIS and JSON features.
+MariaDB作为开源软件开发，作为关系数据库它提供了访问数据的SQL接口，MariaDB的最新版本还包括GIS和JSON特性。
 
-## TL;DR
+## 安装
 
 ```bash
 $ helm install stable/mariadb
 ```
 
-## Introduction
+## 介绍
 
-This chart bootstraps a [MariaDB](https://github.com/bitnami/bitnami-docker-mariadb) replication cluster deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
+这个安装包使用[Helm](https://helm.sh)包管理器在[Kubernetes](http://kubernetes.io)集群部署一个 具有主从复制的[MariaDB](https://github.com/bitnami/bitnami-docker-mariadb)statefulSet。
 
-## Prerequisites
+## 先决条件
 
-- Kubernetes 1.4+ with Beta APIs enabled
-- PV provisioner support in the underlying infrastructure
+- Kubernetes版本1.4以上
+- 底层支持PV
 
-## Installing the Chart
+## 安装Chart
 
-To install the chart with the release name `my-release`:
+安装一个实例名称叫做`my-release`的实例:
 
 ```bash
 $ helm install --name my-release stable/mariadb
 ```
 
-The command deploys MariaDB on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
+这个命令将使用默认配置将MariaDB部署到Kubernetes集群.本[配置](#configuration)部分节列出可以在安装期间配置的参数。
 
-> **Tip**: List all releases using `helm list`
+> **小提示**: 使用`helm list`查看所有release
 
-## Uninstalling the Chart
+## 卸载chart
 
-To uninstall/delete the `my-release` deployment:
+卸载或者删除一个实例名称叫做`my-release`的statefulSet：
 
 ```bash
 $ helm delete my-release
 ```
 
-The command removes all the Kubernetes components associated with the chart and deletes the release.
+该命令将删除与chart关联的所有Kubernetes组件，并删除release。
 
-## Configuration
+## 配置
 
-The following table lists the configurable parameters of the MariaDB chart and their default values.
+下表列出了MariaDB chart的可配置参数及其默认值。
 
 |             Parameter                     |                     Description                     |                              Default                              |
 |-------------------------------------------|-----------------------------------------------------|-------------------------------------------------------------------|
-| `image.registry`                          | MariaDB image registry                              | `docker.io`                                                       |
-| `image.repository`                        | MariaDB Image name                                  | `bitnami/mariadb`                                                 |
-| `image.tag`                               | MariaDB Image tag                                   | `{VERSION}`                                                       |
-| `image.pullPolicy`                        | MariaDB image pull policy                           | `Always` if `imageTag` is `latest`, else `IfNotPresent`           |
-| `image.pullSecrets`                       | Specify image pull secrets                          | `nil` (does not add image pull secrets to deployed pods)          |
-| `service.type`                            | Kubernetes service type                             | `ClusterIP`                                                       |
-| `service.port`                            | MySQL service port                                  | `3306`                                                             |
-| `rootUser.password`                       | Password for the `root` user                        | _random 10 character alphanumeric string_                         |
-| `rootUser.forcePassword`                  | Force users to specify a password                   | `false`                                                           |
-| `db.user`                                 | Username of new user to create                      | `nil`                                                             |
-| `db.password`                             | Password for the new user                           | _random 10 character alphanumeric string if `db.user` is defined_ |
-| `db.name`                                 | Name for new database to create                     | `my_database`                                                     |
-| `replication.enabled`                     | MariaDB replication enabled                         | `true`                                                             |
-| `replication.user`                        | MariaDB replication user                            | `replicator`                                                       |
-| `replication.password`                    | MariaDB replication user password                   | _random 10 character alphanumeric string_                         |
-| `master.antiAffinity`                     | Master pod anti-affinity policy                     | `soft`                                                            |
-| `master.persistence.enabled`              | Enable persistence using a `PersistentVolumeClaim`  | `true`                                                            |
-| `master.persistence.annotations`          | Persistent Volume Claim annotations                 | `{}`                                                              |
-| `master.persistence.storageClass`         | Persistent Volume Storage Class                     | ``                                                                |
-| `master.persistence.accessModes`          | Persistent Volume Access Modes                      | `[ReadWriteOnce]`                                                 |
-| `master.persistence.size`                 | Persistent Volume Size                              | `8Gi`                                                             |
-| `master.config`                           | Config file for the MariaDB Master server           | `_default values in the values.yaml file_`                        |
-| `master.resources`                        | CPU/Memory resource requests/limits for master node | `{}`                                                              |
-| `master.livenessProbe.enabled`            | Turn on and off liveness probe (master)             | `true`                                                            |
-| `master.livenessProbe.initialDelaySeconds`| Delay before liveness probe is initiated (master)   | `120`                                                             |
-| `master.livenessProbe.periodSeconds`      | How often to perform the probe (master)             | `10`                                                              |
-| `master.livenessProbe.timeoutSeconds`     | When the probe times out (master)                   | `1`                                                               |
-| `master.livenessProbe.successThreshold`   | Minimum consecutive successes for the probe (master)| `1`                                                               |
-| `master.livenessProbe.failureThreshold`   | Minimum consecutive failures for the probe (master) | `3`                                                               |
-| `master.readinessProbe.enabled`           | Turn on and off readiness probe (master)            | `true`                                                            |
-| `master.readinessProbe.initialDelaySeconds`| Delay before readiness probe is initiated (master) | `15`                                                              |
-| `master.readinessProbe.periodSeconds`     | How often to perform the probe (master)             | `10`                                                              |
-| `master.readinessProbe.timeoutSeconds`    | When the probe times out (master)                   | `1`                                                               |
-| `master.readinessProbe.successThreshold`  | Minimum consecutive successes for the probe (master)| `1`                                                               |
-| `master.readinessProbe.failureThreshold`  | Minimum consecutive failures for the probe (master) | `3`                                                               |
-| `slave.replicas`                          | Desired number of slave replicas                    | `1`                                                               |
-| `slave.antiAffinity`                      | Slave pod anti-affinity policy                      | `soft`                                                            |
-| `slave.persistence.enabled`               | Enable persistence using a `PersistentVolumeClaim`  | `true`                                                            |
-| `slave.persistence.annotations`           | Persistent Volume Claim annotations                 | `{}`                                                              |
-| `slave.persistence.storageClass`          | Persistent Volume Storage Class                     | ``                                                                |
-| `slave.persistence.accessModes`           | Persistent Volume Access Modes                      | `[ReadWriteOnce]`                                                 |
-| `slave.persistence.size`                  | Persistent Volume Size                              | `8Gi`                                                             |
-| `slave.config`                            | Config file for the MariaDB Slave replicas          | `_default values in the values.yaml file_`                        |
-| `slave.resources`                         | CPU/Memory resource requests/limits for slave node  | `{}`                                                              |
-| `slave.livenessProbe.enabled`             | Turn on and off liveness probe (slave)              | `true`                                                            |
-| `slave.livenessProbe.initialDelaySeconds` | Delay before liveness probe is initiated (slave)    | `120`                                                             |
-| `slave.livenessProbe.periodSeconds`       | How often to perform the probe (slave)              | `10`                                                              |
-| `slave.livenessProbe.timeoutSeconds`      | When the probe times out (slave)                    | `1`                                                               |
-| `slave.livenessProbe.successThreshold`    | Minimum consecutive successes for the probe (slave) | `1`                                                               |
-| `slave.livenessProbe.failureThreshold`    | Minimum consecutive failures for the probe (slave)  | `3`                                                               |
-| `slave.readinessProbe.enabled`            | Turn on and off readiness probe (slave)             | `true`                                                            |
-| `slave.readinessProbe.initialDelaySeconds`| Delay before readiness probe is initiated (slave)   | `15`                                                              |
-| `slave.readinessProbe.periodSeconds`      | How often to perform the probe (slave)              | `10`                                                              |
-| `slave.readinessProbe.timeoutSeconds`     | When the probe times out (slave)                    | `1`                                                               |
-| `slave.readinessProbe.successThreshold`   | Minimum consecutive successes for the probe (slave) | `1`                                                               |
-| `slave.readinessProbe.failureThreshold`   | Minimum consecutive failures for the probe (slave)  | `3`                                                               |
-| `metrics.enabled`                         | Start a side-car prometheus exporter                | `false`                                                           |
-| `metrics.image.registry`                           | Exporter image registry                                 | `docker.io` | 
-`metrics.image.repository`                           | Exporter image name                                 | `prom/mysqld-exporter`                                            |
-| `metrics.image.tag`                        | Exporter image tag                                  | `v0.10.0`                                                         |
-| `metrics.image.pullPolicy`                 | Exporter image pull policy                          | `IfNotPresent`                                                    |
-| `metrics.resources`                       | Exporter resource requests/limit                    | `nil`                                                             |
+| `image.registry`                          | MariaDB镜像仓库地址                              | `docker.io`                                                       |
+| `image.repository`                        | MariaDB镜像名称                                  | `bitnami/mariadb`                                                 |
+| `image.tag`                               | MariaDB镜像标签                                   | `{VERSION}`                                                       |
+| `image.pullPolicy`                        | MariaDB镜像拉取策略                           | `Always` if `imageTag` is `latest`, else `IfNotPresent`           |
+| `image.pullSecrets`                       | 声明镜像拉取密钥                          | 空 (不要添加镜像拉取密钥到已经部署的pod里面)          |
+| `service.type`                            | Kubernetes服务类型                             | `ClusterIP`                                                       |
+| `service.port`                            | MySQL服务端口                                  | `3306`                                                             |
+| `rootUser.password`                       | `root`用户密码                        | 随机10个字母数字组合长度的字符串                         |
+| `rootUser.forcePassword`                  | 强制用户设置一个密码                   | `false`                                                           |
+| `db.user`                                 | 创建新用户的名称                      | 空                                                             |
+| `db.password`                             | 新用户的密码                           | 如果`db.user`已经定义了则设置为随机10个字母数字组合长度的字符串 |
+| `db.name`                                 | 新数据库的名称                     | `my_database`                                                     |
+| `replication.enabled`                     | 是否开启MariaDB的主从复制功能                         | `true`                                                             |
+| `replication.user`                        | MariaDB主从复制用户名称                            | `replicator`                                                       |
+| `replication.password`                    | MariaDB主从复制用户密码                   | 随机10个字母数字组合长度的字符串                         |
+| `master.antiAffinity`                     | Master pod亲和性策略                     | `soft`                                                            |
+| `master.persistence.enabled`              | 启用`PersistentVolumeClaim`持久卷  | `true`                                                            |
+| `master.persistence.annotations`          | PVC注释                 | `{}`                                                              |
+| `master.persistence.storageClass`         | 持久卷存储类                     | ``                                                                |
+| `master.persistence.accessModes`          | 持久卷访问模式                      | `[ReadWriteOnce]`                                                 |
+| `master.persistence.size`                 | 持久卷大小                              | `8Gi`                                                             |
+| `master.config`                           | MariaDB主服务器的配置文件           | `默认值在values.yaml中`                        |
+| `master.resources`                        | master节点的CPU/内存资源的请求值和极限值 | `{}`                                                              |
+| `master.livenessProbe.enabled`            | 是否启用健康检查(master)             | `true`                                                            |
+| `master.livenessProbe.initialDelaySeconds`| 健康检查初始化延迟秒数(master)   | `120`                                                             |
+| `master.livenessProbe.periodSeconds`      | 检查周期(master)             | `10`                                                              |
+| `master.livenessProbe.timeoutSeconds`     | 超时时间(master)                   | `1`                                                               |
+| `master.livenessProbe.successThreshold`   | 在失败后被认为是成功的最小连续成功次数(master)| `1`                                                               |
+| `master.livenessProbe.failureThreshold`   | 在成功后被认为是成功的最小连续失败次数(master) | `3`                                                               |
+| `master.readinessProbe.enabled`           | 是否启用读写检查(master)            | `true`                                                            |
+| `master.readinessProbe.initialDelaySeconds`| 读写检查初始化延迟秒数(master) | `15`                                                              |
+| `master.readinessProbe.periodSeconds`     | 检查周期(master)             | `10`                                                              |
+| `master.readinessProbe.timeoutSeconds`    | 超时时间(master)                   | `1`                                                               |
+| `master.readinessProbe.successThreshold`  | 在失败后被认为是成功的最小连续成功次数(master)| `1`                                                               |
+| `master.readinessProbe.failureThreshold`  | 在成功后被认为是成功的最小连续失败次数(master) | `3`                                                               |
+| `slave.replicas`                          | slave数量                    | `1`                                                               |
+| `slave.antiAffinity`                      | Slave pod 反关联性策略                      | `soft`                                                            |
+| `slave.persistence.enabled`               | 启用`PersistentVolumeClaim`持久卷  | `true`                                                            |
+| `slave.persistence.annotations`           | PVC注释                | `{}`                                                              |
+| `slave.persistence.storageClass`          | 持久卷存储类                     | ``                                                                |
+| `slave.persistence.accessModes`           | 持久卷访问模式                      | `[ReadWriteOnce]`                                                 |
+| `slave.persistence.size`                  | 持久卷大小                              | `8Gi`                                                             |
+| `slave.config`                            | MariaDB Slave的配置文件          | `_default values in the values.yaml file_`                        |
+| `slave.resources`                         | slave节点的CPU/内存资源的请求值和极限值  | `{}`                                                              |
+| `slave.livenessProbe.enabled`             | 是否启用健康检查(slave)              | `true`                                                            |
+| `slave.livenessProbe.initialDelaySeconds` | 健康检查初始化延迟秒数(slave)    | `120`                                                             |
+| `slave.livenessProbe.periodSeconds`       | 检查周期(slave)              | `10`                                                              |
+| `slave.livenessProbe.timeoutSeconds`      | 超时时间(slave)                    | `1`                                                               |
+| `slave.livenessProbe.successThreshold`    | 在失败后被认为是成功的最小连续成功次数(slave) | `1`                                                               |
+| `slave.livenessProbe.failureThreshold`    | 在成功后被认为是成功的最小连续失败次数(slave)  | `3`                                                               |
+| `slave.readinessProbe.enabled`            | 是否启用读写检查(slave)             | `true`                                                            |
+| `slave.readinessProbe.initialDelaySeconds`| 读写检查初始化延迟秒数(slave)   | `15`                                                              |
+| `slave.readinessProbe.periodSeconds`      | 检查周期(slave)              | `10`                                                              |
+| `slave.readinessProbe.timeoutSeconds`     | 超时时间(slave)                    | `1`                                                               |
+| `slave.readinessProbe.successThreshold`   | 在失败后被认为是成功的最小连续成功次数(slave) | `1`                                                               |
+| `slave.readinessProbe.failureThreshold`   | 在成功后被认为是成功的最小连续失败次数(slave)  | `3`                                                               |
+| `metrics.enabled`                         | 启动一个side-car prometheus exporter                | `false`                                                           |
+| `metrics.image.registry`                           | Exporter镜像仓库地址                                 | `docker.io` | 
+`metrics.image.repository`                           | Exporter镜像名称                                 | `prom/mysqld-exporter`                                            |
+| `metrics.image.tag`                        | Exporter镜像标签                                  | `v0.10.0`                                                         |
+| `metrics.image.pullPolicy`                 | Exporter镜像拉取策略                         | `IfNotPresent`                                                    |
+| `metrics.resources`                       | Exporter资源请求值和极限值                    | 空                                                             |
 
-The above parameters map to the env variables defined in [bitnami/mariadb](http://github.com/bitnami/bitnami-docker-mariadb). For more information please refer to the [bitnami/mariadb](http://github.com/bitnami/bitnami-docker-mariadb) image documentation.
+上述参数映射到在[bitnami/mariadb](http://github.com/bitnami/bitnami-docker-mariadb)中定义的env变量。更多信息请参阅[bitnami/mariadb](http://github.com/bitnami/bitnami-docker-mariadb)中的镜像文档。
 
-Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
+通过`helm install `加`--set key=value[,key=value]`声明每个参数，打个比方
 
 ```bash
 $ helm install --name my-release \
@@ -120,18 +120,18 @@ $ helm install --name my-release \
     stable/mariadb
 ```
 
-The above command sets the MariaDB `root` account password to `secretpassword`. Additionally it creates a database named `my_database`.
+上述命令将MariaDB `root`账户的密码设置为`secretpassword`，此外他还创建了一个名称叫做`my_database`的数据库。
 
-Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
+此外也可以在安装chart包期间使用yaml文件中的参数值，打个比方
 
 ```bash
 $ helm install --name my-release -f values.yaml stable/mariadb
 ```
 
-> **Tip**: You can use the default [values.yaml](values.yaml)
+> **提示**: 你可以使用默认的[values.yaml](values.yaml)
 
-## Persistence
+## 持久化
 
-The [Bitnami MariaDB](https://github.com/bitnami/bitnami-docker-mariadb) image stores the MariaDB data and configurations at the `/bitnami/mariadb` path of the container.
+[Bitnami MariaDB](https://github.com/bitnami/bitnami-docker-mariadb)镜像将MariaDB数据和配置存储在容器的`\bitnami`路径上。
 
-The chart mounts a [Persistent Volume](kubernetes.io/docs/user-guide/persistent-volumes/) volume at this location. The volume is created using dynamic volume provisioning, by default. An existing PersistentVolumeClaim can be defined.
+该chart挂载了一个[持久卷](kubernetes.io/docs/user-guide/persistent-volumes/)在这个位置上。默认情况下使用c创建动态卷，你可以使用已有的PVC。

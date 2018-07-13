@@ -67,7 +67,7 @@ $ helm delete my-release
 | `serviceAccount.name`                       | 创建的ServiceAccount的名称                                         | Generated using the fullname template       |
 | `rbac.create`                               | 指定是否应该创建RBAC资源                                           | `false`                                     |
 | `rbac.role.rules`                           | 创建的规则                                                         | `[]`                                        |
-| `metrics.enabled`                           | 启动一个a side-car prometheus exporter                             | `false`                                     |
+| `metrics.enabled`                           | 启动一个side-car prometheus exporter                             | `false`                                     |
 | `metrics.image.registry`                    | Redis镜像仓库地址                                                  | `docker.io`                                 |
 | `metrics.image.repository`                  | Redis镜像名称                                                      | `bitnami/redis`                             |
 | `metrics.image.tag`                         | Redis镜像标签                                                      | `{VERSION}`                                 |
@@ -142,9 +142,9 @@ $ helm delete my-release
 | `slave.resources`                           | Redis slave的CPU/内存资源请求/极限                    | `master.resources`                          |
 | `slave.affinity`                            | 是否启用node/pod亲和性                                | {}                                          |
 
-上述参数映射到在[bitnami/redis](http://github.com/bitnami/bitnami-docker-redis)中定义的env变量。更多信息请参阅[bitnami/redis](http://github.com/bitnami/bitnami-docker-redis)的镜像文档。
+上述参数映射到在[bitnami/redis](http://github.com/bitnami/bitnami-docker-redis)中定义的env变量。更多信息请参阅[bitnami/redis](http://github.com/bitnami/bitnami-docker-redis)中的镜像文档。
 
-通过`helm install `加`--set key=value[,key=value]`声明每个参数，打个比方:
+通过`helm install `加`--set key=value[,key=value]`声明每个参数，打个比方
 
 ```bash
 $ helm install --name my-release \
@@ -152,9 +152,9 @@ $ helm install --name my-release \
     stable/redis
 ```
 
-上面的命令把redis服务器的密码设置为`secretpassword`.
+上述命令将redis服务器的密码设置为`secretpassword`.
 
-此外也可以在安装chart包期间可以使用yaml文件中的参数值，打个比方：
+此外也可以在安装chart包期间使用yaml文件中的参数值，打个比方
 
 ```bash
 $ helm install --name my-release -f values.yaml stable/redis
@@ -177,7 +177,7 @@ $ helm install --name my-release -f values.yaml stable/redis
 
 ## 持久化
 
-[Bitnami Redis](https://github.com/bitnami/bitnami-docker-redis)镜像将Redis数据和配置存储在容器的`\bitnami`路径上.
+[Bitnami Redis](https://github.com/bitnami/bitnami-docker-redis)镜像将Redis数据和配置存储在容器的`\bitnami`路径上。
 
 默认情况下，chart在此位置挂载一个[持久卷](http://kubernetes.io/docs/user-guide/persistent-volumes/)然后使用动态卷配置创建卷。如果一个PVC已经存在，请在安装期间指定它。
 

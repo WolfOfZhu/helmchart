@@ -1,105 +1,102 @@
-## Bitnami MariaDB image
-## ref: https://hub.docker.com/r/bitnami/mariadb/tags/
+## MariaDB镜像
+## 参考: https://hub.docker.com/r/bitnami/mariadb/tags/
 ##
 image:
   registry: docker.io
   repository: bitnami/mariadb
   tag: 10.1.34-debian-9
-  ## Specify a imagePullPolicy
-  ## Defaults to 'Always' if image tag is 'latest', else set to 'IfNotPresent'
-  ## ref: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
+  ## 指定镜像拉取策略
+  ## 默认为'Always'如果镜像标签是'latest'，否则将设置为'IfNotPresent'
+  ## 参考: http://kubernetes.io/docs/user-guide/images/#pre-pulling-images
   ##
   pullPolicy: IfNotPresent
-  ## Optionally specify an array of imagePullSecrets.
-  ## Secrets must be manually created in the namespace.
-  ## ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
+  ## 可选项，指定一个imagePullSecrets的数组。
+  ## Secrets必须在命名空间里面人工创建。
+  ## 参考: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
   ##
   # pullSecrets:
   #   - myRegistrKeySecretName
 
 service:
-  ## Kubernetes service type
+  ## Kubernetes服务类型
   type: ClusterIP
   port: 3306
 
 rootUser:
-  ## MariaDB admin password
-  ## ref: https://github.com/bitnami/bitnami-docker-mariadb#setting-the-root-password-on-first-run
+  ## MariaDB admin密码
+  ## 参考: https://github.com/bitnami/bitnami-docker-mariadb#setting-the-root-password-on-first-run
   ##
   password:
-  ## Use existing secret (ignores root, db and replication passwords)
+  ## 使用一个已有的secret(这将忽略root用户，普通用户和主从复制用户的密码)
   # existingSecret:
   ##
-  ## Option to force users to specify a password. That is required for 'helm upgrade' to work properly.
-  ## If it is not force, a random password will be generated.
+  ## 可选项，强制用户声明密码，前提是'helm upgrade'能够正常运作。
+  ## 如果不是强制声明，密码将随机生成。
   forcePassword: false
 
 db:
-  ## MariaDB username and password
-  ## ref: https://github.com/bitnami/bitnami-docker-mariadb#creating-a-database-user-on-first-run
+  ## MariaDB用户名和密码
+  ## 参考: https://github.com/bitnami/bitnami-docker-mariadb#creating-a-database-user-on-first-run
   ##
   user:
   password:
-  ## Password is ignored if existingSecret is specified.
-  ## Database to create
-  ## ref: https://github.com/bitnami/bitnami-docker-mariadb#creating-a-database-on-first-run
+  ## 如果已经使用已有的secret那么密码将被忽略。
+  ## 要创建的数据库的名称
+  ## 参考: https://github.com/bitnami/bitnami-docker-mariadb#creating-a-database-on-first-run
   ##
   name: my_database
-  ## Option to force users to specify a password. That is required for 'helm upgrade' to work properly.
-  ## If it is not force, a random password will be generated.
+  ## 可选项，强制用户声明密码，前提是'helm upgrade'能够正常运作。
+  ## 如果不是强制声明，密码将随机生成。
   forcePassword: false
 
 replication:
-  ## Enable replication. This enables the creation of replicas of MariaDB. If false, only a
-  ## master deployment would be created
+  ## 是否启用主从复制，这将创建带有slave副本的MariaDB。如果设置为false，将只创建一个master的部署
   enabled: true
   ##
-  ## MariaDB replication user
-  ## ref: https://github.com/bitnami/bitnami-docker-mariadb#setting-up-a-replication-cluster
+  ## MariaDB主从复制用户名称
+  ## 参考: https://github.com/bitnami/bitnami-docker-mariadb#setting-up-a-replication-cluster
   ##
   user: replicator
-  ## MariaDB replication user password
-  ## ref: https://github.com/bitnami/bitnami-docker-mariadb#setting-up-a-replication-cluster
+  ## MariaDB主从复制用户米娜
+  ## 参考: https://github.com/bitnami/bitnami-docker-mariadb#setting-up-a-replication-cluster
   ##
   password:
-  ## Password is ignored if existingSecret is specified.
-  ##
-  ## Option to force users to specify a password. That is required for 'helm upgrade' to work properly.
-  ## If it is not force, a random password will be generated.
+  ## 如果已经指定已有的secret设置的密码将被忽略。
+  ## 可选项，强制用户声明密码，前提是'helm upgrade'能够正常运作。
+  ## 如果不是强制声明，密码将随机生成。
   forcePassword: false
 
 master:
   antiAffinity: soft
-  ## Enable persistence using Persistent Volume Claims
-  ## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+  ## 使用PVC启用持久化
+  ## 参考: http://kubernetes.io/docs/user-guide/persistent-volumes/
   ##
   persistence:
-    ## If true, use a Persistent Volume Claim, If false, use emptyDir
+    ## 如果设置为true将使用PVC，否则直接使用emptyDir
     ##
     enabled: true
-    ## Persistent Volume Storage Class
-    ## If defined, storageClassName: <storageClass>
-    ## If set to "-", storageClassName: "", which disables dynamic provisioning
-    ## If undefined (the default) or set to null, no storageClassName spec is
-    ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
-    ##   GKE, AWS & OpenStack)
+    ## 持久卷存储类
+    ## 如果定义了存储类名称
+    ## 如果设置为"-"或者""将禁用动态配置
+    ## 如果未定义或者设置为空将使用默认配置(gp2 on AWS, azure-disk on
+    ## Azure, standard on GKE, AWS & OpenStack)
     ##
     # storageClass: "-"
-    ## Persistent Volume Claim annotations
+    ## PVC注解
     existingClaim: "-"
     ##
     # annotations:
-    ## Persistent Volume Access Mode
+    ## 持久卷访问模式
     ##
     # accessModes:
     # - ReadWriteOnce
-    ## Persistent Volume size
+    ## 持久卷大小
     ##
     # size: 8Gi
     ##
 
-  ## Configure MySQL with a custom my.cnf file
-  ## ref: https://mysql.com/kb/en/mysql/configuring-mysql-with-mycnf/#example-of-configuration-file
+  ## 使用自定义的my.cnf文件配置MySQL
+  ## 参考: https://mysql.com/kb/en/mysql/configuring-mysql-with-mycnf/#example-of-configuration-file
   ##
   config: |-
     [mysqld]
@@ -126,17 +123,17 @@ master:
     socket=/opt/bitnami/mariadb/tmp/mysql.sock
     pid-file=/opt/bitnami/mariadb/tmp/mysqld.pid
 
-  ## Configure master resource requests and limits
-  ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+  ## 配置master的资源请求值和极限值
+  ## 参考: http://kubernetes.io/docs/user-guide/compute-resources/
   ##
   resources: {}
   livenessProbe:
     enabled: true
     ##
-    ## Initializing the database could take some time
+    ## 考虑到初始化数据库需要一定的时间
     initialDelaySeconds: 120
     ##
-    ## Default Kubernetes values
+    ## Kubernetes的默认值
     periodSeconds: 10
     timeoutSeconds: 1
     successThreshold: 1
@@ -145,7 +142,7 @@ master:
     enabled: true
     initialDelaySeconds: 15
     ##
-    ## Default Kubernetes values
+    ## Kubernetes的默认值
     periodSeconds: 10
     timeoutSeconds: 1
     successThreshold: 1
@@ -155,20 +152,20 @@ slave:
   replicas: 1
   antiAffinity: soft
   persistence:
-    ## If true, use a Persistent Volume Claim, If false, use emptyDir
+    ## 如果设置为true将使用PVC，否则使用emptyDir
     ##
     enabled: true
     # storageClass: "-"
     annotations:
     accessModes:
     - ReadWriteOnce
-    ## Persistent Volume size
+    ## 持久卷大小
     ##
     size: 8Gi
     ##
 
-  ## Configure MySQL slave with a custom my.cnf file
-  ## ref: https://mysql.com/kb/en/mysql/configuring-mysql-with-mycnf/#example-of-configuration-file
+  ## 使用自定义的my.cnf文件配置MySQL
+  ## 参考: https://mysql.com/kb/en/mysql/configuring-mysql-with-mycnf/#example-of-configuration-file
   ##
   config: |-
     [mysqld]
@@ -196,17 +193,17 @@ slave:
     pid-file=/opt/bitnami/mariadb/tmp/mysqld.pid
 
   ##
-  ## Configure slave resource requests and limits
-  ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+  ## 配置slave的资源请求值和极限值
+  ## 参考: http://kubernetes.io/docs/user-guide/compute-resources/
   ##
   resources: {}
   livenessProbe:
     enabled: true
     ##
-    ## Initializing the database could take some time
+    ## 考虑到初始化数据库需要一定的时间
     initialDelaySeconds: 120
     ##
-    ## Default Kubernetes values
+    ## Kubernetes的默认值
     periodSeconds: 10
     timeoutSeconds: 1
     successThreshold: 1
@@ -215,7 +212,7 @@ slave:
     enabled: true
     initialDelaySeconds: 15
     ##
-    ## Default Kubernetes values
+    ## Kubernetes的默认值
     periodSeconds: 10
     timeoutSeconds: 1
     successThreshold: 1
