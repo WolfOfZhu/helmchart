@@ -150,12 +150,12 @@ spec:
           configMap:
             name: {{ template "master.fullname" . }}
       {{- end }}
-      {{- if .Values.persistence.existingClaim }}
-        - name: "redis-data"
-          persistentVolumeClaim:
-            claimName: {{ .Values.persistence.existingClaim }}
-      {{- else }}
 {{- if .Values.master.persistence.enabled }}
+  {{- if .Values.master.persistence.existingClaim }}
+        - name: "mariadb-data"
+          persistentVolumeCXlaim:
+            claimName: {{ .Values.master.persistence.existingClaim }}
+  {{- else }}
   volumeClaimTemplates:
     - metadata:
         name: data
@@ -180,6 +180,7 @@ spec:
         storageClassName: {{ .Values.master.persistence.storageClass | quote }}
       {{- end }}
       {{- end }}
+  {{- end }}
 {{- else }}
         - name: "data"
           emptyDir: {}
