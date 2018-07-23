@@ -1,29 +1,27 @@
 apiVersion: v1
 entries:
   elasticsearch:
-  - apiVersion: v1
-    created: 2018-07-23T10:35:23.97884589+08:00
-    description: Elasticsearch is a distributed, RESTful search and analytics engine
-      capable of solving a growing number of use cases.
-    digest: 389e690b23c3022f8837f35b9718c4183e5c6f1807b47039d073cabdfe585f35
+  - created: 2018-07-23T10:48:13.208094644+08:00
+    description: Elasticsearch for Kubernetes
+    digest: 4dd31fde39fd42fb0091bedca51a13925914e982605859bc6da0481b8b0003d0
     engine: gotpl
-    home: https://www.elastic.co/products/elasticsearch
-    icon: https://s24255.pcdn.co/wp-content/uploads/2015/08/elasticsearch-kibana-logo.jpg
+    home: https://github.com/samsung-cnct/chart-elasticsearch
+    icon: https://github.com/gzocs/helmchart/elasticsearch/logo/elasticsearch-logo.png
     keywords:
     - 日志组件
     maintainers:
-    - email: matthew.titmus@gmail.com
-      name: Matt Titmus
+    - email: samsung.cloudnative@gmail.com
+      name: Samsung CNCT
     name: elasticsearch
     sources:
-    - https://www.elastic.co/products/elasticsearch
-    - https://github.com/pires/kubernetes-elasticsearch-cluster
+    - https://github.com/samsung-cnct/chart-elasticsearch
+    - https://github.com/elastic/elasticsearch
     urls:
-    - elasticsearch/elasticsearch-0.2.2.tgz
-    version: 0.2.2
+    - elasticsearch/elasticsearch-0.1.0.tgz
+    version: 0.1.0
   fluent-bit:
   - appVersion: 0.0.1
-    created: 2018-07-23T10:35:23.979376691+08:00
+    created: 2018-07-23T10:48:13.208627724+08:00
     description: 用于收集journald，docker，内核日志的fluent-bit chart包
     digest: faf8fbdd46a852de96cbd2f4089bc16b8bb6317293dc7631c1ac5d327735d166
     engine: gotpl
@@ -42,7 +40,7 @@ entries:
     version: 0.0.1
   fluentd-elasticsearch:
   - appVersion: 2.0.4
-    created: 2018-07-23T10:35:23.980960701+08:00
+    created: 2018-07-23T10:48:13.210634835+08:00
     description: A Fluentd Helm chart for Kubernetes with Elasticsearch output
     digest: a789562a8607aaa18054ad65cb8797eca372c9b5470edd852a777fdcf4808460
     engine: gotpl
@@ -63,7 +61,7 @@ entries:
     - fluentd-elasticsearch/fluentd-elasticsearch-0.6.4.tgz
     version: 0.6.4
   kibana:
-  - created: 2018-07-23T10:35:23.981622441+08:00
+  - created: 2018-07-23T10:48:13.211118325+08:00
     description: Sample chart template for registry
     digest: bc34587485d55c5abb7013c5921e8233978ef5a2df73edb54224e5cbf6f8ae58
     engine: gotpl
@@ -80,31 +78,9 @@ entries:
     urls:
     - kibana/kibana-0.0.1.tgz
     version: 0.0.1
-  - created: 2018-07-23T10:35:23.981242541+08:00
-    description: Sample chart template for registry
-    digest: ab590396f3295f19b659aa505c6e24ae1add19bc5867c2ce48dd236ba0fae6d3
-    engine: gotpl
-    home: https://github.com/samsung-cnct/chart-kibana
-    icon: https://github.com/samsung-cnct/solas/docs/images/samsung-logo.svg
-    keywords:
-    - kraken
-    - kubernetes
-    - logging
-    - data
-    - elasticsearch
-    - kibana
-    maintainers:
-    - email: samsung.cloudnative@gmail.com
-      name: Samsung CNCT
-    name: kibana
-    sources:
-    - https://github.com/samsung-cnct/chart-kibana
-    urls:
-    - kibana/kibana-0.0.0.tgz
-    version: 0.0.0
   mariadb:
   - appVersion: 10.1.34
-    created: 2018-07-23T10:35:23.982348321+08:00
+    created: 2018-07-23T10:48:13.211808295+08:00
     description: Fast, reliable, scalable, and easy to use open-source relational
       database system. MariaDB Server is intended for mission-critical, heavy-load
       production systems as well as for embedding into mass-deployed software. Highly
@@ -127,7 +103,7 @@ entries:
     version: 4.2.7
   mysql:
   - appVersion: 5.7.14
-    created: 2018-07-23T10:35:23.982846411+08:00
+    created: 2018-07-23T10:48:13.212622285+08:00
     description: 快速、可靠、可伸缩和易于使用的开放源码关系型数据库系统.
     digest: 3223d47b756208d0202ef0f152f2b81294f66d76ba983667b3dd46b4857de08e
     engine: gotpl
@@ -147,7 +123,7 @@ entries:
     version: 0.6.0
   mysql-ha:
   - appVersion: 5.7.13
-    created: 2018-07-23T10:35:23.983249271+08:00
+    created: 2018-07-23T10:48:13.213122155+08:00
     description: 具有单个master，零个或者多个slave实例的MySQL集群
     digest: 760ce0b3f018613884ad0c5f134c06b496c2482b8ba81503c57f88ee0f312733
     home: https://www.mysql.com/
@@ -165,7 +141,7 @@ entries:
     version: 0.2.1
   mysql-ha-new:
   - appVersion: 5.7.22-debian-9
-    created: 2018-07-23T10:35:23.983789801+08:00
+    created: 2018-07-23T10:48:13.213729755+08:00
     description: Chart to create a Highly available MySQL cluster
     digest: 2ea6e749510cc1e391806ec443225182f4f1fcb870504a624169bc508b116d33
     engine: gotpl
@@ -184,7 +160,7 @@ entries:
     version: 1.1.2
   nginx-ingress:
   - appVersion: 0.15.0
-    created: 2018-07-23T10:35:23.984812691+08:00
+    created: 2018-07-23T10:48:13.214993855+08:00
     description: An nginx Ingress controller that uses ConfigMap to store the nginx
       configuration.
     digest: c3a595c9b255bf3994acbe0045722c9add4ae8fd4bd39b2ae391815d40031f0e
@@ -209,7 +185,7 @@ entries:
     version: 0.22.0
   redis:
   - appVersion: 4.0.10
-    created: 2018-07-23T10:35:23.985653311+08:00
+    created: 2018-07-23T10:48:13.215866145+08:00
     description: 先进的开源键值数据库，它通常被称为数据结构服务器，因为键可以包含字符串、散列、列表、集合和排序集。
     digest: cad8b3d2aac7e2f3f1dbf53832e2f6102b8dfee9547126c927dcb9e541a4d22b
     engine: gotpl
@@ -228,7 +204,7 @@ entries:
     version: 3.6.0
   sumologic-fluentd:
   - appVersion: "1.11"
-    created: 2018-07-23T10:35:23.980359391+08:00
+    created: 2018-07-23T10:48:13.209761854+08:00
     description: Sumologic Log Collector
     digest: 671b332764df2b03657f40f5b6d9b3f31c54e9f469366955b79b96feb6d4b062
     home: https://github.com/SumoLogic/fluentd-kubernetes-sumologic
@@ -246,4 +222,4 @@ entries:
     urls:
     - fluentd/sumologic-fluentd-0.4.0.tgz
     version: 0.4.0
-generated: 2018-07-23T10:35:23.97734018+08:00
+generated: 2018-07-23T10:48:13.207232174+08:00

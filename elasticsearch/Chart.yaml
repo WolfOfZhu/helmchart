@@ -1,0 +1,15 @@
+---
+name: elasticsearch
+version: 0.1.0
+description: Elasticsearch for Kubernetes
+keywords:
+- 日志组件
+home: https://github.com/samsung-cnct/chart-elasticsearch
+sources:
+- https://github.com/samsung-cnct/chart-elasticsearch
+- https://github.com/elastic/elasticsearch
+maintainers:
+- name: Samsung CNCT
+  email: samsung.cloudnative@gmail.com
+icon: https://github.com/gzocs/helmchart/elasticsearch/logo/elasticsearch-logo.png 
+engine: gotpl
