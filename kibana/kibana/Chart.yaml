@@ -1,14 +1,14 @@
----
 name: kibana
-version: 0.0.1
-description: Sample chart template for registry
+version: 0.8.0
+appVersion: 6.3.1
+description: Kibana is an open source data visualization plugin for Elasticsearch
+icon: https://raw.githubusercontent.com/elastic/kibana/master/src/ui/public/icons/kibana-color.svg
 keywords:
 - 日志组件
-home: https://github.com/samsung-cnct/chart-kibana
-sources:
-- https://github.com/samsung-cnct/chart-kibana
 maintainers:
-- name: Samsung CNCT
-  email: samsung.cloudnative@gmail.com
-icon: https://github.com/gzocs/helmchart/blob/master/kibana/kibana/logo/kibana-logo.png
+- name: compleatang
+  email: casey@monax.io
+sources:
+- https://github.com/elastic/kibana
 engine: gotpl
+home: https://www.elastic.co/products/kibana
