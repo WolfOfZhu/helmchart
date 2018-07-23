@@ -1,86 +1,98 @@
-#Default values for elasticsearch.
+# Default values for elasticsearch.
 # This is a YAML-formatted file.
-# Declare name/value pairs to be passed into your templates.
-# name: value
+# Declare variables to be passed into your templates.
+appVersion: "6.2.4"
 
-image: k8s.gcr.io/elasticsearch:v6.2.4
-name: elasticsearch
+image:
+  repository: "docker.elastic.co/elasticsearch/elasticsearch-oss"
+  tag: "6.3.1"
+  pullPolicy: "IfNotPresent"
 
-#Testing (just needs curl)
-test_image: quay.io/samsung_cnct/e2etester:0.2
+cluster:
+  name: "elasticsearch"
+  kubernetesDomain: cluster.local
+  # If you want X-Pack installed, switch to an image that includes it, enable this option and toggle the features you want
+  # enabled in the environment variables outlined in the README
+  xpackEnable: false
+  config:
+  env:
+    # IMPORTANT: https://www.elastic.co/guide/en/elasticsearch/reference/current/important-settings.html#minimum_master_nodes
+    # To prevent data loss, it is vital to configure the discovery.zen.minimum_master_nodes setting so that each master-eligible
+    # node knows the minimum number of master-eligible nodes that must be visible in order to form a cluster.
+    MINIMUM_MASTER_NODES: "2"
 
-#Services
-port: 9200
-port_name: http
-port_selector: elasticsearch-data
-cluster_name: elasticsearch-cluster
-cluster_port: 9300
-cluster_port_name: cluster-comms
-service_name: elasticsearch-discovery
+client:
+  name: client
+  replicas: 2
+  serviceType: ClusterIP
+## (dict) If specified, apply these annotations to the client service
+#  serviceAnnotations:
+#    example: client-svc-foo
+  heapSize: "512m"
+  antiAffinity: "soft"
+  nodeSelector: {}
+  tolerations: {}
+  resources:
+    limits:
+      cpu: "1"
+      # memory: "1024Mi"
+    requests:
+      cpu: "25m"
+      memory: "512Mi"
+  priorityClassName: ""
+  ## (dict) If specified, apply these annotations to each client Pod
+  # podAnnotations:
+  #   example: client-foo
 
-#Master StatefulSet
-master_name: elasticsearch-master
-# master_replicas: if changing this value, please also update the
-# elasticsearch configuration file quorum settings in the
-# samsung_cnct/elasticsearch image. This value should not be altered
-# when running in production
-master_replicas: 3
-master_imagePullPolicy: Always
-master_cpu_limits: 500m
-master_cpu_requests: 500m
-master_memory_limits: 4Gi
-master_memory_requests: 4Gi
-# master_volume_storage: set to small so when exploring with this the
-# user doesn't accidentally create very large disks
-master_volume_storage: 20Gi
-# Xms & Xmx: must be the same
-# should be ~75% of total memory allocation
-master_Xms_Xmx: 3g
-master_tolerations:
- # - key: taintKey
- #   value: taintValue
- #   operator: Equal
- #   effect: NoSchedule
-master_scheduling:
-  affinity:
-    node:
-      type: #requiredDuringSchedulingIgnoredDuringExecution
-      labels:
-      # - key: iamalabelkey
-      #   operator: In
-      #   values: ["value1", "value2"]
+master:
+  name: master
+  exposeHttp: false
+  replicas: 3
+  heapSize: "512m"
+  persistence:
+    enabled: true
+    accessMode: ReadWriteOnce
+    name: data
+    size: "4Gi"
+    # storageClass: "ssd"
+  antiAffinity: "soft"
+  nodeSelector: {}
+  tolerations: {}
+  resources:
+    limits:
+      cpu: "1"
+      # memory: "1024Mi"
+    requests:
+      cpu: "25m"
+      memory: "512Mi"
+  priorityClassName: ""
+  ## (dict) If specified, apply these annotations to each master Pod
+  # podAnnotations:
+  #   example: master-foo
 
-#Cluster StatefulSet
-data_name: elasticsearch-data
-# data_replicas: This can be changed at will for scaling purposes
-# either in this chart or at the command line during production
-data_replicas: 3
-# resource notes:  datanodes are pretty heavy.
-# These should be modified up for a real production setting
-# recommendation is two cores and 20GB of memory for the containers
-data_cpu_limits: 500m
-data_memory_limits: 4Gi
-data_cpu_requests: 500m
-data_memory_requests: 4Gi
-data_volume_storage: 20Gi
-# Xms & Xmx: must be the same
-# should be ~75% of total memory allocation
-data_Xms_Xmx: 3g
-data_tolerations:
- # - key: taintKey
- #   value: taintValue
- #   operator: Equal
- #   effect: NoSchedule
-data_scheduling:
-  affinity:
-    node:
-      type: #requiredDuringSchedulingIgnoredDuringExecution
-      labels:
-      # - key: iamalabelkey
-      #   operator: In
-      #   values: ["value1", "value2"]
-
-#  if you want to be able to write data to this cluster from 
-#  outside the cluster, set the ingress.host value
-#ingress:
-#  host: elasticsearch.ingest.company.org
+data:
+  name: data
+  exposeHttp: false
+  replicas: 2
+  heapSize: "1536m"
+  persistence:
+    enabled: true
+    accessMode: ReadWriteOnce
+    name: data
+    size: "30Gi"
+    # storageClass: "ssd"
+  terminationGracePeriodSeconds: 3600
+  antiAffinity: "soft"
+  nodeSelector: {}
+  tolerations: {}
+  resources:
+    limits:
+      cpu: "1"
+      # memory: "2048Mi"
+    requests:
+      cpu: "25m"
+      memory: "1536Mi"
+  priorityClassName: ""
+  ## (dict) If specified, apply these annotations to each data Pod
+  # podAnnotations:
+  #   example: data-foo

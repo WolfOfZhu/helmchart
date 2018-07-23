@@ -1,48 +1,188 @@
-[![pipeline status](https://git.cnct.io/common-tools/samsung-cnct_chart-elasticsearch/badges/master/pipeline.svg)](https://git.cnct.io/common-tools/samsung-cnct_chart-elasticsearch/commits/master)
+# Elasticsearch Helm Chart
 
-# Chart for Elasticsearch
+This chart uses a standard Docker image of Elasticsearch (docker.elastic.co/elasticsearch/elasticsearch-oss) and uses a service pointing to the master's transport port for service discovery.
+Elasticsearch does not communicate with the Kubernetes API, hence no need for RBAC permissions.
 
-A Helm chart for Elasticsearch deployment on Kubernetes. Elasticsearch is an open source, RESTful search engine built on top of Apache Lucene and released under an Apache license. It is Java-based and can search and index document files in diverse formats.
+## Warning for previous users
+If you are currently using an earlier version of this Chart you will need to redeploy your Elasticsearch clusters. The discovery method used here is incompatible with using RBAC.
+If you are upgrading to Elasticsearch 6 from the 5.5 version used in this chart before, please note that your cluster needs to do a full cluster restart.
+The simplest way to do that is to delete the installation (keep the PVs) and install this chart again with the new version.
+If you want to avoid doing that upgrade to Elasticsearch 5.6 first before moving on to Elasticsearch 6.0.
 
-## Purpose
-Static configs for a production grade elasticsearch deploy on kubernetes. Meant for use with [this](https://quay.io/repository/samsung_cnct/elasticsearch-container) image on quay.
+## Prerequisites Details
 
-## Architecture details
-master nodes:
- - 3 node statefulset
- - if scaled, need to update quorum information
+* Kubernetes 1.6+
+* PV dynamic provisioning support on the underlying infrastructure
 
- data nodes:
- - 3 node statefulset
- - scale at will
+## StatefulSets Details
+* https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/
 
-## Kubernetes Resources
-master node (each):
- - 4GB
- - 1/2 CPU (500m)
+## StatefulSets Caveats
+* https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#limitations
 
-data nodes (each):
- - 4GB  (first knob to turn up for performance reasons.  Do not exceed 31GB, the jvm breaks down)
- - 1/2 CPU (500m)
- - 20GB of disk (this should be increased greatly for production use)
+## Todo
 
-## How to install on running Kubernetes cluster with `helm`
-Install Helm and the Helm registry plugin with [these](https://github.com/app-registry/appr-helm-plugin/blob/master/README.md#install-the-helm-registry-plugin) instructions.
+* Implement TLS/Auth/Security
+* Smarter upscaling/downscaling
+* Solution for memory locking
+
+## Chart Details
+This chart will do the following:
+
+* Implemented a dynamically scalable elasticsearch cluster using Kubernetes StatefulSets/Deployments
+* Multi-role deployment: master, client (coordinating) and data nodes
+* Statefulset Supports scaling down without degrading the cluster
+
+## Installing the Chart
+
+To install the chart with the release name `my-release`:
+
+```bash
+$ helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator
+$ helm install --name my-release incubator/elasticsearch
+```
+
+## Deleting the Charts
+
+Delete the Helm deployment as normal
 
 ```
-helm registry install quay.io/samsung_cnct/elasticsearch-chart
+$ helm delete my-release
 ```
 
-## How to implement on running Kubernetes cluster with `kubectl`
-```
-kubectl create -f es-data-statefulset.yaml
-kubectl create -f es-master-statefulset.yaml
-kubectl create -f services.yaml
-```
-For cluster with kubernetes version >= 1.6, `kubectl create -f es-rbac.yaml`
+Deletion of the StatefulSet doesn't cascade to deleting associated PVCs. To delete them:
 
-## Curator
-This deployment is meant for use with Elasticsearch curator to manage indices.
-See the [chart](https://github.com/samsung-cnct/chart-curator) and [container](https://github.com/samsung-cnct/container-curator) for more information.
+```
+$ kubectl delete pvc -l release=my-release,component=data
+```
 
-###  [Guide to Elasticsearch Index Performance](https://www.elastic.co/guide/en/elasticsearch/guide/current/indexing-performance.html)
+## Configuration
+
+The following table lists the configurable parameters of the elasticsearch chart and their default values.
+
+|              Parameter               |                             Description                             |               Default                |
+| ------------------------------------ | ------------------------------------------------------------------- | ------------------------------------ |
+| `appVersion`                         | Application Version (Elasticsearch)                                 | `6.3.1`                              |
+| `image.repository`                   | Container image name                                                | `docker.elastic.co/elasticsearch/elasticsearch-oss` |
+| `image.tag`                          | Container image tag                                                 | `6.3.1`                              |
+| `image.pullPolicy`                   | Container pull policy                                               | `Always`                             |
+| `cluster.name`                       | Cluster name                                                        | `elasticsearch`                      |
+| `cluster.kubernetesDomain`           | Kubernetes cluster domain name                                      | `cluster.local`                      |
+| `cluster.xpackEnable`                | Writes the X-Pack configuration options to the configuration file   | `false`                              |
+| `cluster.config`                     | Additional cluster config appended                                  | `{}`                                 |
+| `cluster.env`                        | Cluster environment variables                                       | `{}`                                 |
+| `client.name`                        | Client component name                                               | `client`                             |
+| `client.replicas`                    | Client node replicas (deployment)                                   | `2`                                  |
+| `client.resources`                   | Client node resources requests & limits                             | `{} - cpu limit must be an integer`  |
+| `client.priorityClassName`           | Client priorityClass                                                | `nil`                                |
+| `client.heapSize`                    | Client node heap size                                               | `512m`                               |
+| `client.podAnnotations`              | Client Deployment annotations                                       | `{}`                                 |
+| `client.nodeSelector`                | Node labels for client pod assignment                               | `{}`                                 |
+| `client.tolerations`                 | Client tolerations                                                  | `{}`                                 |
+| `client.serviceAnnotations`          | Client Service annotations                                          | `{}`                                 |
+| `client.serviceType`                 | Client service type                                                 | `ClusterIP`                          |
+| `master.exposeHttp`                  | Expose http port 9200 on master Pods for monitoring, etc            | `false`                              |
+| `master.name`                        | Master component name                                               | `master`                             |
+| `master.replicas`                    | Master node replicas (deployment)                                   | `2`                                  |
+| `master.resources`                   | Master node resources requests & limits                             | `{} - cpu limit must be an integer`  |
+| `master.priorityClassName`           | Master priorityClass                                                | `nil`                                |
+| `master.podAnnotations`              | Master Deployment annotations                                       | `{}`                                 |
+| `master.nodeSelector`                | Node labels for master pod assignment                               | `{}`                                 |
+| `master.tolerations`                 | Master tolerations                                                  | `{}`                                 |
+| `master.heapSize`                    | Master node heap size                                               | `512m`                               |
+| `master.name`                        | Master component name                                               | `master`                             |
+| `master.persistence.enabled`         | Master persistent enabled/disabled                                  | `true`                               |
+| `master.persistence.name`            | Master statefulset PVC template name                                | `data`                               |
+| `master.persistence.size`            | Master persistent volume size                                       | `4Gi`                                |
+| `master.persistence.storageClass`    | Master persistent volume Class                                      | `nil`                                |
+| `master.persistence.accessMode`      | Master persistent Access Mode                                       | `ReadWriteOnce`                      |
+| `data.exposeHttp`                    | Expose http port 9200 on data Pods for monitoring, etc              | `false`                              |
+| `data.replicas`                      | Data node replicas (statefulset)                                    | `3`                                  |
+| `data.resources`                     | Data node resources requests & limits                               | `{} - cpu limit must be an integer`  |
+| `data.priorityClassName`             | Data priorityClass                                                  | `nil`                                |
+| `data.heapSize`                      | Data node heap size                                                 | `1536m`                              |
+| `data.persistence.enabled`           | Data persistent enabled/disabled                                    | `true`                               |
+| `data.persistence.name`              | Data statefulset PVC template name                                  | `data`                               |
+| `data.persistence.size`              | Data persistent volume size                                         | `30Gi`                               |
+| `data.persistence.storageClass`      | Data persistent volume Class                                        | `nil`                                |
+| `data.persistence.accessMode`        | Data persistent Access Mode                                         | `ReadWriteOnce`                      |
+| `data.podAnnotations`                | Data StatefulSet annotations                                        | `{}`                                 |
+| `data.nodeSelector`                  | Node labels for data pod assignment                                 | `{}`                                 |
+| `data.tolerations`                   | Data tolerations                                                    | `{}`                                 |
+| `data.terminationGracePeriodSeconds` | Data termination grace period (seconds)                             | `3600`                               |
+| `data.antiAffinity`                  | Data anti-affinity policy                                           | `soft`                               |
+
+Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
+
+In terms of Memory resources you should make sure that you follow that equation:
+
+- `${role}HeapSize < ${role}MemoryRequests < ${role}MemoryLimits`
+
+The YAML value of cluster.config is appended to elasticsearch.yml file for additional customization ("script.inline: on" for example to allow inline scripting)
+
+# Deep dive
+
+## Application Version
+
+This chart aims to support Elasticsearch v2 and v5 deployments by specifying the `values.yaml` parameter `appVersion`.
+
+### Version Specific Features
+
+* Memory Locking *(variable renamed)*
+* Ingest Node *(v5)*
+* X-Pack Plugin *(v5)*
+
+Upgrade paths & more info: https://www.elastic.co/guide/en/elasticsearch/reference/current/setup-upgrade.html
+
+## Mlocking
+
+This is a limitation in kubernetes right now. There is no way to raise the
+limits of lockable memory, so that these memory areas won't be swapped. This
+would degrade performance heavily. The issue is tracked in
+[kubernetes/#3595](https://github.com/kubernetes/kubernetes/issues/3595).
+
+```
+[WARN ][bootstrap] Unable to lock JVM Memory: error=12,reason=Cannot allocate memory
+[WARN ][bootstrap] This can result in part of the JVM being swapped out.
+[WARN ][bootstrap] Increase RLIMIT_MEMLOCK, soft limit: 65536, hard limit: 65536
+```
+
+## Minimum Master Nodes
+> The minimum_master_nodes setting is extremely important to the stability of your cluster. This setting helps prevent split brains, the existence of two masters in a single cluster.
+
+>When you have a split brain, your cluster is at danger of losing data. Because the master is considered the supreme ruler of the cluster, it decides when new indices can be created, how shards are moved, and so forth. If you have two masters, data integrity becomes perilous, since you have two nodes that think they are in charge.
+
+>This setting tells Elasticsearch to not elect a master unless there are enough master-eligible nodes available. Only then will an election take place.
+
+>This setting should always be configured to a quorum (majority) of your master-eligible nodes. A quorum is (number of master-eligible nodes / 2) + 1
+
+More info: https://www.elastic.co/guide/en/elasticsearch/guide/1.x/_important_configuration_changes.html#_minimum_master_nodes
+
+# Client and Coordinating Nodes
+
+Elasticsearch v5 terminology has updated, and now refers to a `Client Node` as a `Coordinating Node`.
+
+More info: https://www.elastic.co/guide/en/elasticsearch/reference/5.5/modules-node.html#coordinating-node
+
+## Select right storage class for SSD volumes
+
+### GCE + Kubernetes 1.5
+
+Create StorageClass for SSD-PD
+
+```
+$ kubectl create -f - <<EOF
+kind: StorageClass
+apiVersion: extensions/v1beta1
+metadata:
+  name: ssd
+provisioner: kubernetes.io/gce-pd
+parameters:
+  type: pd-ssd
+EOF
+```
+Create cluster with Storage class `ssd` on Kubernetes 1.5+
+
+```
+$ helm install incubator/elasticsearch --name my-release --set data.storageClass=ssd,data.storage=100Gi
+```

@@ -10,5 +10,5 @@ sources:
 maintainers:
 - name: Samsung CNCT
   email: samsung.cloudnative@gmail.com
-icon: https://github.com/gzocs/helmchart/kibana/logo/kibana-logo.png
+icon: https://github.com/gzocs/helmchart/blob/master/kibana/kibana/logo/kibana-logo.png
 engine: gotpl
