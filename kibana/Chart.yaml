@@ -1,0 +1,14 @@
+---
+name: kibana
+version: 0.0.1
+description: Sample chart template for registry
+keywords:
+- 日志组件
+home: https://github.com/samsung-cnct/chart-kibana
+sources:
+- https://github.com/samsung-cnct/chart-kibana
+maintainers:
+- name: Samsung CNCT
+  email: samsung.cloudnative@gmail.com
+icon: https://github.com/gzocs/helmchart/kibana/logo/kibana-logo.png
+engine: gotpl

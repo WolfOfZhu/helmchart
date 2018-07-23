@@ -1,0 +1,113 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{.Values.name}}
+  labels:
+    app: {{.Values.app}}
+    kubernetes.io/cluster-service: "true"
+    kubernetes.io/name: "Kibana"
+spec:
+  type: {{ .Values.service.type }}
+  selector:
+    component: {{.Values.component}}
+  ports:
+    - name: http
+      port: {{.Values.port}}
+      protocol: TCP
+---
+{{- if .Values.ingress.enabled }}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{.Values.name}}
+  {{- if .Values.ingress.annotations }}
+  annotations:
+    {{- range .Values.ingress.annotations }}
+    {{ .key }}: "{{ .value }}"
+    {{- end }}
+  {{- end }}
+spec:
+  {{- if .Values.ingress.tls.enabled }}
+  tls:
+  - hosts: 
+    - {{ .Values.ingress.host }}
+    secretName: {{.Values.name}}-tls
+  {{- end }}
+  rules:
+  - host: {{ .Values.ingress.host }}
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: {{.Values.name}}
+          servicePort: {{.Values.port}}
+
+{{- end }}
+---
+{{- if .Values.ingress.auth }}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: {{ .Values.name }}-kibana-auth
+type: Opaque
+data:
+  auth: {{ .Values.ingress.auth | b64enc | quote }}
+{{- end }}
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{.Values.name}}
+spec:
+  replicas: {{.Values.replicas}}
+  template:
+    metadata:
+      labels:
+        component: {{.Values.component}}
+    spec:
+      containers:
+      - name: {{.Values.container_name}}
+        image: {{.Values.image}}
+        imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: {{.Values.cpu_limit}}
+            memory: {{.Values.mem_limit}}
+          requests:
+            cpu: {{.Values.cpu_requests}}
+            memory: {{.Values.mem_requests}}
+        env:
+          - name: "{{.Values.env_name}}"
+            value: "{{.Values.env_value}}"
+        ports:
+        - containerPort: {{.Values.container_port}}
+          name: ui
+          protocol: TCP
+      {{- if .Values.tolerations }}
+      tolerations:
+      {{- range .Values.tolerations }}
+      - key: {{ .key | default ("") }}
+        value: {{ .value | default ("")}}
+        operator: {{ .operator | default ("Equal") }}
+        effect: {{ .effect  | default ("")}}
+      {{- end }}
+      {{- end }}
+      {{- if .Values.scheduling.affinity }}
+      {{- if .Values.scheduling.affinity.node }}
+      {{- if .Values.scheduling.affinity.node.labels }}
+      affinity:
+        nodeAffinity:
+          {{ .Values.scheduling.affinity.node.type }}:
+            nodeSelectorTerms:
+            - matchExpressions:
+                {{- range .Values.scheduling.affinity.node.labels }}
+                - key: {{ .key }}
+                  operator: {{ .operator }}
+                  values:
+                  {{- range .values }}
+                  - {{ . }}
+                  {{- end }}
+                {{- end }}
+      {{- end }}
+      {{- end }}
+      {{- end }}

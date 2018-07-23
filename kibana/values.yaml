@@ -1,0 +1,57 @@
+# Default values for kibana.
+# Service
+name: kibana-logging
+app: kibana-logging
+port: 5601
+# Deployment
+component: kibana-logging
+replicas: 3
+container_name: kibana-logging
+image: docker.elastic.co/kibana/kibana:6.2.4
+# keep request = limit to keep this container in guaranteed class
+cpu_limit: 100m
+cpu_requests: 100m
+mem_limit: 250Mi
+mem_requests: 250Mi
+env_name: ELASTICSEARCH_URL
+env_value: http://elasticsearch:9200
+container_port: 5601
+tolerations:
+ # - key: taintKey
+ #   value: taintValue
+ #   operator: Equal
+ #   effect: NoSchedule
+
+
+#  default type is LoadBalancer, recommended type is ClusterIP + Ingress
+service:
+  type: LoadBalancer
+
+#  disabled by default as not all kubernetes clusters will have a default
+#  ingress controller available
+ingress:
+  enabled: false
+  annotations:
+  - key: kubernetes.io/tls-acme
+    value: "true"
+  - key: kubernetes.io/ingress.class
+    value: "nginx"
+  - key: nginx.ingress.kubernetes.io/auth-type
+    value: basic
+  - key: nginx.ingress.kubernetes.io/auth-secret
+    value: basic-auth
+  - key: nginx.ingress.kubernetes.io/auth-realm
+    value: "Authentication required for kibana"
+  tls:
+    enabled: false  #  enabling this assumes you have kube-lego running and assumes ingress.host is the same for tls  
+  host: kibana.externally-visible-dns.org
+  auth: "uid:<MD5 has of password>\n"  #  username and password for accessing kibana.  set to empty for no auth, recommend using `htpasswd` locally and copying resultant MD5
+
+scheduling:
+  affinity:
+    node:
+      type: #requiredDuringSchedulingIgnoredDuringExecution
+      labels:
+      # - key: iamalabelkey
+      #   operator: In
+      #   values: ["value1", "value2"]
