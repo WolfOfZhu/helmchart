@@ -1,8 +1,8 @@
 image:
   # repository: "docker.elastic.co/kibana/kibana-oss"
   # tag: "6.3.1"
-  repository: "hub.c.163.com/good0206/kibana-oss"
-  tag: "6.3.0"
+  repository: "docker.io/gzocs/kibana:6.3.1"
+  tag: "6.3.1"
   pullPolicy: "IfNotPresent"
 
 commandline:
@@ -19,7 +19,7 @@ env:
   # SERVER_DEFAULTROUTE: "/app/kibana"
 
 service:
-  type: ClusterIP
+  type: NodePort
   externalPort: 443
   internalPort: 5601
   ## External IP addresses of service
