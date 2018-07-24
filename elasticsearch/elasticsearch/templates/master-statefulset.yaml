@@ -138,23 +138,56 @@ spec:
         configMap:
           name: {{ template "elasticsearch.fullname" . }}
   {{- if not .Values.master.persistence.enabled }}
-      - name: data
+      - name: "data"
         emptyDir: {}
   {{- else }}
-  volumeClaimTemplates:
-  - metadata:
-      name: {{ .Values.master.persistence.name }}
-    spec:
-      accessModes:
-        - {{ .Values.master.persistence.accessMode | quote }}
-    {{- if .Values.master.persistence.storageClass }}
-    {{- if (eq "-" .Values.master.persistence.storageClass) }}
-      storageClassName: ""
+    {{- if .Values.master.persistence.existingClaim }}
+      - name: "data"
+        persistentVolumeClaim:
+          claimName: {{ .Values.master.persistence.existingClaim }}
     {{- else }}
-      storageClassName: "{{ .Values.master.persistence.storageClass }}"
+  volumeClaimTemplates:
+    - metadata:
+        name: {{ .Values.master.persistence.name }}
+      spec:
+        accessModes:
+        {{- range .Values.master.persistence.accessModes }}
+          - {{ . | quote }}
+        {{- end }}
+        resources:
+          requests:
+            storage: {{ .Values.master.persistence.size | quote }}
+      {{- if .Values.master.persistence.storageClass }}
+      {{- if (eq "-" .Values.master.persistence.storageClass) }}
+        storageClassName: ""
+      {{- else }}
+        storageClassName: {{ .Values.master.persistence.storageClass | quote }}
+      {{- end }}
+      {{- end }}
     {{- end }}
-    {{- end }}
-      resources:
-        requests:
-          storage: "{{ .Values.master.persistence.size }}"
-  {{ end }}
+  {{- end }}
+
+
+
+
+  # {{- if not .Values.master.persistence.enabled }}
+  #     - name: data
+  #       emptyDir: {}
+  # {{- else }}
+  # volumeClaimTemplates:
+  # - metadata:
+  #     name: {{ .Values.master.persistence.name }}
+  #   spec:
+  #     accessModes:
+  #       - {{ .Values.master.persistence.accessMode | quote }}
+  #   {{- if .Values.master.persistence.storageClass }}
+  #   {{- if (eq "-" .Values.master.persistence.storageClass) }}
+  #     storageClassName: ""
+  #   {{- else }}
+  #     storageClassName: "{{ .Values.master.persistence.storageClass }}"
+  #   {{- end }}
+  #   {{- end }}
+  #     resources:
+  #       requests:
+  #         storage: "{{ .Values.master.persistence.size }}"
+  # {{ end }}
