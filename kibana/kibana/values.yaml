@@ -1,7 +1,7 @@
 image:
   # repository: "docker.elastic.co/kibana/kibana-oss"
   # tag: "6.3.1"
-  repository: "docker.io/gzocs/kibana:6.3.1"
+  repository: "docker.io/ocscaas/kibana-oss"
   tag: "6.3.1"
   pullPolicy: "IfNotPresent"
 
