@@ -51,13 +51,10 @@ master:
   heapSize: "512m"
   persistence:
     enabled: true
-    accessModes:
-    - ReadWriteOnce
     accessMode: ReadWriteOnce
     name: data
     size: "4Gi"
-    existingClaim: "-"
-    # storageClass: "tw-nfs"
+    # storageClass: "ssd"
   antiAffinity: "soft"
   nodeSelector: {}
   tolerations: {}
@@ -80,12 +77,10 @@ data:
   heapSize: "1536m"
   persistence:
     enabled: true
-    accessModes:
-    - ReadWriteOnce
+    accessMode: ReadWriteOnce
     name: data
     size: "30Gi"
-    existingClaim: "-"
-    # storageClass: "tw-nfs"
+    # storageClass: "ssd"
   terminationGracePeriodSeconds: 3600
   antiAffinity: "soft"
   nodeSelector: {}

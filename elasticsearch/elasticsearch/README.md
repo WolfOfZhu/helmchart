@@ -1,6 +1,6 @@
 # Elasticsearch Helm Chart
 
-这个安装包使用了一个标准的elasticsearch docker镜像(docker.elastic.co/elasticsearch/elasticsearch-oss)并且使用一个服务来指向master的传输端口来实现服务发现。 
+This chart uses a standard Docker image of Elasticsearch (docker.elastic.co/elasticsearch/elasticsearch-oss) and uses a service pointing to the master's transport port for service discovery.
 Elasticsearch does not communicate with the Kubernetes API, hence no need for RBAC permissions.
 
 ## Warning for previous users
