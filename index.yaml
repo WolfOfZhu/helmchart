@@ -2,12 +2,14 @@ apiVersion: v1
 entries:
   elasticsearch:
   - appVersion: 6.3.1
-    created: 2018-07-25T15:28:33.191880571+08:00
+    created: 2018-07-31T16:36:20.070605611+08:00
     description: Flexible and powerful open source, distributed real-time search and
       analytics engine.
-    digest: 1eac37bbd0b2912a73ea1bd274ade1198194a83a9df55a38d9e3bb6456e4096d
+    digest: c845a41f4b04d4538a35116d20a0ae68a5d2b8071ce473b0d3b9ecf30865dfbe
     home: https://www.elastic.co/products/elasticsearch
     icon: https://static-www.elastic.co/assets/blteb1c97719574938d/logo-elastic-elasticsearch-lt.svg
+    keywords:
+    - 日志组件
     maintainers:
     - email: christian@jetstack.io
       name: simonswine
@@ -29,7 +31,7 @@ entries:
   elasticsearch-fluentd-kibana:
   - apiVersion: v1
     appVersion: 0.0.1
-    created: 2018-07-25T15:28:33.192925189+08:00
+    created: 2018-07-31T16:36:20.07143848+08:00
     description: elasticsearch logging chart
     digest: 2c0e789cf0517a5054dd81702c7368e54bf10f9e1c1f6f0fba26ba3a43af4c53
     icon: https://gitlab.com/gitlab-com/gitlab-artwork/raw/master/logo/logo-square.png
@@ -41,7 +43,7 @@ entries:
     version: 0.0.1
   fluent-bit:
   - appVersion: 0.13.0
-    created: 2018-07-25T15:28:33.193728695+08:00
+    created: 2018-07-31T16:36:20.072178154+08:00
     description: Fast and Lightweight Log/Data Forwarder for Linux, BSD and OSX
     digest: 6f6019856481ac76a13ef96f3cc07614db81757aa1e7c077361f8a50dc0fffd7
     home: http://fluentbit.io
@@ -61,7 +63,7 @@ entries:
     version: 0.6.0
   fluentd-elasticsearch:
   - appVersion: 2.0.4
-    created: 2018-07-25T15:28:33.19623095+08:00
+    created: 2018-07-31T16:36:20.074510022+08:00
     description: A Fluentd Helm chart for Kubernetes with Elasticsearch output
     digest: a789562a8607aaa18054ad65cb8797eca372c9b5470edd852a777fdcf4808460
     engine: gotpl
@@ -83,7 +85,7 @@ entries:
     version: 0.6.4
   kibana:
   - appVersion: 6.3.1
-    created: 2018-07-25T15:28:33.196896732+08:00
+    created: 2018-07-31T16:36:20.075040834+08:00
     description: Kibana is an open source data visualization plugin for Elasticsearch
     digest: 707d57df7c2c0b8ab7cf7d70aba1059fd76a706c21e9239c58c5a2f2192acc87
     engine: gotpl
@@ -102,7 +104,7 @@ entries:
     version: 0.8.0
   mariadb:
   - appVersion: 10.1.34
-    created: 2018-07-25T15:28:33.198075333+08:00
+    created: 2018-07-31T16:36:20.076040493+08:00
     description: Fast, reliable, scalable, and easy to use open-source relational
       database system. MariaDB Server is intended for mission-critical, heavy-load
       production systems as well as for embedding into mass-deployed software. Highly
@@ -125,7 +127,7 @@ entries:
     version: 4.2.7
   mysql:
   - appVersion: 5.7.14
-    created: 2018-07-25T15:28:33.198958936+08:00
+    created: 2018-07-31T16:36:20.076849522+08:00
     description: 快速、可靠、可伸缩和易于使用的开放源码关系型数据库系统.
     digest: 3223d47b756208d0202ef0f152f2b81294f66d76ba983667b3dd46b4857de08e
     engine: gotpl
@@ -145,7 +147,7 @@ entries:
     version: 0.6.0
   mysql-ha:
   - appVersion: 5.7.13
-    created: 2018-07-25T15:28:33.199654431+08:00
+    created: 2018-07-31T16:36:20.077481859+08:00
     description: 具有单个master，零个或者多个slave实例的MySQL集群
     digest: 760ce0b3f018613884ad0c5f134c06b496c2482b8ba81503c57f88ee0f312733
     home: https://www.mysql.com/
@@ -163,7 +165,7 @@ entries:
     version: 0.2.1
   mysql-ha-new:
   - appVersion: 5.7.22-debian-9
-    created: 2018-07-25T15:28:33.200602+08:00
+    created: 2018-07-31T16:36:20.078381252+08:00
     description: Chart to create a Highly available MySQL cluster
     digest: 2ea6e749510cc1e391806ec443225182f4f1fcb870504a624169bc508b116d33
     engine: gotpl
@@ -182,7 +184,7 @@ entries:
     version: 1.1.2
   nginx-ingress:
   - appVersion: 0.15.0
-    created: 2018-07-25T15:28:33.202599198+08:00
+    created: 2018-07-31T16:36:20.080223062+08:00
     description: An nginx Ingress controller that uses ConfigMap to store the nginx
       configuration.
     digest: c3a595c9b255bf3994acbe0045722c9add4ae8fd4bd39b2ae391815d40031f0e
@@ -207,7 +209,7 @@ entries:
     version: 0.22.0
   redis:
   - appVersion: 4.0.10
-    created: 2018-07-25T15:28:33.204549371+08:00
+    created: 2018-07-31T16:36:20.081670768+08:00
     description: 先进的开源键值数据库，它通常被称为数据结构服务器，因为键可以包含字符串、散列、列表、集合和排序集。
     digest: cad8b3d2aac7e2f3f1dbf53832e2f6102b8dfee9547126c927dcb9e541a4d22b
     engine: gotpl
@@ -226,7 +228,7 @@ entries:
     version: 3.6.0
   sumologic-fluentd:
   - appVersion: "1.11"
-    created: 2018-07-25T15:28:33.195303813+08:00
+    created: 2018-07-31T16:36:20.073649091+08:00
     description: Sumologic Log Collector
     digest: 671b332764df2b03657f40f5b6d9b3f31c54e9f469366955b79b96feb6d4b062
     home: https://github.com/SumoLogic/fluentd-kubernetes-sumologic
@@ -244,4 +246,4 @@ entries:
     urls:
     - fluentd/sumologic-fluentd-0.4.0.tgz
     version: 0.4.0
-generated: 2018-07-25T15:28:33.19048466+08:00
+generated: 2018-07-31T16:36:20.069291432+08:00
