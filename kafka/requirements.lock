@@ -1,0 +1,6 @@
+dependencies:
+- name: zookeeper
+  repository: https://gzocs.github.io/helmchart
+  version: 0.0.3
+digest: sha256:cc9f4961537454c9800e3e0609eb3efb118e5610ecbdb971f395e919f670a49b
+generated: 2018-08-01T17:19:27.170170003+08:00
