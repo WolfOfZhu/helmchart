@@ -1,121 +1,140 @@
-# Zookeeper
+# incubator/zookeeper
 
-[Zookeeper](https://zookeeper.apache.org/) is a centralized service for maintaining configuration information, naming, providing distributed synchronization, and providing group services. All of these kinds of services are used in some form or other by distributed applications.
-
-## TL;DR;
-
-```console
-$ helm install bitnami/zookeeper
-```
-
-## Introduction
-
-This chart bootstraps a [Zookeeper](https://github.com/bitnami/bitnami-docker-zookeeper) deployment on a [Kubernetes](http://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
+This helm chart provides an implementation of the ZooKeeper [StatefulSet](http://kubernetes.io/docs/concepts/abstractions/controllers/statefulsets/) found in Kubernetes Contrib [Zookeeper StatefulSet](https://github.com/kubernetes/contrib/tree/master/statefulsets/zookeeper).
 
 ## Prerequisites
+* Kubernetes 1.6+
+* PersistentVolume support on the underlying infrastructure
+* A dynamic provisioner for the PersistentVolumes
+* A familiarity with [Apache ZooKeeper 3.4.x](https://zookeeper.apache.org/doc/current/)
 
-- Kubernetes 1.4+ with Beta APIs enabled
-- PV provisioner support in the underlying infrastructure
+## Chart Components
+This chart will do the following:
+
+* Create a fixed size ZooKeeper ensemble using a [StatefulSet](http://kubernetes.io/docs/concepts/abstractions/controllers/statefulsets/).
+* Create a [PodDisruptionBudget](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-disruption-budget/) so kubectl drain will respect the Quorum size of the ensemble.
+* Create a [Headless Service](https://kubernetes.io/docs/concepts/services-networking/service/) to control the domain of the ZooKeeper ensemble.
+* Create a Service configured to connect to the available ZooKeeper instance on the configured client port.
+* Optionally apply a [Pod Anti-Affinity](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#inter-pod-affinity-and-anti-affinity-beta-feature) to spread the ZooKeeper ensemble across nodes.
+* Optionally start JMX Exporter and Zookeeper Exporter containers inside Zookeeper pods.
+* Optionally create a job which creates Zookeeper chroots (e.g. `/kafka1`).
 
 ## Installing the Chart
-
-To install the chart with the release name `my-release`:
-
-```console
-$ helm install --name my-release bitnami/zookeeper
-```
-
-The command deploys Zookeeper on the Kubernetes cluster in the default configuration. The [configuration](#configuration) section lists the parameters that can be configured during installation.
-
-> **Tip**: List all releases using `helm list`
-
-## Uninstalling the Chart
-
-To uninstall/delete the `my-release` deployment:
+You can install the chart with the release name `zookeeper` as below.
 
 ```console
-$ helm delete my-release
+$ helm repo add incubator http://storage.googleapis.com/kubernetes-charts-incubator
+$ helm install --name zookeeper incubator/zookeeper
 ```
 
-The command removes all the Kubernetes components associated with the chart and deletes the release.
+If you do not specify a name, helm will select a name for you.
+
+### Installed Components
+You can use `kubectl get` to view all of the installed components.
+
+```console{%raw}
+$ kubectl get all -l app=zookeeper
+NAME:   zookeeper
+LAST DEPLOYED: Wed Apr 11 17:09:48 2018
+NAMESPACE: default
+STATUS: DEPLOYED
+
+RESOURCES:
+==> v1beta1/PodDisruptionBudget
+NAME       MIN AVAILABLE  MAX UNAVAILABLE  ALLOWED DISRUPTIONS  AGE
+zookeeper  N/A            1                1                    2m
+
+==> v1/Service
+NAME                TYPE       CLUSTER-IP     EXTERNAL-IP  PORT(S)                     AGE
+zookeeper-headless  ClusterIP  None           <none>       2181/TCP,3888/TCP,2888/TCP  2m
+zookeeper           ClusterIP  10.98.179.165  <none>       2181/TCP                    2m
+
+==> v1beta1/StatefulSet
+NAME       DESIRED  CURRENT  AGE
+zookeeper  3        3        2m
+```
+
+1. `statefulsets/zookeeper` is the StatefulSet created by the chart.
+1. `po/zookeeper-<0|1|2>` are the Pods created by the StatefulSet. Each Pod has a single container running a ZooKeeper server.
+1. `svc/zookeeper-headless` is the Headless Service used to control the network domain of the ZooKeeper ensemble.
+1. `svc/zookeeper` is a Service that can be used by clients to connect to an available ZooKeeper server.
 
 ## Configuration
-
-The following tables lists the configurable parameters of the Zookeeper chart and their default values.
-
-|              Parameter                |                              Description                            |                            Default                       |
-|---------------------------------------|---------------------------------------------------------------------|----------------------------------------------------------|
-| `image.registry`                      | Zookeeper image registry                                            | `docker.io`                                              |
-| `image.repository`                    | Zookeeper Image name                                                | `bitnami/zookeeper`                                      |
-| `image.tag`                           | Zookeeper Image tag                                                 | `{VERSION}`                                              |
-| `image.pullPolicy`                    | Zookeeper image pull policy                                         | `Always`                                                 |
-| `image.pullSecrets`                   | Specify image pull secrets                                          | `nil` (does not add image pull secrets to deployed pods) |
-| `image.debug`                         | Specify if debug values should be set                               | `false`                                                  |
-| `updateStrategy`                      | Update strategies                                                   | `RollingUpdate`                                          |
-| `rollingUpdatePartition`              | Partition update strategy                                           | `nil`                                                    |
-| `podManagementpolicy`                 | Pod management policy                                               | `Parallel`                                               |
-| `replicaCount`                        | Number of ZooKeeper nodes                                           | `1`                                                      |
-| `tickTime`                            | Basic time unit in milliseconds used by ZooKeeper for heartbeats    | `2000`                                                   |
-| `initLimit`                           | Time the ZooKeeper servers in quorum have to connect to a leader    | `10`                                                     |
-| `syncLimit`                           | How far out of date a server can be from a leader                   | `5`                                                      |
-| `maxClientCnxns`                      | Number of concurrent connections that a single client may make to a single member | `60`                                       |
-| `allowAnonymousLogin`                 | Allow to accept connections from unauthenticated users              | `yes`                                                    |
-| `auth.existingSecret`                 | Use existing secret (ignores previous password)                     | `nil`                                                    |
-| `auth.enabled`                        | Enable Zookeeper auth                                               | `false`                                                  |
-| `auth.clientUser`                     | User that will use Zookeeper clients to auth                        | `nil`                                                    |
-| `auth.clientPassword`                 | Password that will use Zookeeper clients to auth                    | `nil`                                                    |
-| `auth.serverUsers`                    | List of user to be created                                          | `[]`                                                     |
-| `auth.serverPasswords`                | List of passwords to assign to users when created                   | `[]`                                                     |
-| `heapSize`                            | Size in MB for the Java Heap options (Xmx and XMs)                  | `[]`                                                     |
-| `jvmFlags`                            | Default JVMFLAGS for the ZooKeeper process                          | `nil`                                                    |
-| `config`                              | Configure ZooKeeper with a custom zoo.conf file                     | `nil`                                                    |
-| `service.type`                        | Kubernetes Service type                                             | `ClusterIP`                                              |
-| `service.port`                        | PostgreSQL port                                                     | `5432`                                                   |
-| `securityContext.enabled`             | Enable security context (redis master pod)                          | `true`                                                   |
-| `securityContext.fsGroup`             | Group ID for the container (redis master pod)                       | `1001`                                                   |
-| `securityContext.runAsUser`           | User ID for the container (redis master pod)                        | `1001`                                                   |
-| `persistence.enabled`                 | Enable persistence using PVC                                        | `true`                                                   |
-| `persistence.storageClass`            | PVC Storage Class for Zookeeper volume                              | `nil`                                                    |
-| `persistence.accessMode`              | PVC Access Mode for Zookeeper volume                                | `ReadWriteOnce`                                          |
-| `persistence.size`                    | PVC Storage Request for Zookeeper volume                            | `8Gi`                                                    |
-| `persistence.annotations`             | Annotations for the PVC                                             | `{}`                                                     |
-| `nodeSelector`                        | Node labels for pod assignment                                      | `{}`                                                     |
-| `tolerations`                         | Toleration labels for pod assignment                                | `[]`                                                     |
-| `resources`                           | CPU/Memory resource requests/limits                                 | Memory: `256Mi`, CPU: `250m`                             |
-| `livenessProbe.enabled`               | would you like a livessProbed to be enabled                         | `true`                                                   |
-| `livenessProbe.initialDelaySeconds`   | Delay before liveness probe is initiated                            | 30                                                       |
-| `livenessProbe.periodSeconds`         | How often to perform the probe                                      | 10                                                       |
-| `livenessProbe.timeoutSeconds`        | When the probe times out                                            | 5                                                        |
-| `livenessProbe.failureThreshold`      | Minimum consecutive failures for the probe to be considered failed after having succeeded   | 6                                |
-| `livenessProbe.successThreshold`      | Minimum consecutive successes for the probe to be considered successful after having failed | 1                                |
-| `readinessProbe.enabled`              | Would you like a readinessProbe to be enabled                       | `true`                                                   |
-| `readinessProbe.initialDelaySeconds`  | Delay before liveness probe is initiated                            | 5                                                        |
-| `readinessProbe.periodSeconds`        | How often to perform the probe                                      | 10                                                       |
-| `readinessProbe.timeoutSeconds`       | When the probe times out                                            | 5                                                        |
-| `readinessProbe.failureThreshold`     | Minimum consecutive failures for the probe to be considered failed after having succeeded   | 6                                |
-| `readinessProbe.successThreshold`     | Minimum consecutive successes for the probe to be considered successful after having failed | 1                                |
-
-Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
-
-```console
-$ helm install --name my-release \
-  --set auth.clientUser=newUser \
-    bitnami/zookeeper
-```
-
-The above command sets the ZooKeeper user to `newUser`.
+You can specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
 
 Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
 
 ```console
-$ helm install --name my-release -f values.yaml bitnami/zookeeper
+$ helm install --name my-release -f values.yaml incubator/zookeeper
 ```
 
-> **Tip**: You can use the default [values.yaml](values.yaml)
+## Default Values
 
-## Persistence
+- You can find all user-configurable settings, their defaults and commentary about them in [values.yaml](values.yaml).
 
-The [Bitnami Zookeeper](https://github.com/bitnami/bitnami-docker-zookeeper) image stores the Zookeeper data and configurations at the `/bitnami/zookeeper` path of the container.
+## Deep Dive
 
-Persistent Volume Claims are used to keep the data across deployments. This is known to work in GCE, AWS, and minikube.
-See the [Configuration](#configuration) section to configure the PVC or to disable persistence.
+## Image Details
+The image used for this chart is based on Ubuntu 16.04 LTS. This image is larger than Alpine or BusyBox, but it provides glibc, rather than ulibc or mucl, and a JVM release that is built against it. You can easily convert this chart to run against a smaller image with a JVM that is built against that image's libc. However, as far as we know, no Hadoop vendor supports, or has verified, ZooKeeper running on such a JVM.
+
+## JVM Details
+The Java Virtual Machine used for this chart is the OpenJDK JVM 8u111 JRE (headless).
+
+## ZooKeeper Details
+The ZooKeeper version is the latest stable version (3.4.10). The distribution is installed into /opt/zookeeper-3.4.10. This directory is symbolically linked to /opt/zookeeper. Symlinks are created to simulate a rpm installation into /usr.
+
+## Failover
+You can test failover by killing the leader. Insert a key:
+```console
+$ kubectl exec zookeeper-0 -- /opt/zookeeper/bin/zkCli.sh create /foo bar;
+$ kubectl exec zookeeper-2 -- /opt/zookeeper/bin/zkCli.sh get /foo;
+```
+
+Watch existing members:
+```console
+$ kubectl run --attach bbox --image=busybox --restart=Never -- sh -c 'while true; do for i in 0 1 2; do echo zk-${i} $(echo stats | nc <pod-name>-${i}.<headless-service-name>:2181 | grep Mode); sleep 1; done; done';
+
+zk-2 Mode: follower
+zk-0 Mode: follower
+zk-1 Mode: leader
+zk-2 Mode: follower
+```
+
+Delete Pods and wait for the StatefulSet controller to bring them back up:
+```console
+$ kubectl delete po -l app=zookeeper
+$ kubectl get po --watch-only
+NAME          READY     STATUS    RESTARTS   AGE
+zookeeper-0   0/1       Running   0          35s
+zookeeper-0   1/1       Running   0         50s
+zookeeper-1   0/1       Pending   0         0s
+zookeeper-1   0/1       Pending   0         0s
+zookeeper-1   0/1       ContainerCreating   0         0s
+zookeeper-1   0/1       Running   0         19s
+zookeeper-1   1/1       Running   0         40s
+zookeeper-2   0/1       Pending   0         0s
+zookeeper-2   0/1       Pending   0         0s
+zookeeper-2   0/1       ContainerCreating   0         0s
+zookeeper-2   0/1       Running   0         19s
+zookeeper-2   1/1       Running   0         41s
+```
+
+Check the previously inserted key:
+```console
+$ kubectl exec zookeeper-1 -- /opt/zookeeper/bin/zkCli.sh get /foo
+ionid = 0x354887858e80035, negotiated timeout = 30000
+
+WATCHER::
+
+WatchedEvent state:SyncConnected type:None path:null
+bar
+```
+
+## Scaling
+ZooKeeper can not be safely scaled in versions prior to 3.5.x. This chart currently uses 3.4.x. There are manual procedures for scaling a 3.4.x ensemble, but as noted in the [ZooKeeper 3.5.2 documentation](https://zookeeper.apache.org/doc/r3.5.2-alpha/zookeeperReconfig.html) these procedures require a rolling restart, are known to be error prone, and often result in a data loss.
+
+While ZooKeeper 3.5.x does allow for dynamic ensemble reconfiguration (including scaling membership), the current status of the release is still alpha, and 3.5.x is therefore not recommended for production use.
+
+## Limitations
+* StatefulSet and PodDisruptionBudget are beta resources.
+* Only supports storage options that have backends for persistent volume claims.
