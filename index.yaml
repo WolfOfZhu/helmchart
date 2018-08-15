@@ -2,7 +2,7 @@ apiVersion: v1
 entries:
   elasticsearch:
   - appVersion: 6.3.1
-    created: 2018-08-14T10:21:53.187684907+08:00
+    created: 2018-08-15T14:44:07.632053339+08:00
     description: Flexible and powerful open source, distributed real-time search and
       analytics engine.
     digest: c845a41f4b04d4538a35116d20a0ae68a5d2b8071ce473b0d3b9ecf30865dfbe
@@ -31,7 +31,7 @@ entries:
   elasticsearch-fluentd-kibana:
   - apiVersion: v1
     appVersion: 0.0.1
-    created: 2018-08-14T10:21:53.188118905+08:00
+    created: 2018-08-15T14:44:07.641938146+08:00
     description: elasticsearch logging chart
     digest: 2c0e789cf0517a5054dd81702c7368e54bf10f9e1c1f6f0fba26ba3a43af4c53
     icon: https://gitlab.com/gitlab-com/gitlab-artwork/raw/master/logo/logo-square.png
@@ -43,7 +43,7 @@ entries:
     version: 0.0.1
   fluent-bit:
   - appVersion: 0.13.0
-    created: 2018-08-14T10:21:53.188510231+08:00
+    created: 2018-08-15T14:44:07.660780114+08:00
     description: Fast and Lightweight Log/Data Forwarder for Linux, BSD and OSX
     digest: 6f6019856481ac76a13ef96f3cc07614db81757aa1e7c077361f8a50dc0fffd7
     home: http://fluentbit.io
@@ -63,7 +63,7 @@ entries:
     version: 0.6.0
   fluentd-elasticsearch:
   - appVersion: 2.0.4
-    created: 2018-08-14T10:21:53.189903706+08:00
+    created: 2018-08-15T14:44:07.674837713+08:00
     description: A Fluentd Helm chart for Kubernetes with Elasticsearch output
     digest: a789562a8607aaa18054ad65cb8797eca372c9b5470edd852a777fdcf4808460
     engine: gotpl
@@ -83,9 +83,30 @@ entries:
     urls:
     - fluentd-elasticsearch/fluentd-elasticsearch-0.6.4.tgz
     version: 0.6.4
+  hadoop:
+  - apiVersion: v1
+    appVersion: 2.7.3
+    created: 2018-08-15T14:44:07.675477262+08:00
+    description: The Apache Hadoop software library is a framework that allows for
+      the distributed processing of large data sets across clusters of computers using
+      simple programming models.
+    digest: ec0901f8a8a3fe4ffa4ce0788c9c7ce7d6647568224e935027d33f9dd332c31c
+    home: https://hadoop.apache.org/
+    icon: http://hadoop.apache.org/images/hadoop-logo.jpg
+    keywords:
+    - 大数据
+    maintainers:
+    - email: disla@google.com
+      name: danisla
+    name: hadoop
+    sources:
+    - https://github.com/apache/hadoop
+    urls:
+    - hadoop/hadoop-1.0.7.tgz
+    version: 1.0.7
   kafka:
   - appVersion: 1.1.1
-    created: 2018-08-14T10:21:53.190977426+08:00
+    created: 2018-08-15T14:44:07.677436146+08:00
     description: Apache Kafka is a distributed streaming platform.
     digest: 22c87e725a4dcea0a14d33bed762a6fb430fd3ec59b98748e999ce357cd58534
     engine: gotpl
@@ -104,7 +125,7 @@ entries:
     version: 0.0.6
   kibana:
   - appVersion: 6.3.1
-    created: 2018-08-14T10:21:53.191270059+08:00
+    created: 2018-08-15T14:44:07.677986839+08:00
     description: Kibana is an open source data visualization plugin for Elasticsearch
     digest: 707d57df7c2c0b8ab7cf7d70aba1059fd76a706c21e9239c58c5a2f2192acc87
     engine: gotpl
@@ -123,7 +144,7 @@ entries:
     version: 0.8.0
   mariadb:
   - appVersion: 10.1.34
-    created: 2018-08-14T10:21:53.191770087+08:00
+    created: 2018-08-15T14:44:07.695652364+08:00
     description: Fast, reliable, scalable, and easy to use open-source relational
       database system. MariaDB Server is intended for mission-critical, heavy-load
       production systems as well as for embedding into mass-deployed software. Highly
@@ -146,7 +167,7 @@ entries:
     version: 4.2.7
   mongodb:
   - appVersion: 3.6.6
-    created: 2018-08-14T10:21:53.192577707+08:00
+    created: 2018-08-15T14:44:07.709930511+08:00
     description: NoSQL document-oriented database that stores JSON-like documents
       with dynamic schemas, simplifying the integration of data in content-driven
       applications.
@@ -167,7 +188,7 @@ entries:
     version: 4.0.1
   mysql:
   - appVersion: 5.7.14
-    created: 2018-08-14T10:21:53.1929765+08:00
+    created: 2018-08-15T14:44:07.732478519+08:00
     description: 快速、可靠、可伸缩和易于使用的开放源码关系型数据库系统.
     digest: 3223d47b756208d0202ef0f152f2b81294f66d76ba983667b3dd46b4857de08e
     engine: gotpl
@@ -187,7 +208,7 @@ entries:
     version: 0.6.0
   mysql-ha:
   - appVersion: 5.7.13
-    created: 2018-08-14T10:21:53.193335787+08:00
+    created: 2018-08-15T14:44:07.743973353+08:00
     description: 具有单个master，零个或者多个slave实例的MySQL集群
     digest: 760ce0b3f018613884ad0c5f134c06b496c2482b8ba81503c57f88ee0f312733
     home: https://www.mysql.com/
@@ -205,7 +226,7 @@ entries:
     version: 0.2.1
   mysql-ha-new:
   - appVersion: 5.7.22-debian-9
-    created: 2018-08-14T10:21:53.193836314+08:00
+    created: 2018-08-15T14:44:07.744897692+08:00
     description: Chart to create a Highly available MySQL cluster
     digest: 2ea6e749510cc1e391806ec443225182f4f1fcb870504a624169bc508b116d33
     engine: gotpl
@@ -224,7 +245,7 @@ entries:
     version: 1.1.2
   rabbitmq:
   - appVersion: 3.7.7
-    created: 2018-08-14T10:21:53.194404362+08:00
+    created: 2018-08-15T14:44:07.747236893+08:00
     description: Open source message broker software that implements the Advanced
       Message Queuing Protocol (AMQP)
     digest: 703bc33dc78684d9b64967740872dd60be6af68f4adf4a65ee2f7ce0cf8ab0c7
@@ -244,7 +265,7 @@ entries:
     version: 2.0.2
   redis:
   - appVersion: 4.0.10
-    created: 2018-08-14T10:21:53.195432244+08:00
+    created: 2018-08-15T14:44:07.748630182+08:00
     description: 先进的开源键值数据库，它通常被称为数据结构服务器，因为键可以包含字符串、散列、列表、集合和排序集。
     digest: 2e7f5e5efbaf01e96ddcd167408b5873995c4acc1ffcdf27a17edbdbe49372d8
     engine: gotpl
@@ -264,7 +285,7 @@ entries:
     version: 3.6.0
   sumologic-fluentd:
   - appVersion: "1.11"
-    created: 2018-08-14T10:21:53.189353773+08:00
+    created: 2018-08-15T14:44:07.673844368+08:00
     description: Sumologic Log Collector
     digest: 671b332764df2b03657f40f5b6d9b3f31c54e9f469366955b79b96feb6d4b062
     home: https://github.com/SumoLogic/fluentd-kubernetes-sumologic
@@ -284,7 +305,7 @@ entries:
     version: 0.4.0
   zookeeper:
   - appVersion: 3.4.10
-    created: 2018-08-14T10:21:53.196388358+08:00
+    created: 2018-08-15T14:44:07.749836461+08:00
     description: Centralized service for maintaining configuration information, naming,
       providing distributed synchronization, and providing group services.
     digest: 28669d7a7e3bb047abbfe8334ec9ff5d1647175c2e72fa7f08e7b69e76f4a16c
@@ -307,7 +328,7 @@ entries:
     version: 1.1.0
   zookeeper-ss:
   - appVersion: 3.4.10
-    created: 2018-08-14T10:21:53.197025542+08:00
+    created: 2018-08-15T14:44:07.751271056+08:00
     description: Centralized service for maintaining configuration information, naming,
       providing distributed synchronization, and providing group services.
     digest: 1fec34c5ade2e8ff4213edd7976c33d5ae57e40f30c51a5463351688cb344fae
@@ -328,4 +349,4 @@ entries:
     urls:
     - zookeeper-ss/zookeeper-ss-1.1.0.tgz
     version: 1.1.0
-generated: 2018-08-14T10:21:53.186968233+08:00
+generated: 2018-08-15T14:44:07.622319331+08:00
